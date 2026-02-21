@@ -6,7 +6,6 @@ description: |
   Use when: (1) evaluating a project idea or architecture, (2) user says
   "/directors", "call the board", "what would directors say about X",
   (3) need multi-perspective review of a decision or strategy.
-invocation: user
 ---
 
 # Directors - Virtual Board of Directors
