@@ -5,7 +5,6 @@ description: |
   Use when: (1) "What decisions did we make about auth?", (2) "All bugs in project X",
   (3) "What do we know about caching?", (4) "Open problems across all projects".
   Triggers: "/search-memory", "search memory", "what do we know about".
-invocation: user
 ---
 
 # Search Memory
