@@ -5,7 +5,6 @@ description: |
   Use when: (1) User asks a question requiring current information, (2) User says "find out about X",
   (3) User gives URL to extract data from, (4) Question about code/API/library, (5) Comparing options.
   Triggers: "/research", "find out about", "research this".
-invocation: user
 ---
 
 # Web Research
