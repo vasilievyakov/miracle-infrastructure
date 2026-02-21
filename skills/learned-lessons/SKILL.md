@@ -5,7 +5,6 @@ description: |
   are used to solve technical problems. Also activates during debugging to check the knowledge base first.
   Invoke explicitly via "/til" to record a lesson manually.
   Triggers: "/til", "record a lesson", "what lessons do we have".
-invocation: user
 ---
 
 # Learned Lessons: Knowledge Base
