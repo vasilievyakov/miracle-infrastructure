@@ -54,41 +54,55 @@ cd miracle-infrastructure && bash install.sh
 
 ## Contents
 
-- [What 1,169 Sessions Actually Taught Us](#what-1169-sessions-actually-taught-us)
-  - [The Philosophy](#the-philosophy)
-  - [Hard-Won Lessons](#hard-won-lessons)
-  - [What Actually Gets Used](#what-actually-gets-used)
-  - [The Dead Ends](#the-dead-ends)
-  - [Why Markdown and Not a Database](#why-markdown-and-not-a-database)
-- [Packs](#packs)
-  - [Memory](#memory) -- session persistence, typed observations
-  - [Thinking](#thinking) -- directors, frameworks, agent orchestrator
-  - [Research](#research) -- web research, triangulation, knowledge base
-  - [Business](#business) -- transcript to proposal + prototype
-  - [Content](#content) -- extract action items from text
-  - [Productivity](#productivity) -- weekly integral review
-  - [Meta](#meta) -- skills library health audit
+- [What 1,169 Sessions Taught Us](#what-1169-sessions-actually-taught-us)
+- [Packs](#packs) -- 7 packs, 15 skills
+  - [Memory](#memory) | [Thinking](#thinking) | [Research](#research) | [Business](#business) | [Content](#content) | [Productivity](#productivity) | [Meta](#meta)
 - [How It Compares](#how-it-compares)
 - [For AI Researchers](#for-ai-researchers)
 - [Architecture](#for-the-curious)
 - [Background](#background)
-- [License](#license)
 
 ---
 
 ## What 1,169 Sessions Actually Taught Us
 
-This section exists because every tool's README promises the moon. Here is what we learned across 1,169 sessions and 10 projects over 6 months of daily use. Including the parts where we were wrong.
+Every tool's README promises the moon. Here is what we learned across 1,169 sessions and 10 projects over 6 months of daily use. Including the parts where we were wrong.
+
+<!-- Insight grid: 4 lessons, 4 visual formats -->
+<table>
+<tr>
+<td width="50%" align="center">
+<h4>Structure beats Freedom</h4>
+<img src="docs/gifs/insight-structure.svg" alt="Structure vs Freedom" width="100%" />
+<br><em>Typed observations: useful 6 months later.<br>Free-form notes: unnavigable garbage.</em>
+</td>
+<td width="50%" align="center">
+<h4>Precision, not Power</h4>
+<img src="docs/gifs/insight-precision.svg" alt="Precision vs Power" width="100%" />
+<br><em>Right tool for the task.<br>$0.35 vs $4.20 for the same answer.</em>
+</td>
+</tr>
+<tr>
+<td width="50%" align="center">
+<h4>Memory prevents re-derivation</h4>
+<img src="docs/gifs/insight-memory.svg" alt="Why Memory Matters" width="100%" />
+<br><em>Settled conclusions stay settled.<br>Zero minutes wasted.</em>
+</td>
+<td width="50%" align="center">
+<h4>The operator is the bottleneck</h4>
+<img src="docs/gifs/insight-bottleneck.svg" alt="Bottleneck Analysis" width="100%" />
+<br><em>The system compensates for you.<br>Not the other way.</em>
+</td>
+</tr>
+</table>
 
 ### The Philosophy
 
 **Workshop + Nervous System.** Not Iron Man's suit. We explicitly rejected the "AI superpower" metaphor after months of actual use.
 
-A workshop: tools in their places, each one purpose-built, and you know which one to grab without thinking. A nervous system: agents as extensions of your thinking, capturing observations, loading context, prompting you to save what matters.
+A workshop: tools in their places, each one purpose-built, and you know which one to grab without thinking. A nervous system: agents as extensions of your thinking, capturing observations, loading context, prompting you to save what matters. The system is proactive. Rules make the agent act without being asked. `auto-observe` captures decisions as they happen. `session-start` loads context before you request it. `session-end` reminds you to save.
 
-The system is proactive. Rules make the agent act without being asked. Skills give it tools when asked. `auto-observe` captures decisions as they happen. `session-start` loads context before you request it. `session-end` reminds you to save. You stop managing the agent and start working *with* it.
-
-**Agents are precision instruments.** Not general-purpose cannons. Sometimes you need automatic transmission, sometimes manual. Sometimes the handbrake, sometimes the brake pedal. Sometimes cruise control, sometimes you need to stop and think. Stack should be a function of the task you are solving, not what you already have.
+**Agents are precision instruments.** Not general-purpose cannons. Sometimes you need automatic transmission, sometimes manual. Sometimes the handbrake, sometimes the brake pedal. Stack should be a function of the task you are solving, not what you already have.
 
 ```mermaid
 graph LR
@@ -108,31 +122,22 @@ graph LR
     style A fill:#1e1e2e,stroke:#f38ba8,color:#f38ba8
 ```
 
-### Hard-Won Lessons
+**Progressive disclosure.** Only load what is needed. 100 observations across 10 projects: a search costs ~4,000 tokens. Without progressive disclosure: ~15,000 tokens.
 
-<p align="center">
-  <img src="docs/gifs/insight-structure.svg" alt="Lesson 1: Structure beats Freedom" width="640" />
-</p>
+```mermaid
+graph TD
+    A["MEMORY.md<br/><b>~200 tokens</b><br/>every session"] -->|project mentioned| B["project.md<br/><b>~800 tokens</b><br/>on demand"]
+    B -->|search query| C["observations Index<br/><b>~40 tokens/row</b><br/>scan titles only"]
+    C -->|match found| D["observations Details<br/><b>~150 tokens/row</b><br/>full context"]
 
-**Structure beats freedom.** This was counterintuitive. We expected that giving the agent more freedom would produce more creative output. The opposite happened. Constraints produce better results. Typed observations, mandatory Before/After fields, resolution tracking for problems. The structure is what makes data useful six months later. Without it, you get a pile of notes that nobody (human or AI) can navigate.
+    style A fill:#1e1e2e,stroke:#a6e3a1,color:#a6e3a1
+    style B fill:#1e1e2e,stroke:#89b4fa,color:#89b4fa
+    style C fill:#1e1e2e,stroke:#f9e2af,color:#f9e2af
+    style D fill:#1e1e2e,stroke:#f38ba8,color:#f38ba8
+```
 
-**Shorter prompts beat longer prompts.** We tried writing exhaustive system prompts that covered every edge case. They performed worse than concise, precise instructions. The model handles ambiguity well. It handles walls of text less well.
-
-**Agent proactivity is the underrated superpower.** The combination of rules and skills creates an agent that acts before you ask. `session-start` loads your project context automatically. `auto-observe` captures decisions in the moment. `session-end` prompts you to save. This saves more time than any individual skill, because it eliminates the overhead of remembering to manage your own tooling.
-
-<p align="center">
-  <img src="docs/gifs/insight-bottleneck.svg" alt="Lesson 2: The Operator is the Bottleneck" width="640" />
-</p>
-
-**The operator is the bottleneck.** The system does not creak. The operator does. The human with limited context, limited attention, limited working memory. That is the constraint. The system's job is to compensate for *your* limitations, not the model's.
-
-**When to make a skill vs. when to just prompt.** Principles come first: repetition, workflow complexity. Then intuition through practice. When you start, you try to over-control everything. When you get good at it, you develop a feel for what will be useful and what will not. Apply, reflect, and when you have a good understanding of your infrastructure, start trusting it.
-
-### What Actually Gets Used
-
-<p align="center">
-  <img src="docs/gifs/insight-memory.svg" alt="Why memory matters" width="640" />
-</p>
+<details>
+<summary><strong>What actually gets used (usage stats from 1,169 sessions)</strong></summary>
 
 `/session-save` runs at the end of roughly 70% of sessions. The other 30% are quick questions that do not produce anything worth remembering.
 
@@ -148,15 +153,12 @@ graph LR
 
 `/research` and `/triangulate` for any claim that sounds too good. Trust, then verify. Or just verify.
 
-### The Dead Ends
+</details>
 
-Honesty about failures. These cost real time and real tokens to discover.
+<details>
+<summary><strong>The dead ends (honesty about failures)</strong></summary>
 
-<p align="center">
-  <img src="docs/gifs/insight-precision.svg" alt="Lesson 3: Precision, Not Power" width="640" />
-</p>
-
-**Long prompts worked worse than short ones.** Mentioned above, worth repeating. We invested serious effort into comprehensive system prompts that anticipated every scenario. The result was worse output. The model gets confused by instruction overload the same way a person does.
+**Long prompts worked worse than short ones.** We invested serious effort into comprehensive system prompts that anticipated every scenario. The result was worse output. The model gets confused by instruction overload the same way a person does.
 
 **Universal "do everything" skills do not work.** We tried building a single skill that handled research, analysis, and recommendations. Specialization wins. Every time. A `/research` skill and a `/triangulate` skill outperform a single `/research-and-verify` skill.
 
@@ -164,7 +166,10 @@ Honesty about failures. These cost real time and real tokens to discover.
 
 **Mass agent launches are wasteful.** Five directors evaluating your grocery list is a waste. The car metaphor applies here: you do not floor the accelerator in a parking lot.
 
-### Why Markdown and Not a Database
+</details>
+
+<details>
+<summary><strong>Why Markdown and not a database</strong></summary>
 
 Zero dependencies. Works offline. Version-controllable. Readable by humans.
 
@@ -194,27 +199,7 @@ A SQLite database would be faster to query. A vector store would have better sem
 
 The non-dogmatic take: "One does not interfere with the other. There are no right tools and wrong tools. Only timely usage and excessive usage." If your project genuinely needs a vector store, use one. A big mistake is trying to use nothing and thinking you are smarter than everyone. Stack should match the task.
 
-### Design Principles
-
-**Progressive disclosure.** Only load what is needed.
-
-```mermaid
-graph TD
-    A["MEMORY.md<br/><b>~200 tokens</b><br/>every session"] -->|project mentioned| B["project.md<br/><b>~800 tokens</b><br/>on demand"]
-    B -->|search query| C["observations Index<br/><b>~40 tokens/row</b><br/>scan titles only"]
-    C -->|match found| D["observations Details<br/><b>~150 tokens/row</b><br/>full context"]
-
-    style A fill:#1e1e2e,stroke:#a6e3a1,color:#a6e3a1
-    style B fill:#1e1e2e,stroke:#89b4fa,color:#89b4fa
-    style C fill:#1e1e2e,stroke:#f9e2af,color:#f9e2af
-    style D fill:#1e1e2e,stroke:#f38ba8,color:#f38ba8
-```
-
-100 observations across 10 projects: a search costs ~4,000 tokens. Without progressive disclosure: ~15,000 tokens. The difference compounds across sessions.
-
-**The system is opinionated.** Observations have types (decision, bugfix, feature, discovery, problem). History is append-only. Problems track resolution status. You can extend the types, you cannot remove the structure. Constraints make the data useful six months later.
-
-**Design for the model 6 months from now.** The interfaces are stable. The capabilities will improve. A skill that produces good results with today's model will produce better results with tomorrow's model, because the structure is right. Do not optimize for current limitations. Optimize for the contract.
+</details>
 
 ---
 
@@ -346,23 +331,27 @@ Your agent checks its homework.
 
 ---
 
+<!-- Smaller packs: compact 2-column layout -->
+<table>
+<tr>
+<td width="50%" valign="top">
+
 ### Business
 
 From "we had a call" to "here is the proposal, architecture, and clickable prototype."
 
-> "We often look through our own focus and miss what the client is really trying to say. LLMs understand language patterns well enough to catch what you missed." The clickable prototype built with the client's own data and own words leaves an unforgettable impression. Used dozens of times. If you understand your client, you know what to sell to solve their specific problem.
-
 **Skill:** `transcript-to-proposal`
 
-<p align="center">
-  <img src="docs/gifs/proposal.svg" alt="Transcript to Proposal" width="640" />
-</p>
+<img src="docs/gifs/proposal.svg" alt="Transcript to Proposal" width="100%" />
 
-Give it a product description and a call transcript. It extracts pains, maps them to features, generates a proposal using the client's own words, builds system architecture, and creates an interactive HTML prototype. With checkpoints so you review before it continues.
+Give it a product description and a call transcript. It extracts pains, maps them to features, generates a proposal using the client's own words, builds system architecture, and creates an interactive HTML prototype.
 
-[Full documentation &#8594;](packs/business/README.md)
+> "LLMs catch what you missed in conversation. The prototype built with the client's own words leaves an unforgettable impression."
 
----
+[Full docs &#8594;](packs/business/README.md)
+
+</td>
+<td width="50%" valign="top">
 
 ### Content
 
@@ -370,15 +359,16 @@ Nobody reads meeting transcripts twice. This skill reads them once and extracts 
 
 **Skill:** `action-items`
 
-<p align="center">
-  <img src="docs/gifs/action-items.svg" alt="Action Items" width="640" />
-</p>
+<img src="docs/gifs/action-items.svg" alt="Action Items" width="100%" />
 
 Handles .txt transcripts, chat exports (JSON/HTML), PDFs, raw text. Produces a prioritized checklist with assignees, deadlines, and source quotes.
 
-[Full documentation &#8594;](packs/content/README.md)
+[Full docs &#8594;](packs/content/README.md)
 
----
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
 
 ### Productivity
 
@@ -386,15 +376,14 @@ A weekly review that looks at more than your commit count.
 
 **Skill:** `aqal-review`
 
-<p align="center">
-  <img src="docs/gifs/aqal-review.svg" alt="AQAL Review" width="640" />
-</p>
+<img src="docs/gifs/aqal-review.svg" alt="AQAL Review" width="100%" />
 
-Uses the AQAL integral model to evaluate progress across 4 quadrants (interior/exterior, individual/collective) and 5 development lines. Tracks trends over weeks. Tells you when you are shipping features at the cost of team health, or growing personally while the codebase rots.
+Uses the AQAL integral model to evaluate progress across 4 quadrants (interior/exterior, individual/collective) and 5 development lines. Tracks trends over weeks. Tells you when you are shipping features at the cost of team health.
 
-[Full documentation &#8594;](packs/productivity/README.md)
+[Full docs &#8594;](packs/productivity/README.md)
 
----
+</td>
+<td width="50%" valign="top">
 
 ### Meta
 
@@ -402,13 +391,15 @@ Your skills library has a doctor.
 
 **Skill:** `skill-checkup`
 
-<p align="center">
-  <img src="docs/gifs/checkup.svg" alt="Skill Checkup" width="640" />
-</p>
+<img src="docs/gifs/checkup.svg" alt="Skill Checkup" width="100%" />
 
 Validates file references, frontmatter, trigger uniqueness, and dependency drift. Reports problems. Does not auto-fix. A calm doctor, not a helicopter parent.
 
-[Full documentation &#8594;](packs/meta/README.md)
+[Full docs &#8594;](packs/meta/README.md)
+
+</td>
+</tr>
+</table>
 
 ---
 

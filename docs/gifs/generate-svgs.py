@@ -97,6 +97,448 @@ def esc(s):
     )
 
 
+def _anim(delay_ms, total, fade_dur=0.5):
+    """Return (initial_opacity, animate_tag) for looping opacity animation."""
+    delay = delay_ms / 1000
+    if delay > 0:
+        t_appear = delay / total
+        t_visible = min((delay + 0.3) / total, (total - fade_dur) / total)
+        t_fade = (total - fade_dur) / total
+        return "0", (
+            f'<animate attributeName="opacity" values="0;0;1;1;0" '
+            f'keyTimes="0;{t_appear:.4f};{t_visible:.4f};{t_fade:.4f};1" '
+            f'dur="{total:.1f}s" repeatCount="indefinite"/>'
+        )
+    t_fade = (total - fade_dur) / total
+    return "1", (
+        f'<animate attributeName="opacity" values="1;1;0" '
+        f'keyTimes="0;{t_fade:.4f};1" '
+        f'dur="{total:.1f}s" repeatCount="indefinite"/>'
+    )
+
+
+def make_chat_svg(
+    messages, channel="decisions", width=540, read_pause=5.0, fade_dur=0.5
+):
+    """Chat bubble SVG (Slack/Discord style).
+
+    messages: list of dicts. Each is either:
+      {"user": "You", "time": "Feb 3", "lines": ["..."], "bar": "#color", "delay": 0}
+      {"divider": "6 weeks later", "delay": 2000}
+    """
+    FONT = "'SF Mono','Fira Code','Cascadia Code',monospace"
+    PAD = 16
+    LINE_H = 18
+
+    y = 48
+    max_delay_ms = 0
+    layout = []
+
+    for msg in messages:
+        if "divider" in msg:
+            layout.append(
+                {
+                    "type": "divider",
+                    "text": msg["divider"],
+                    "delay": msg.get("delay", 0),
+                    "y": y,
+                }
+            )
+            y += 36
+        else:
+            lines = msg["lines"] if isinstance(msg["lines"], list) else [msg["lines"]]
+            h = 18 + len(lines) * LINE_H
+            layout.append({"type": "msg", "msg": msg, "y": y, "lines": lines, "h": h})
+            y += h + 12
+        max_delay_ms = max(max_delay_ms, msg.get("delay", 0))
+
+    height = y + PAD
+    total = max_delay_ms / 1000 + 0.3 + read_pause + fade_dur
+
+    els = []
+    els.append(f'<rect width="{width}" height="{height}" rx="8" fill="#1e1e2e"/>')
+    els.append(f'<rect width="{width}" height="36" rx="8" fill="#313244"/>')
+    els.append(f'<rect y="28" width="{width}" height="8" fill="#313244"/>')
+    els.append(
+        f'<text x="{PAD}" y="23" font-family="{FONT}" font-size="13" '
+        f'fill="#89b4fa" font-weight="bold"># {esc(channel)}</text>'
+    )
+
+    for item in layout:
+        if item["type"] == "divider":
+            init, anim = _anim(item["delay"], total, fade_dur)
+            dy = item["y"]
+            text = item["text"]
+            cx = width // 2
+            tw = len(text) * 4 + 16
+            els.append(
+                f'<g opacity="{init}">'
+                f'<line x1="{PAD}" y1="{dy + 18}" x2="{cx - tw}" y2="{dy + 18}" '
+                f'stroke="#45475a" stroke-width="1"/>'
+                f'<text x="{cx}" y="{dy + 22}" font-family="{FONT}" font-size="11" '
+                f'fill="#6c7086" text-anchor="middle">{esc(text)}</text>'
+                f'<line x1="{cx + tw}" y1="{dy + 18}" x2="{width - PAD}" y2="{dy + 18}" '
+                f'stroke="#45475a" stroke-width="1"/>'
+                f"{anim}</g>"
+            )
+        else:
+            msg = item["msg"]
+            dy = item["y"]
+            lines = item["lines"]
+            h = item["h"]
+            delay = msg.get("delay", 0)
+            bar = msg.get("bar", "#6c7086")
+            user = msg["user"]
+            time_str = msg.get("time", "")
+            text_color = msg.get("color", "#cdd6f4")
+            init, anim = _anim(delay, total, fade_dur)
+            inner = (
+                f'<rect x="{PAD}" y="{dy}" width="3" height="{h}" rx="1" fill="{bar}"/>'
+            )
+            inner += (
+                f'<text x="{PAD + 12}" y="{dy + 13}" font-family="{FONT}" '
+                f'font-size="12" fill="{bar}" font-weight="bold">{esc(user)}</text>'
+            )
+            if time_str:
+                ux = PAD + 12 + len(user) * 7.5 + 8
+                inner += (
+                    f'<text x="{ux}" y="{dy + 13}" font-family="{FONT}" '
+                    f'font-size="10" fill="#6c7086">{esc(time_str)}</text>'
+                )
+            for j, line in enumerate(lines):
+                inner += (
+                    f'<text x="{PAD + 12}" y="{dy + 13 + (j + 1) * LINE_H}" '
+                    f'font-family="{FONT}" font-size="12" fill="{text_color}">'
+                    f"{esc(line)}</text>"
+                )
+            els.append(f'<g opacity="{init}">{inner}{anim}</g>')
+
+    return (
+        f'<svg viewBox="0 0 {width} {height}" xmlns="http://www.w3.org/2000/svg">\n'
+        + "\n".join(f"  {e}" for e in els)
+        + "\n</svg>"
+    )
+
+
+def make_versus_svg(
+    left_items,
+    right_items,
+    title="",
+    left_label="",
+    right_label="",
+    verdict="",
+    width=640,
+    read_pause=5.0,
+    fade_dur=0.5,
+):
+    """Two-column VS comparison card."""
+    FONT = "'SF Mono','Fira Code','Cascadia Code',monospace"
+    PAD = 24
+    MID = width // 2
+    ROW_H = 52
+
+    n_rows = max(len(left_items), len(right_items))
+    row_start = 76
+    verdict_y = row_start + n_rows * ROW_H + 16
+    height = verdict_y + (36 if verdict else 12)
+
+    max_item_delay = 0
+    for items in [left_items, right_items]:
+        for item in items:
+            max_item_delay = max(max_item_delay, item.get("delay", 0))
+    verdict_delay = max_item_delay + 400
+    max_delay_ms = verdict_delay if verdict else max_item_delay
+    total = max_delay_ms / 1000 + 0.3 + read_pause + fade_dur
+
+    els = []
+    els.append(f'<rect width="{width}" height="{height}" rx="10" fill="#1e1e2e"/>')
+
+    init0, anim0 = _anim(0, total, fade_dur)
+    els.append(
+        f'<text x="{MID}" y="30" font-family="{FONT}" font-size="15" fill="#cdd6f4" '
+        f'text-anchor="middle" font-weight="bold" opacity="{init0}">{esc(title)}{anim0}</text>'
+    )
+    els.append(
+        f'<line x1="{MID}" y1="48" x2="{MID}" y2="{verdict_y - 8}" stroke="#313244" '
+        f'stroke-width="1" opacity="{init0}">{anim0}</line>'
+    )
+    els.append(
+        f'<text x="{MID // 2}" y="56" font-family="{FONT}" font-size="12" '
+        f'fill="#f38ba8" text-anchor="middle" opacity="{init0}">{esc(left_label)}{anim0}</text>'
+    )
+    els.append(
+        f'<text x="{MID + MID // 2}" y="56" font-family="{FONT}" font-size="12" '
+        f'fill="#a6e3a1" text-anchor="middle" opacity="{init0}">{esc(right_label)}{anim0}</text>'
+    )
+
+    for i, item in enumerate(left_items):
+        y = row_start + i * ROW_H
+        init, anim = _anim(item.get("delay", 0), total, fade_dur)
+        els.append(
+            f'<g opacity="{init}">'
+            f'<text x="{PAD}" y="{y + 14}" font-family="{FONT}" font-size="13" '
+            f'fill="#f38ba8">{esc(item["text"])}</text>'
+            f'<text x="{PAD}" y="{y + 32}" font-family="{FONT}" font-size="11" '
+            f'fill="#6c7086">{esc(item.get("sub", ""))}</text>'
+            f"{anim}</g>"
+        )
+
+    for i, item in enumerate(right_items):
+        y = row_start + i * ROW_H
+        init, anim = _anim(item.get("delay", 0), total, fade_dur)
+        els.append(
+            f'<g opacity="{init}">'
+            f'<text x="{MID + PAD}" y="{y + 14}" font-family="{FONT}" font-size="13" '
+            f'fill="#a6e3a1">{esc(item["text"])}</text>'
+            f'<text x="{MID + PAD}" y="{y + 32}" font-family="{FONT}" font-size="11" '
+            f'fill="#6c7086">{esc(item.get("sub", ""))}</text>'
+            f"{anim}</g>"
+        )
+
+    els.append(
+        f'<line x1="{PAD}" y1="{verdict_y - 4}" x2="{width - PAD}" y2="{verdict_y - 4}" '
+        f'stroke="#313244" stroke-width="1" opacity="{init0}">{anim0}</line>'
+    )
+
+    if verdict:
+        init_v, anim_v = _anim(verdict_delay, total, fade_dur)
+        els.append(
+            f'<text x="{MID}" y="{verdict_y + 18}" font-family="{FONT}" font-size="13" '
+            f'fill="#cba6f7" text-anchor="middle" opacity="{init_v}">{esc(verdict)}{anim_v}</text>'
+        )
+
+    return (
+        f'<svg viewBox="0 0 {width} {height}" xmlns="http://www.w3.org/2000/svg">\n'
+        + "\n".join(f"  {e}" for e in els)
+        + "\n</svg>"
+    )
+
+
+def make_receipt_svg(
+    sections, footer_lines=None, width=400, read_pause=5.0, fade_dur=0.5
+):
+    """Receipt/invoice style SVG."""
+    FONT = "'SF Mono','Fira Code','Cascadia Code',monospace"
+    PAD = 32
+    LINE_H = 22
+    RIGHT = width - PAD
+
+    y = 16
+    max_delay_ms = 0
+    items_layout = []
+
+    items_layout.append(("title", "AGENT OPERATIONS", 0, y))
+    y += 24
+    items_layout.append(("dashes", None, 0, y))
+    y += 16
+
+    for sec in sections:
+        delay = sec.get("delay_start", 0)
+        items_layout.append(("section_title", sec["title"], delay, y))
+        y += LINE_H + 4
+        for j, (item_text, item_price) in enumerate(sec["items"]):
+            d = delay + (j + 1) * 200
+            items_layout.append(("item", (item_text, item_price), d, y))
+            y += LINE_H
+            max_delay_ms = max(max_delay_ms, d)
+        y += 4
+        items_layout.append(("line", None, delay, y))
+        y += 8
+        st_delay = delay + (len(sec["items"]) + 1) * 200
+        items_layout.append(
+            (
+                "subtotal",
+                sec["subtotal"],
+                st_delay,
+                y,
+                sec.get("subtotal_color", "#cdd6f4"),
+            )
+        )
+        max_delay_ms = max(max_delay_ms, st_delay)
+        y += LINE_H + 12
+
+    if footer_lines:
+        items_layout.append(("double_line", None, 0, y))
+        y += 12
+        for fl in footer_lines:
+            fd = max_delay_ms + 400
+            items_layout.append(("footer", fl, fd, y))
+            max_delay_ms = fd
+            y += LINE_H
+
+    height = y + PAD
+    total = max_delay_ms / 1000 + 0.3 + read_pause + fade_dur
+
+    els = []
+    els.append(f'<rect width="{width}" height="{height}" rx="4" fill="#1e1e2e"/>')
+    els.append(
+        f'<rect x="1" y="1" width="{width - 2}" height="{height - 2}" rx="3" '
+        f'fill="none" stroke="#313244" stroke-width="1"/>'
+    )
+
+    for it in items_layout:
+        kind = it[0]
+        if kind == "title":
+            _, text, delay, iy = it
+            init, anim = _anim(delay, total, fade_dur)
+            els.append(
+                f'<text x="{width // 2}" y="{iy + 14}" font-family="{FONT}" '
+                f'font-size="14" fill="#cdd6f4" text-anchor="middle" font-weight="bold" '
+                f'opacity="{init}">{esc(text)}{anim}</text>'
+            )
+        elif kind == "dashes":
+            _, _, delay, iy = it
+            init, anim = _anim(delay, total, fade_dur)
+            els.append(
+                f'<line x1="{PAD}" y1="{iy}" x2="{RIGHT}" y2="{iy}" '
+                f'stroke="#45475a" stroke-dasharray="3" opacity="{init}">{anim}</line>'
+            )
+        elif kind == "section_title":
+            _, text, delay, iy = it
+            init, anim = _anim(delay, total, fade_dur)
+            els.append(
+                f'<text x="{PAD}" y="{iy + 14}" font-family="{FONT}" font-size="12" '
+                f'fill="#a6adc8" opacity="{init}">{esc(text)}{anim}</text>'
+            )
+        elif kind == "item":
+            _, (text, price), delay, iy = it
+            init, anim = _anim(delay, total, fade_dur)
+            els.append(
+                f'<g opacity="{init}">'
+                f'<text x="{PAD}" y="{iy + 14}" font-family="{FONT}" font-size="12" '
+                f'fill="#cdd6f4">{esc(text)}</text>'
+                f'<text x="{RIGHT}" y="{iy + 14}" font-family="{FONT}" font-size="12" '
+                f'fill="#cdd6f4" text-anchor="end">{esc(price)}</text>'
+                f"{anim}</g>"
+            )
+        elif kind == "line":
+            _, _, delay, iy = it
+            init, anim = _anim(delay, total, fade_dur)
+            els.append(
+                f'<line x1="{PAD}" y1="{iy}" x2="{RIGHT}" y2="{iy}" '
+                f'stroke="#45475a" stroke-width="1" opacity="{init}">{anim}</line>'
+            )
+        elif kind == "subtotal":
+            _, (text, price), delay, iy, color = it
+            init, anim = _anim(delay, total, fade_dur)
+            els.append(
+                f'<g opacity="{init}">'
+                f'<text x="{PAD}" y="{iy + 14}" font-family="{FONT}" font-size="12" '
+                f'fill="{color}" font-weight="bold">{esc(text)}</text>'
+                f'<text x="{RIGHT}" y="{iy + 14}" font-family="{FONT}" font-size="12" '
+                f'fill="{color}" font-weight="bold" text-anchor="end">{esc(price)}</text>'
+                f"{anim}</g>"
+            )
+        elif kind == "double_line":
+            _, _, _, iy = it
+            init, anim = _anim(0, total, fade_dur)
+            els.append(
+                f'<line x1="{PAD}" y1="{iy}" x2="{RIGHT}" y2="{iy}" '
+                f'stroke="#45475a" stroke-width="1" opacity="{init}">{anim}</line>'
+            )
+            els.append(
+                f'<line x1="{PAD}" y1="{iy + 3}" x2="{RIGHT}" y2="{iy + 3}" '
+                f'stroke="#45475a" stroke-width="1" opacity="{init}">{anim}</line>'
+            )
+        elif kind == "footer":
+            _, (text, price, color), delay, iy = it
+            init, anim = _anim(delay, total, fade_dur)
+            inner = (
+                f'<text x="{PAD}" y="{iy + 14}" font-family="{FONT}" font-size="13" '
+                f'fill="{color}" font-weight="bold">{esc(text)}</text>'
+            )
+            if price:
+                inner += (
+                    f'<text x="{RIGHT}" y="{iy + 14}" font-family="{FONT}" '
+                    f'font-size="13" fill="{color}" font-weight="bold" '
+                    f'text-anchor="end">{esc(price)}</text>'
+                )
+            els.append(f'<g opacity="{init}">{inner}{anim}</g>')
+
+    return (
+        f'<svg viewBox="0 0 {width} {height}" xmlns="http://www.w3.org/2000/svg">\n'
+        + "\n".join(f"  {e}" for e in els)
+        + "\n</svg>"
+    )
+
+
+def make_figure_svg(
+    mappings, caption="", footnote="", width=640, read_pause=6.0, fade_dur=0.5
+):
+    """Academic figure style with box-arrow-box mappings."""
+    FONT = "'SF Mono','Fira Code','Cascadia Code',monospace"
+    PAD = 20
+    BOX_W = 220
+    BOX_H = 44
+    ROW_H = 60
+    LEFT_X = PAD + 10
+    RIGHT_X = width - PAD - BOX_W - 10
+
+    caption_h = 36
+    row_start = caption_h + 10
+    height = row_start + len(mappings) * ROW_H + (40 if footnote else 16)
+
+    max_delay_ms = max(m.get("delay", 0) for m in mappings)
+    fn_delay = max_delay_ms + 600
+    total_delay = fn_delay if footnote else max_delay_ms
+    total = total_delay / 1000 + 0.3 + read_pause + fade_dur
+
+    els = []
+    els.append(f'<rect width="{width}" height="{height}" rx="10" fill="#1e1e2e"/>')
+
+    init0, anim0 = _anim(0, total, fade_dur)
+    els.append(
+        f'<text x="{PAD}" y="22" font-family="{FONT}" font-size="12" '
+        f'fill="#a6adc8" font-style="italic" opacity="{init0}">{esc(caption)}{anim0}</text>'
+    )
+
+    for i, m in enumerate(mappings):
+        y = row_start + i * ROW_H
+        delay = m.get("delay", 0)
+        init, anim = _anim(delay, total, fade_dur)
+        lx = LEFT_X
+        rx = RIGHT_X
+        left_cx = lx + BOX_W // 2
+        right_cx = rx + BOX_W // 2
+        arrow_x1 = lx + BOX_W + 4
+        arrow_x2 = rx - 4
+        arrow_y = y + BOX_H // 2
+        inner = (
+            f'<rect x="{lx}" y="{y}" width="{BOX_W}" height="{BOX_H}" rx="4" '
+            f'fill="#313244" stroke="#45475a" stroke-width="1"/>'
+            f'<text x="{left_cx}" y="{y + 18}" font-family="{FONT}" font-size="11" '
+            f'fill="#cdd6f4" text-anchor="middle">{esc(m["left"])}</text>'
+            f'<text x="{left_cx}" y="{y + 34}" font-family="{FONT}" font-size="10" '
+            f'fill="#6c7086" text-anchor="middle">{esc(m.get("left_sub", ""))}</text>'
+            f'<line x1="{arrow_x1}" y1="{arrow_y}" x2="{arrow_x2 - 6}" y2="{arrow_y}" '
+            f'stroke="#6c7086" stroke-width="1"/>'
+            f'<polygon points="{arrow_x2 - 8},{arrow_y - 4} {arrow_x2},{arrow_y} '
+            f'{arrow_x2 - 8},{arrow_y + 4}" fill="#6c7086"/>'
+            f'<rect x="{rx}" y="{y}" width="{BOX_W}" height="{BOX_H}" rx="4" '
+            f'fill="#313244" stroke="#89b4fa" stroke-width="1"/>'
+            f'<text x="{right_cx}" y="{y + 18}" font-family="{FONT}" font-size="11" '
+            f'fill="#89b4fa" text-anchor="middle">{esc(m["right"])}</text>'
+            f'<text x="{right_cx}" y="{y + 34}" font-family="{FONT}" font-size="10" '
+            f'fill="#6c7086" text-anchor="middle">{esc(m.get("right_sub", ""))}</text>'
+        )
+        els.append(f'<g opacity="{init}">{inner}{anim}</g>')
+
+    if footnote:
+        fn_y = row_start + len(mappings) * ROW_H + 16
+        init_fn, anim_fn = _anim(fn_delay, total, fade_dur)
+        els.append(
+            f'<text x="{width // 2}" y="{fn_y}" font-family="{FONT}" font-size="12" '
+            f'fill="#cba6f7" text-anchor="middle" font-style="italic" '
+            f'opacity="{init_fn}">{esc(footnote)}{anim_fn}</text>'
+        )
+
+    return (
+        f'<svg viewBox="0 0 {width} {height}" xmlns="http://www.w3.org/2000/svg">\n'
+        + "\n".join(f"  {e}" for e in els)
+        + "\n</svg>"
+    )
+
+
 # -- Session Save --
 session_save = make_svg(
     [
@@ -515,26 +957,22 @@ frameworks = make_svg(
 )
 
 
-# -- Insight: Structure > Freedom --
-insight_structure = make_svg(
-    [
-        ([("$ ", "#89b4fa"), ("lesson --topic structure", "#cdd6f4")], "#cdd6f4"),
-        ("", "#1e1e2e"),
-        ("Finding: constraints produce better results than freedom.", "#f9e2af", 400),
-        ("", "#1e1e2e"),
-        ("Evidence (1,169 sessions):", "#a6adc8", 800),
-        ("", "#1e1e2e"),
-        ("  typed observations          => useful 6 months later", "#a6e3a1", 1000),
-        ("  free-form notes             => unnavigable garbage", "#f38ba8", 1200),
-        ("  mandatory Before/After      => gold for debugging", "#a6e3a1", 1400),
-        ("  optional context fields     => always left empty", "#f38ba8", 1600),
-        ("  5 observation types         => searchable by pattern", "#a6e3a1", 1800),
-        ("  unlimited tags              => nobody tags anything", "#f38ba8", 2000),
-        ("", "#1e1e2e"),
-        ("Verdict: less freedom, better data.", "#cba6f7", 2600),
-        ("The structure IS the value.", "#cba6f7", 2800),
+# -- Insight: Structure > Freedom (VS card) --
+insight_structure = make_versus_svg(
+    left_items=[
+        {"text": "free-form notes", "sub": "unnavigable in 2 weeks", "delay": 400},
+        {"text": "optional context fields", "sub": "always left empty", "delay": 800},
+        {"text": "unlimited tags", "sub": "nobody tags anything", "delay": 1200},
     ],
-    title="lesson #1",
+    right_items=[
+        {"text": "typed observations", "sub": "useful 6 months later", "delay": 600},
+        {"text": "mandatory Before/After", "sub": "gold for debugging", "delay": 1000},
+        {"text": "5 observation types", "sub": "searchable by pattern", "delay": 1400},
+    ],
+    title="STRUCTURE vs FREEDOM  (1,169 sessions)",
+    left_label="freedom",
+    right_label="structure",
+    verdict="less freedom = better data. the structure IS the value.",
     width=640,
     read_pause=5.0,
 )
@@ -566,88 +1004,145 @@ insight_bottleneck = make_svg(
     read_pause=5.0,
 )
 
-# -- Insight: Precision, Not Power --
-insight_precision = make_svg(
-    [
-        ([("$ ", "#89b4fa"), ("agent-mode --evaluate", "#cdd6f4")], "#cdd6f4"),
-        ("", "#1e1e2e"),
-        ("Approach A: launch all agents", "#a6adc8", 400),
-        ("  5 directors + 4 researchers + 3 developers", "#6c7086", 600),
-        ("  Result: 12 reports, 90% overlap, $4.20 burned", "#f38ba8", 1000),
-        ("  Diagnosis: work for work's sake", "#f38ba8", 1200),
-        ("", "#1e1e2e"),
-        ("Approach B: precision selection", "#a6adc8", 1800),
-        ("  Task: verify a technical claim", "#6c7086", 2000),
-        ("  Selected: researcher + triangulator (2 agents)", "#a6e3a1", 2200),
-        ("  Result: verified, 3 sources, $0.35", "#a6e3a1", 2400),
-        ("", "#1e1e2e"),
-        ("Sometimes automatic, sometimes manual.", "#cba6f7", 3000),
-        ("Sometimes handbrake, sometimes brake pedal.", "#cba6f7", 3200),
-        ("The skill is knowing which gear fits the moment.", "#cba6f7", 3400),
+# -- Insight: Precision, Not Power (receipt) --
+insight_precision = make_receipt_svg(
+    sections=[
+        {
+            "title": "APPROACH A: LAUNCH EVERYTHING",
+            "items": [
+                ("5 directors", "$1.80"),
+                ("4 researchers", "$1.60"),
+                ("3 developers", "$0.80"),
+            ],
+            "subtotal": ("12 reports, 90% overlap", "$4.20"),
+            "subtotal_color": "#f38ba8",
+            "delay_start": 400,
+        },
+        {
+            "title": "APPROACH B: PRECISION SELECTION",
+            "items": [
+                ("1 researcher", "$0.20"),
+                ("1 triangulator", "$0.15"),
+            ],
+            "subtotal": ("Verified claim, 3 sources", "$0.35"),
+            "subtotal_color": "#a6e3a1",
+            "delay_start": 2000,
+        },
     ],
-    title="lesson #3",
-    width=640,
+    footer_lines=[
+        ("YOU SAVED", "$3.85", "#cba6f7"),
+        ("precision > power", "", "#6c7086"),
+    ],
+    width=400,
     read_pause=5.0,
 )
 
 
-# -- Insight: Memory prevents re-derivation --
-insight_memory = make_svg(
+# -- Insight: Memory prevents re-derivation (chat bubbles) --
+insight_memory = make_chat_svg(
     [
-        ([("$ ", "#89b4fa"), ("replay --sessions 1,47", "#cdd6f4")], "#cdd6f4"),
-        ("", "#1e1e2e"),
-        ("Session #1 (February 3):", "#a6adc8", 400),
-        ("  You:   Should we use JWT or sessions?", "#cdd6f4", 600),
-        ("  Agent: Let's evaluate both options...", "#6c7086", 800),
-        ("  You:   JWT. 15-minute expiry.", "#a6e3a1", 1000),
-        ("  [decision recorded in observations]", "#cba6f7", 1200),
-        ("", "#1e1e2e"),
-        ("Session #47 (March 18), WITHOUT memory:", "#f38ba8", 1800),
-        ("  Agent: Should we consider session-based auth?", "#f38ba8", 2000),
-        ("  You:   We already decided this. JWT.", "#f38ba8", 2200),
-        ("  Agent: Good point! Let me reconsider...", "#f38ba8", 2400),
-        ("  [15 minutes wasted re-deriving the same conclusion]", "#f38ba8", 2600),
-        ("", "#1e1e2e"),
-        ("Session #47 (March 18), WITH memory:", "#a6e3a1", 3200),
-        ("  Agent: Loading dossier... JWT (decided Feb 3, 15min)", "#a6e3a1", 3400),
-        ("  Agent: Continuing from where we left off.", "#a6e3a1", 3600),
-        ("  [0 minutes wasted. Settled conclusions stay settled.]", "#a6e3a1", 3800),
+        {
+            "user": "You",
+            "time": "Feb 3",
+            "bar": "#a6e3a1",
+            "color": "#cdd6f4",
+            "lines": ["Should we use JWT or sessions?"],
+            "delay": 0,
+        },
+        {
+            "user": "Agent",
+            "time": "Feb 3",
+            "bar": "#89b4fa",
+            "color": "#cdd6f4",
+            "lines": ["Evaluated both. JWT wins.", "Recording decision."],
+            "delay": 600,
+        },
+        {"divider": "6 weeks later", "delay": 1800},
+        {
+            "user": "Agent",
+            "time": "no memory",
+            "bar": "#f38ba8",
+            "color": "#f38ba8",
+            "lines": [
+                "Should we consider session-based auth?",
+                "Let me evaluate the options...",
+            ],
+            "delay": 2400,
+        },
+        {
+            "user": "You",
+            "time": "",
+            "bar": "#f38ba8",
+            "color": "#f38ba8",
+            "lines": ["We already decided this. JWT.", "15 min wasted."],
+            "delay": 3000,
+        },
+        {"divider": "same day, with memory", "delay": 3800},
+        {
+            "user": "Agent",
+            "time": "with memory",
+            "bar": "#a6e3a1",
+            "color": "#a6e3a1",
+            "lines": [
+                "Loading dossier... JWT (decided Feb 3)",
+                "Continuing where we left off. 0 min wasted.",
+            ],
+            "delay": 4400,
+        },
     ],
-    title="why memory matters",
-    width=640,
+    channel="project / auth decisions",
+    width=540,
     read_pause=5.0,
 )
 
-# -- Insight: Research Concept Mapping --
-insight_research = make_svg(
-    [
-        (
-            [("$ ", "#89b4fa"), ("map --domain research-parallels", "#cdd6f4")],
-            "#cdd6f4",
-        ),
-        ("", "#1e1e2e"),
-        ("This system                    AI research parallel", "#f9e2af", 400),
-        ("------------------------------------------------------", "#6c7086", 400),
-        ("", "#1e1e2e"),
-        ("progressive disclosure    =>   RAG without vectors", "#a6adc8", 800),
-        ("  load by query, not corpus    structured retrieval", "#6c7086", 1000),
-        ("", "#1e1e2e"),
-        ("auto-observe             =>   episodic memory", "#a6adc8", 1400),
-        ("  typed events + context       experience replay", "#6c7086", 1600),
-        ("", "#1e1e2e"),
-        ("directors (5 prompts)    =>   mixture-of-experts", "#a6adc8", 2000),
-        ("  same model, real divergence  prompt as architecture", "#6c7086", 2200),
-        ("", "#1e1e2e"),
-        ("decision dossiers        =>   persistent belief store", "#a6adc8", 2600),
-        ("  prevents re-derivation       survives context reset", "#6c7086", 2800),
-        ("", "#1e1e2e"),
-        ("constraints > freedom    =>   instruction tuning", "#a6adc8", 3200),
-        ("  structure improves output     specificity > coverage", "#6c7086", 3400),
-        ("", "#1e1e2e"),
-        ("human = bottleneck       =>   HITL as limiting factor", "#cba6f7", 3800),
-        ("  system compensates for you    not the other way", "#6c7086", 4000),
+# -- Insight: Research Concept Mapping (academic figure) --
+insight_research = make_figure_svg(
+    mappings=[
+        {
+            "left": "progressive disclosure",
+            "left_sub": "load by query, not corpus",
+            "right": "RAG without vectors",
+            "right_sub": "structured retrieval",
+            "delay": 400,
+        },
+        {
+            "left": "auto-observe",
+            "left_sub": "typed events + context",
+            "right": "episodic memory",
+            "right_sub": "experience replay",
+            "delay": 1000,
+        },
+        {
+            "left": "directors (5 prompts)",
+            "left_sub": "same model, real divergence",
+            "right": "mixture-of-experts",
+            "right_sub": "prompt as architecture",
+            "delay": 1600,
+        },
+        {
+            "left": "decision dossiers",
+            "left_sub": "prevents re-derivation",
+            "right": "persistent belief store",
+            "right_sub": "survives context reset",
+            "delay": 2200,
+        },
+        {
+            "left": "constraints > freedom",
+            "left_sub": "structure improves output",
+            "right": "instruction tuning",
+            "right_sub": "specificity > coverage",
+            "delay": 2800,
+        },
+        {
+            "left": "human = bottleneck",
+            "left_sub": "system compensates for you",
+            "right": "HITL as limiting factor",
+            "right_sub": "not the other way",
+            "delay": 3400,
+        },
     ],
-    title="for researchers",
+    caption="Fig. 1. Emergent parallels: practitioner infrastructure vs ML research",
+    footnote="n = 1,169 sessions. Not designed. Discovered.",
     width=640,
     read_pause=6.0,
 )
