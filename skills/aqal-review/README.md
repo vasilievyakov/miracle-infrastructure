@@ -108,6 +108,10 @@ Claude:
   Saved to ~/.claude/aqal-history.json
 ```
 
+## Works great with
+
+- [Memory Pack](../../packs/memory/) — pulls project dossiers, session history, and open problems into the weekly review for a more accurate assessment across all four quadrants
+
 ## Part of
 
 [Productivity Pack](../../packs/productivity/README.md) — structured self-reflection, not just output measurement.

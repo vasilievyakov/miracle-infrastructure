@@ -86,6 +86,11 @@ CONTRADICTION DETECTED:
 [Comparison table with features, maturity, ecosystem, performance...]
 ```
 
+## Works great with
+
+- [Triangulate](../triangulate/) — verify key claims from research results before acting on them
+- [Learned Lessons](../learned-lessons/) — record the solution so you never search for the same thing again
+
 ## Part of
 
 [Research Pack](../../packs/research/README.md) — finding, verifying, and never searching for the same thing twice.

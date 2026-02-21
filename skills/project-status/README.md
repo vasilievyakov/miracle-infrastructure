@@ -26,18 +26,16 @@ These get merged into a compact report. The dossier provides context (why things
 
 **Speed is the design constraint.** The skill never clones a repository. If there is no local copy, it uses the GitHub API via `gh`. It never reads project files unless the question specifically requires it. Dossier + git log + issues covers 90% of status questions.
 
-## Quick Install
+## Install
+
+> **Pack-only.** This skill reads project dossiers and `memory-config.json` for keyword matching. Without the memory system, it can only show raw git/GitHub data, losing most of its value. Install the full [Memory Pack](../../packs/memory/), not this skill alone.
 
 ```bash
-# As part of Memory pack:
 git clone https://github.com/vasilievyakov/miracle-infrastructure.git
 cd miracle-infrastructure && bash install.sh  # select Memory pack
-
-# Just this skill:
-mkdir -p ~/.claude/skills/project-status
-curl -sL https://raw.githubusercontent.com/vasilievyakov/miracle-infrastructure/main/skills/project-status/SKILL.md \
-  -o ~/.claude/skills/project-status/SKILL.md
 ```
+
+After installation, run `/memory-init` to create the directory structure and register your projects.
 
 ## Example
 

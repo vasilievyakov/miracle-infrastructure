@@ -84,6 +84,10 @@ Key distinction: the claim conflates "handles" with "handles well."
 SQLite won't crash with 100 writers. It will serialize them.
 ```
 
+## Works great with
+
+- [Researching Web](../researching-web/) — do the initial broad research, then triangulate the specific claims that matter
+
 ## Part of
 
 [Research Pack](../../packs/research/README.md) — finding, verifying, and never searching for the same thing twice.

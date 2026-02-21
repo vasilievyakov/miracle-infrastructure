@@ -34,18 +34,16 @@ Next session will load the dossier and continue from here.
 
 The dossier uses a specific update policy: Current State gets overwritten (it is a snapshot), Decisions Made only grows (history is sacred), and Session History keeps the last 10 entries. This means you never lose the reasoning behind past choices, but stale status information gets replaced.
 
-## Quick Install
+## Install
+
+> **Pack-only.** This skill writes to memory dossiers, observations, and MEMORY.md. It relies on the rules (`session-start`, `session-end`, `auto-observe`), config file, and directory structure that the Memory Pack provides. Install the full [Memory Pack](../../packs/memory/), not this skill alone.
 
 ```bash
-# As part of Memory pack:
 git clone https://github.com/vasilievyakov/miracle-infrastructure.git
 cd miracle-infrastructure && bash install.sh  # select Memory pack
-
-# Just this skill:
-mkdir -p ~/.claude/skills/session-save
-curl -sL https://raw.githubusercontent.com/vasilievyakov/miracle-infrastructure/main/skills/session-save/SKILL.md \
-  -o ~/.claude/skills/session-save/SKILL.md
 ```
+
+After installation, run `/memory-init` to create the directory structure and register your projects.
 
 ## Example
 

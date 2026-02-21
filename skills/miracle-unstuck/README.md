@@ -110,6 +110,12 @@ The 10% config blobs? JSONB column. Postgres handles that natively.
 Does this resonate?
 ```
 
+## Works great with
+
+- [Memory Pack](../../packs/memory/) — when installed, the skill loads your project dossier for context, making the interview faster and more targeted
+- [Directors](../directors/) — once unstuck, get the board's evaluation of your decision
+- [Frameworks](../frameworks/) — apply structured decision frameworks to the choice you just clarified
+
 ## Part of
 
 [Thinking Pack](../../packs/thinking/README.md) — structured decision-making tools

@@ -105,6 +105,10 @@ Claude: Done! Created three files:
   Open the prototype in the browser?
 ```
 
+## Works great with
+
+- [Action Items](../action-items/) — extract tasks and commitments from the same transcript before or after generating the proposal
+
 ## Part of
 
 [Business Pack](../../packs/business/README.md) — from client calls to deliverables, with checkpoints for human judgment.

@@ -31,18 +31,16 @@ A 9-step wizard:
     └── test_memory_integrity.py       # Integrity checks
 ```
 
-## Quick Install
+## Install
+
+> **Pack-only.** This is the setup wizard for the memory system. It copies templates and integrity tests from the pack into your `~/.claude/memory/` directory. Without the pack files available, it has nothing to install. Install the full [Memory Pack](../../packs/memory/), not this skill alone.
 
 ```bash
-# As part of Memory pack:
 git clone https://github.com/vasilievyakov/miracle-infrastructure.git
 cd miracle-infrastructure && bash install.sh  # select Memory pack
-
-# Just this skill:
-mkdir -p ~/.claude/skills/memory-init
-curl -sL https://raw.githubusercontent.com/vasilievyakov/miracle-infrastructure/main/skills/memory-init/SKILL.md \
-  -o ~/.claude/skills/memory-init/SKILL.md
 ```
+
+After installation, `/memory-init` is the first command you run.
 
 ## Example
 

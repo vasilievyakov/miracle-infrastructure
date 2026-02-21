@@ -31,18 +31,16 @@ With 100 observations, a filtered search costs around 4,000 tokens instead of 15
 
 Filters combine freely. Results come back sorted newest-first, capped at 20 entries.
 
-## Quick Install
+## Install
+
+> **Pack-only.** This skill searches observation files that the memory system creates. Without initialized memory, there is nothing to search. Install the full [Memory Pack](../../packs/memory/), not this skill alone.
 
 ```bash
-# As part of Memory pack:
 git clone https://github.com/vasilievyakov/miracle-infrastructure.git
 cd miracle-infrastructure && bash install.sh  # select Memory pack
-
-# Just this skill:
-mkdir -p ~/.claude/skills/search-memory
-curl -sL https://raw.githubusercontent.com/vasilievyakov/miracle-infrastructure/main/skills/search-memory/SKILL.md \
-  -o ~/.claude/skills/search-memory/SKILL.md
 ```
+
+After installation, run `/memory-init` to create the directory structure and register your projects.
 
 ## Example
 

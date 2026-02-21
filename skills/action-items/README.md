@@ -91,6 +91,11 @@ What's next?
 3. Clarify/reprioritize
 ```
 
+## Works great with
+
+- [Transcript to Proposal](../transcript-to-proposal/) — extract tasks from a client call, then generate a full proposal from the same transcript
+- [Memory Pack](../../packs/memory/) — after extracting action items, run `/session-save` to record decisions and tasks in your project memory
+
 ## Part of
 
 [Content Pack](../../packs/content/README.md) — turning raw text into structured, actionable output.

@@ -97,6 +97,11 @@ curl -sL https://raw.githubusercontent.com/vasilievyakov/miracle-infrastructure/
 5. Remove certificate generator from roadmap <- YAGNI
 ```
 
+## Works great with
+
+- [Directors](../directors/) — get expert evaluation first, then apply frameworks to the consensus questions
+- [Miracle Unstuck](../miracle-unstuck/) — when you are not sure which decision needs frameworks, clarify first
+
 ## Part of
 
 [Thinking Pack](../../packs/thinking/README.md) — structured decision-making tools

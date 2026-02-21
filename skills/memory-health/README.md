@@ -42,18 +42,16 @@ Warnings:
 
 Simple fixes (like count mismatches) get applied automatically. More ambiguous issues get flagged with a suggested fix for you to approve.
 
-## Quick Install
+## Install
+
+> **Pack-only.** This skill validates the integrity of memory files and runs `test_memory_integrity.py`. Without the memory system installed, there is nothing to validate. Install the full [Memory Pack](../../packs/memory/), not this skill alone.
 
 ```bash
-# As part of Memory pack:
 git clone https://github.com/vasilievyakov/miracle-infrastructure.git
 cd miracle-infrastructure && bash install.sh  # select Memory pack
-
-# Just this skill:
-mkdir -p ~/.claude/skills/memory-health
-curl -sL https://raw.githubusercontent.com/vasilievyakov/miracle-infrastructure/main/skills/memory-health/SKILL.md \
-  -o ~/.claude/skills/memory-health/SKILL.md
 ```
+
+After installation, run `/memory-init` to create the directory structure, then `/memory-health` to verify everything is wired correctly.
 
 ## Example
 

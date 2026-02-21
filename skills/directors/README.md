@@ -105,6 +105,11 @@ If the auth feels clunky, the product feels untrustworthy.
 3. Have you designed the admin revocation experience?
 ```
 
+## Works great with
+
+- [Miracle Unstuck](../miracle-unstuck/) — clarify what you actually need before the board evaluates it
+- [Frameworks](../frameworks/) — apply structured decision frameworks to the board's top questions
+
 ## Part of
 
 [Thinking Pack](../../packs/thinking/README.md) — structured decision-making tools

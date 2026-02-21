@@ -87,6 +87,10 @@ Three commands for manual use:
 - `/lessons` to see the last 5 entries
 - `/search-lessons <query>` to search by keyword or tag
 
+## Works great with
+
+- [Researching Web](../researching-web/) — the research skill finds solutions; this skill makes sure you never search for the same one twice
+
 ## Part of
 
 [Research Pack](../../packs/research/README.md) — finding, verifying, and never searching for the same thing twice.
