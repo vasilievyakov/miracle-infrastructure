@@ -1,14 +1,14 @@
 <h1 align="center">Miracle Infrastructure</h1>
 
 <p align="center">
-  <em>16 skills that give Claude Code a memory, opinions, and a research department.<br>Zero dependencies. Just Markdown.</em>
+  <em>17 skills that give Claude Code a memory, opinions, and a research department.<br>Zero dependencies. Just Markdown.</em>
 </p>
 
 <p align="center">
   <a href="https://github.com/vasilievyakov/miracle-infrastructure/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT" />
   </a>
-  <img src="https://img.shields.io/badge/Skills-16-8A2BE2?style=flat-square" alt="16 Skills" />
+  <img src="https://img.shields.io/badge/Skills-17-8A2BE2?style=flat-square" alt="16 Skills" />
   <img src="https://img.shields.io/badge/Packs-7-orange?style=flat-square" alt="7 Packs" />
   <img src="https://img.shields.io/badge/Dependencies-0-brightgreen?style=flat-square" alt="Zero Dependencies" />
   <img src="https://img.shields.io/badge/Sessions_Tested-1169+-informational?style=flat-square" alt="1169+ Sessions" />
@@ -34,7 +34,7 @@ Your AI agent is powerful. Also:
 - It ships code while you **burn out**, and nobody notices
 - Its own **tools break silently**, and nobody checks
 
-16 skills that fix all seven. Zero dependencies. Just Markdown.
+17 skills that fix all seven. Zero dependencies. Just Markdown.
 
 ## Install
 
@@ -57,7 +57,7 @@ cd miracle-infrastructure && bash install.sh
 ## Contents
 
 - [What 1,169 Sessions Taught Us](#what-1169-sessions-actually-taught-us)
-- [Packs](#packs) -- 7 packs, 16 skills
+- [Packs](#packs) -- 7 packs, 17 skills
   - [Memory](#memory) | [Thinking](#thinking) | [Research](#research) | [Business](#business) | [Content](#content) | [Productivity](#productivity) | [Meta](#meta)
 - [How It Compares](#how-it-compares)
 - [For AI Researchers](#for-ai-researchers)
@@ -403,13 +403,13 @@ Uses the AQAL integral model to evaluate progress across 4 quadrants (interior/e
 
 ### Meta
 
-Your skills library has a doctor.
+Audits for your infrastructure and code.
 
-**Skill:** `skill-checkup`
+**Skills:** `skill-checkup`, `miracle-security`
 
 <img src="docs/gifs/checkup.svg" alt="Skill Checkup" width="100%" />
 
-Validates file references, frontmatter, trigger uniqueness, and dependency drift. Reports problems. Does not auto-fix. A calm doctor, not a helicopter parent.
+`skill-checkup` validates file references, frontmatter, trigger uniqueness, and dependency drift. `miracle-security` runs 5 parallel agents for code security review or 4 for enterprise assessment, with threat model calibration.
 
 [Full docs &#8594;](packs/meta/README.md)
 

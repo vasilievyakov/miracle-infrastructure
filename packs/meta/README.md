@@ -1,6 +1,6 @@
 # Meta Pack
 
-Your skills library has a doctor. It does not prescribe. It diagnoses.
+Audits for your infrastructure and code. Skills health and security posture in one pack.
 
 <p align="center">
   <img src="../../docs/gifs/checkup.svg" alt="checkup demo" width="640" />
@@ -8,19 +8,22 @@ Your skills library has a doctor. It does not prescribe. It diagnoses.
 
 ## The Idea
 
-As your skills library grows past a handful of files, things drift. A skill references a file that was renamed last week. Two triggers collide and produce unpredictable behavior. A dependency chain breaks silently, and you discover it at 2am when the skill you need most returns a cryptic error.
+Two kinds of audits that you would never do manually.
 
-This pack runs structural audits. It reads every skill, rule, and supporting file, validates their relationships, and reports what needs attention. Healthy skills produce no output. Only problems appear.
+**Skills health** (`/checkup`): as your library grows past a handful of files, things drift. References break, triggers collide, dependencies go stale. The checkup reads every file, validates relationships, and reports what needs attention.
 
-The philosophy: apply, reflect, and when you have a good understanding of your infrastructure, start trusting it. The meta pack is the "reflect" step.
+**Security review** (`/security review`, `/security assess`): you ask Claude to "check security" and get inconsistent results. This skill runs 5 parallel agents for code review or 4 for enterprise assessment, each scanning through a specialized lens. Threat model calibration ensures findings match your actual deployment context.
+
+The philosophy: apply, reflect, audit. The meta pack is the "reflect" step.
 
 ## What's Inside
 
-### Skills (1)
+### Skills (2)
 
 | Skill | Command | What it does |
 |-------|---------|--------------|
 | [**skill-checkup**](../../skills/skill-checkup/) | `/checkup` | Skills library health audit with 3 validation levels |
+| [**miracle-security**](../../skills/miracle-security/) | `/security review`, `/security assess` | Code security review (5 agents) and enterprise assessment (4 agents) with threat model calibration |
 
 ## How It Works
 
