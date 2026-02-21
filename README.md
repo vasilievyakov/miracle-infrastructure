@@ -63,6 +63,7 @@ cd miracle-infrastructure && bash install.sh
 - [For AI Researchers](#for-ai-researchers)
 - [Architecture](#for-the-curious)
 - [Background](#background)
+- [This Repo is Alive](#this-repo-is-alive)
 
 ---
 
@@ -281,11 +282,11 @@ Virtual experts argue about your project. Each one sees everything through their
 
 | Director | Lens |
 |----------|------|
-| **Mira Murati** | Product, rapid iteration, collaborative AI |
-| **Ilya Sutskever** | First principles, generalization, long-term |
-| **Boris Cherny** | DX, verification loops, institutional memory |
-| **Andrej Karpathy** | 1.0/2.0/3.0 stack, verifiability, agent-friendly |
-| **Jony Ive** | Care, emotional resonance, simplicity |
+| **Mira Murati** | Product, rapid iteration, collaborative AI, ethics |
+| **Ilya Sutskever** | First principles, generalization, long-term horizon |
+| **Boris Cherny** | DX, verification loops, parallelization, institutional memory |
+| **Andrej Karpathy** | 1.0/2.0/3.0 stack, verifiability, agent-friendly architecture |
+| **Jony Ive** | Care, emotional resonance, simplicity, material integrity |
 
 Produces a synthesis with consensus, disagreements, top 3 critical questions, and action items.
 
@@ -346,7 +347,7 @@ From "we had a call" to "here is the proposal, architecture, and clickable proto
 
 <img src="docs/gifs/proposal.svg" alt="Transcript to Proposal" width="100%" />
 
-Give it a product description and a call transcript. It extracts pains, maps them to features, generates a proposal using the client's own words, builds system architecture, and creates an interactive HTML prototype.
+Give it a product description and a call transcript. It extracts pains, maps them to features, generates a proposal using the client's own words, builds system architecture, and creates an interactive HTML prototype. You review and confirm at checkpoints before it proceeds. No fully autonomous pipeline.
 
 > "LLMs catch what you missed in conversation. The prototype built with the client's own words leaves an unforgettable impression."
 
@@ -502,6 +503,28 @@ The tools grew one at a time, each one solving a specific friction. Memory came 
 Every skill that survived earned its place through repeated use. The ones that did not make the cut, the universal "do everything" skill, the exhaustive system prompts, the mass agent launches, taught us something equally valuable: agents are precision instruments for jeweler's tasks, not sledgehammers.
 
 The name "Miracle Infrastructure" comes from the original project name. The miracle is that it works with zero dependencies.
+
+## This Repo is Alive
+
+New skills get added as they prove themselves in daily use. If something works across multiple projects and multiple months, it earns a place here. If it stops being useful, it gets removed. The bar is real usage, not theoretical value.
+
+What's coming: more packs, more field notes, better install experience. The best things I build end up here.
+
+If this is useful to you, two things help me keep going:
+
+<p align="center">
+  <a href="https://github.com/vasilievyakov/miracle-infrastructure">
+    <img src="https://img.shields.io/github/stars/vasilievyakov/miracle-infrastructure?style=for-the-badge&label=%E2%AD%90%20Star%20on%20GitHub&color=4F46E5" alt="Star on GitHub" />
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://t.me/nfg_ai">
+    <img src="https://img.shields.io/badge/Telegram-@nfg__ai-26A5E4?style=for-the-badge&logo=telegram" alt="Telegram Channel" />
+  </a>
+</p>
+
+Stars tell me someone finds this useful. The Telegram channel is where I write about AI, human-AI workflows, and the philosophy behind these tools.
+
+---
 
 ## License
 
