@@ -591,6 +591,68 @@ insight_precision = make_svg(
 )
 
 
+# -- Insight: Memory prevents re-derivation --
+insight_memory = make_svg(
+    [
+        ([("$ ", "#89b4fa"), ("replay --sessions 1,47", "#cdd6f4")], "#cdd6f4"),
+        ("", "#1e1e2e"),
+        ("Session #1 (February 3):", "#a6adc8", 400),
+        ("  You:   Should we use JWT or sessions?", "#cdd6f4", 600),
+        ("  Agent: Let's evaluate both options...", "#6c7086", 800),
+        ("  You:   JWT. 15-minute expiry.", "#a6e3a1", 1000),
+        ("  [decision recorded in observations]", "#cba6f7", 1200),
+        ("", "#1e1e2e"),
+        ("Session #47 (March 18), WITHOUT memory:", "#f38ba8", 1800),
+        ("  Agent: Should we consider session-based auth?", "#f38ba8", 2000),
+        ("  You:   We already decided this. JWT.", "#f38ba8", 2200),
+        ("  Agent: Good point! Let me reconsider...", "#f38ba8", 2400),
+        ("  [15 minutes wasted re-deriving the same conclusion]", "#f38ba8", 2600),
+        ("", "#1e1e2e"),
+        ("Session #47 (March 18), WITH memory:", "#a6e3a1", 3200),
+        ("  Agent: Loading dossier... JWT (decided Feb 3, 15min)", "#a6e3a1", 3400),
+        ("  Agent: Continuing from where we left off.", "#a6e3a1", 3600),
+        ("  [0 minutes wasted. Settled conclusions stay settled.]", "#a6e3a1", 3800),
+    ],
+    title="why memory matters",
+    width=640,
+    read_pause=5.0,
+)
+
+# -- Insight: Research Concept Mapping --
+insight_research = make_svg(
+    [
+        (
+            [("$ ", "#89b4fa"), ("map --domain research-parallels", "#cdd6f4")],
+            "#cdd6f4",
+        ),
+        ("", "#1e1e2e"),
+        ("This system                    AI research parallel", "#f9e2af", 400),
+        ("------------------------------------------------------", "#6c7086", 400),
+        ("", "#1e1e2e"),
+        ("progressive disclosure    =>   RAG without vectors", "#a6adc8", 800),
+        ("  load by query, not corpus    structured retrieval", "#6c7086", 1000),
+        ("", "#1e1e2e"),
+        ("auto-observe             =>   episodic memory", "#a6adc8", 1400),
+        ("  typed events + context       experience replay", "#6c7086", 1600),
+        ("", "#1e1e2e"),
+        ("directors (5 prompts)    =>   mixture-of-experts", "#a6adc8", 2000),
+        ("  same model, real divergence  prompt as architecture", "#6c7086", 2200),
+        ("", "#1e1e2e"),
+        ("decision dossiers        =>   persistent belief store", "#a6adc8", 2600),
+        ("  prevents re-derivation       survives context reset", "#6c7086", 2800),
+        ("", "#1e1e2e"),
+        ("constraints > freedom    =>   instruction tuning", "#a6adc8", 3200),
+        ("  structure improves output     specificity > coverage", "#6c7086", 3400),
+        ("", "#1e1e2e"),
+        ("human = bottleneck       =>   HITL as limiting factor", "#cba6f7", 3800),
+        ("  system compensates for you    not the other way", "#6c7086", 4000),
+    ],
+    title="for researchers",
+    width=640,
+    read_pause=6.0,
+)
+
+
 # Generate all SVGs
 svgs = {
     "session-save.svg": session_save,
@@ -609,6 +671,8 @@ svgs = {
     "insight-structure.svg": insight_structure,
     "insight-bottleneck.svg": insight_bottleneck,
     "insight-precision.svg": insight_precision,
+    "insight-memory.svg": insight_memory,
+    "insight-research.svg": insight_research,
 }
 
 for name, svg in svgs.items():

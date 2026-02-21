@@ -130,6 +130,10 @@ graph LR
 
 ### What Actually Gets Used
 
+<p align="center">
+  <img src="docs/gifs/insight-memory.svg" alt="Why memory matters" width="640" />
+</p>
+
 `/session-save` runs at the end of roughly 70% of sessions. The other 30% are quick questions that do not produce anything worth remembering.
 
 `auto-observe` captures 1 to 3 observations per session automatically. You do not invoke it. It watches for decisions, bugfixes, discoveries, and problems, then appends them to the project's observation log. The most valuable observation types turned out to be **decisions** and **discoveries**. These are knowledge types impossible to reconstruct from code alone. "Why we chose A over B" and "API actually limits 100 req/min." Things that evaporate unless written down in the moment.
@@ -164,13 +168,49 @@ Honesty about failures. These cost real time and real tokens to discover.
 
 Zero dependencies. Works offline. Version-controllable. Readable by humans.
 
+```mermaid
+graph LR
+    subgraph "Vector DB approach"
+        V1[Your code] --> V2[MCP Server] --> V3[Qdrant/Pinecone] --> V4[Docker]
+        V4 --> V5["maintenance<br/>debugging<br/>migrations"]
+    end
+
+    subgraph "This approach"
+        M1[Your code] --> M2["Markdown files<br/>in ~/.claude/"]
+        M2 --> M3["done."]
+    end
+
+    style V1 fill:#1e1e2e,stroke:#f38ba8,color:#cdd6f4
+    style V2 fill:#1e1e2e,stroke:#f38ba8,color:#cdd6f4
+    style V3 fill:#1e1e2e,stroke:#f38ba8,color:#cdd6f4
+    style V4 fill:#1e1e2e,stroke:#f38ba8,color:#cdd6f4
+    style V5 fill:#1e1e2e,stroke:#f38ba8,color:#f38ba8
+    style M1 fill:#1e1e2e,stroke:#a6e3a1,color:#cdd6f4
+    style M2 fill:#1e1e2e,stroke:#a6e3a1,color:#cdd6f4
+    style M3 fill:#1e1e2e,stroke:#a6e3a1,color:#a6e3a1
+```
+
 A SQLite database would be faster to query. A vector store would have better semantic search. Both would require installation steps, maintenance, and debugging when they break. Markdown files in a git repo require nothing. They survive OS upgrades, editor changes, and the inevitable migration to the next AI tool.
 
 The non-dogmatic take: "One does not interfere with the other. There are no right tools and wrong tools. Only timely usage and excessive usage." If your project genuinely needs a vector store, use one. A big mistake is trying to use nothing and thinking you are smarter than everyone. Stack should match the task.
 
 ### Design Principles
 
-**Progressive disclosure.** Only load what is needed. MEMORY.md costs ~200 tokens every session. A project dossier costs ~800 tokens when you mention that project. Observation details load only when they match a search. With 100 observations across 10 projects, a search costs ~4,000 tokens instead of ~15,000.
+**Progressive disclosure.** Only load what is needed.
+
+```mermaid
+graph TD
+    A["MEMORY.md<br/><b>~200 tokens</b><br/>every session"] -->|project mentioned| B["project.md<br/><b>~800 tokens</b><br/>on demand"]
+    B -->|search query| C["observations Index<br/><b>~40 tokens/row</b><br/>scan titles only"]
+    C -->|match found| D["observations Details<br/><b>~150 tokens/row</b><br/>full context"]
+
+    style A fill:#1e1e2e,stroke:#a6e3a1,color:#a6e3a1
+    style B fill:#1e1e2e,stroke:#89b4fa,color:#89b4fa
+    style C fill:#1e1e2e,stroke:#f9e2af,color:#f9e2af
+    style D fill:#1e1e2e,stroke:#f38ba8,color:#f38ba8
+```
+
+100 observations across 10 projects: a search costs ~4,000 tokens. Without progressive disclosure: ~15,000 tokens. The difference compounds across sessions.
 
 **The system is opinionated.** Observations have types (decision, bugfix, feature, discovery, problem). History is append-only. Problems track resolution status. You can extend the types, you cannot remove the structure. Constraints make the data useful six months later.
 
@@ -397,6 +437,10 @@ Each of these tools made a deliberate set of tradeoffs. MCP-based systems get ti
 ## For AI Researchers
 
 If you work on agentic systems, memory architectures, or human-AI interaction, several findings from 1,169 sessions may be worth your attention.
+
+<p align="center">
+  <img src="docs/gifs/insight-research.svg" alt="Research Concept Mapping" width="640" />
+</p>
 
 **Progressive disclosure as manual RAG without a vector store.** The memory hierarchy (MEMORY.md > project dossiers > observation indices > observation details) implements retrieval-augmented generation through file structure alone. Token cost scales with query specificity, not corpus size. No embeddings, no similarity search, no infrastructure. The tradeoff is obvious: it requires human-designed structure. The benefit is equally obvious: zero failure modes from retrieval errors.
 
