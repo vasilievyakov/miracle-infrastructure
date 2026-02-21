@@ -5,7 +5,6 @@ description: |
   Determines stage, activates the right set, delivers specific recommendations with conflict resolution.
   Use when: (1) user says "/frameworks", "run through frameworks", "which principles apply here",
   (2) evaluating a project against engineering best practices, (3) need structured analysis by project stage.
-invocation: user
 ---
 
 # Frameworks: Project Stage Framework Library
