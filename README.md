@@ -24,15 +24,17 @@
 
 ## The Problem
 
-Claude Code forgets everything between sessions.
+Your AI agent is powerful. Also:
 
-You explain your project architecture on Monday. By Tuesday it asks what framework you use. You make a decision about JWT vs sessions on Wednesday. On Thursday, it proposes sessions again. You fix a race condition in token refresh. Next week, the same pattern shows up and nobody remembers the fix.
+- It **forgets** everything between sessions
+- It **decides alone**, missing what 4 other perspectives would catch
+- It **believes** its own confident-sounding hallucinations
+- It can't turn a **client call** into a proposal and prototype
+- It **drops** action items and unanswered questions from meetings
+- It ships code while you **burn out**, and nobody notices
+- Its own **tools break silently**, and nobody checks
 
-Without external memory, your agent re-derives conclusions you already settled. It proposes solutions you already rejected. It debates options you already chose between. Every session starts at zero.
-
-Miracle Infrastructure fixes that. Fifteen skills, seven packs, zero dependencies. Your agent remembers decisions, argues with itself before committing to architecture, verifies claims through multiple sources, and builds proposals from call transcripts.
-
-All of it is Markdown files. No servers. No databases. No Docker containers pretending to be simple.
+15 skills that fix all seven. Zero dependencies. Just Markdown.
 
 ## Install
 
@@ -321,9 +323,9 @@ Your agent checks its homework.
   <img src="docs/gifs/research.svg" alt="Research" width="640" />
 </p>
 
-**Research** does web search with source scoring, contradiction detection, and confidence breakdown.
+**Research** does web search with source scoring, contradiction detection, and confidence breakdown. Catches when vendor benchmarks contradict independent tests, before you base an architectural decision on marketing claims.
 
-**Triangulate** verifies claims through 3+ independent sources. Classifies each claim as fact, opinion, or prediction. Shows exactly where the confidence comes from.
+**Triangulate** verifies claims through 3+ independent sources. Classifies each claim as fact, opinion, or prediction. Shows exactly where the confidence comes from. Flags echo bias when sources share the same ecosystem.
 
 **Learned Lessons** keeps a knowledge base of solved problems. After you debug something with web search, it offers to record the solution. Next time a similar problem shows up, it checks the knowledge base first. Your agent stops googling the same error twice.
 
@@ -361,7 +363,7 @@ Nobody reads meeting transcripts twice. This skill reads them once and extracts 
 
 <img src="docs/gifs/action-items.svg" alt="Action Items" width="100%" />
 
-Handles .txt transcripts, chat exports (JSON/HTML), PDFs, raw text. Produces a prioritized checklist with assignees, deadlines, and source quotes.
+Handles .txt transcripts, chat exports (JSON/HTML), PDFs, raw text. Produces a prioritized checklist with assignees, deadlines, and source quotes. The hidden superpower: catches **unanswered questions** that everyone agreed were important and nobody followed up on.
 
 [Full docs &#8594;](packs/content/README.md)
 
@@ -378,7 +380,7 @@ A weekly review that looks at more than your commit count.
 
 <img src="docs/gifs/aqal-review.svg" alt="AQAL Review" width="100%" />
 
-Uses the AQAL integral model to evaluate progress across 4 quadrants (interior/exterior, individual/collective) and 5 development lines. Tracks trends over weeks. Tells you when you are shipping features at the cost of team health.
+Uses the AQAL integral model to evaluate progress across 4 quadrants (interior/exterior, individual/collective) and 5 development lines. Tracks trends over weeks. Catches the silent killer: IT quadrant climbing while WE quadrant stagnates. You ship code, team communication atrophies, and nobody sees it until it's too late.
 
 [Full docs &#8594;](packs/productivity/README.md)
 
