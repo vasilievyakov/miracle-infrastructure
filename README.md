@@ -1,8 +1,26 @@
-# Miracle Infrastructure
+<h1 align="center">Miracle Infrastructure</h1>
 
-14 skills for Claude Code that actually solve problems.
+<p align="center">
+  <em>15 skills for Claude Code that actually solve problems.<br>Zero dependencies. Just Markdown.</em>
+</p>
 
-Not another wrapper. Not another MCP server. Just Markdown files that make your agent remember things, think harder, and do research.
+<p align="center">
+  <a href="https://github.com/vasilievyakov/miracle-infrastructure/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT" />
+  </a>
+  <img src="https://img.shields.io/badge/Skills-15-8A2BE2?style=flat-square" alt="15 Skills" />
+  <img src="https://img.shields.io/badge/Packs-7-orange?style=flat-square" alt="7 Packs" />
+  <img src="https://img.shields.io/badge/Dependencies-0-brightgreen?style=flat-square" alt="Zero Dependencies" />
+  <img src="https://img.shields.io/badge/Sessions_Tested-1169+-informational?style=flat-square" alt="1169+ Sessions" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/github/stars/vasilievyakov/miracle-infrastructure?style=flat-square&label=Stars" alt="GitHub Stars" />
+  <img src="https://img.shields.io/github/forks/vasilievyakov/miracle-infrastructure?style=flat-square&label=Forks" alt="GitHub Forks" />
+  <img src="https://img.shields.io/github/last-commit/vasilievyakov/miracle-infrastructure?style=flat-square&label=Last%20Commit" alt="Last Commit" />
+</p>
+
+---
 
 ## The Problem
 
@@ -12,42 +30,56 @@ You make a decision about JWT vs sessions on Wednesday. On Thursday, it proposes
 
 You fix a bug. Next week, the same bug pattern shows up and nobody remembers the fix.
 
-## The Fix
-
-Seven packs of skills that give Claude Code capabilities it should have had from the start:
-
-| Pack | Skills | What it does |
-|------|--------|-------------|
-| **memory** | 5 skills, 3 rules | Your agent remembers yesterday, last week, and that bug from three months ago |
-| **thinking** | 3 skills | Five virtual experts argue about your project so you don't have to |
-| **research** | 3 skills | Web research with confidence scores, fact verification, knowledge base |
-| **business** | 1 skill | Call transcript to proposal + architecture + clickable prototype |
-| **content** | 1 skill | Extract tasks from transcripts, chats, documents |
-| **productivity** | 1 skill | Weekly integral review across 4 dimensions |
-| **meta** | 1 skill | Skills library health audit |
-
-## Install (2 minutes)
+## Install
 
 ```bash
 git clone https://github.com/vasilievyakov/miracle-infrastructure.git
-cd miracle-infrastructure
-bash install.sh
+cd miracle-infrastructure && bash install.sh
 ```
 
-The installer shows an interactive menu. Pick individual packs or install everything.
+> [!TIP]
+> The installer shows an interactive menu. Pick individual packs or install everything. Existing files are backed up before overwriting. Safe to re-run.
 
-Copies skill files to `~/.claude/skills/`, rules to `~/.claude/rules/`, and sets up the memory directory. Existing files are backed up before overwriting. Safe to re-run.
+**2 minutes. Zero dependencies.** No Docker, no database, no MCP server, no npm. Just Markdown and bash.
 
-**Dependencies: zero.** No Docker, no database, no MCP server, no npm install. Just Markdown files and a bash script.
+---
+
+## Contents
+
+- [Packs](#packs)
+  - [Memory](#memory) -- session persistence, typed observations
+  - [Thinking](#thinking) -- directors, frameworks, agent orchestrator
+  - [Research](#research) -- web research, triangulation, knowledge base
+  - [Business](#business) -- transcript to proposal + prototype
+  - [Content](#content) -- extract action items from text
+  - [Productivity](#productivity) -- weekly integral review
+  - [Meta](#meta) -- skills library health audit
+- [How It Compares](#how-it-compares)
+- [Architecture](#for-the-curious)
+- [License](#license)
+
+---
 
 ## Packs
+
+| | Pack | Skills | What it does |
+|:---:|------|--------|-------------|
+| :brain: | **[Memory](#memory)** | 5 skills + 3 rules | Your agent remembers yesterday, last week, and that bug from three months ago |
+| :bulb: | **[Thinking](#thinking)** | 3 skills | Five virtual experts argue about your project so you don't have to |
+| :mag: | **[Research](#research)** | 3 skills | Web research with confidence scores, fact verification, knowledge base |
+| :briefcase: | **[Business](#business)** | 1 skill | Call transcript to proposal + architecture + clickable prototype |
+| :clipboard: | **[Content](#content)** | 1 skill | Extract tasks from transcripts, chats, documents |
+| :bar_chart: | **[Productivity](#productivity)** | 1 skill | Weekly integral review across 4 dimensions |
+| :wrench: | **[Meta](#meta)** | 1 skill | Skills library health audit |
+
+---
 
 ### Memory
 
 Your agent remembers what happened yesterday. And last week. And that bug you fixed three months ago.
 
-5 skills: `session-save`, `search-memory`, `memory-health`, `memory-init`, `project-status`
-3 rules: `session-start`, `session-end`, `auto-observe`
+**Skills:** `session-save` `search-memory` `memory-health` `memory-init` `project-status`
+**Rules:** `session-start` `session-end` `auto-observe`
 
 How it works:
 
@@ -74,32 +106,61 @@ MEMORY.md (always loaded, ~200 tokens)
 
 With 100 observations across 10 projects, a search costs ~4,000 tokens instead of ~15,000. Your context window says thank you.
 
-[See packs/memory/README.md for full docs](packs/memory/README.md)
+> [!NOTE]
+> Start with `/memory-init` after installation. It auto-detects your projects and sets up the directory structure.
+
+[Full documentation &#8594;](packs/memory/README.md)
+
+---
 
 ### Thinking
 
 Five virtual experts argue about your project. Each one sees everything (product, engineering, UX, business, safety) through their unique lens.
 
-3 skills: `directors`, `frameworks`, `orchestrate`
+**Skills:** `directors` `frameworks` `orchestrate`
 
-**Directors** launches 5 agents in parallel:
-- Mira Murati (product, rapid iteration)
-- Ilya Sutskever (first principles, long-term)
-- Boris Cherny (DX, verification loops)
-- Andrej Karpathy (1.0/2.0/3.0 stack)
-- Jony Ive (care, simplicity)
+<details>
+<summary><strong>Directors</strong> -- 5 agents evaluate your project in parallel</summary>
 
-**Frameworks** activates the right subset of 50 frameworks based on your project stage. Not all 50 at once. That would be insane.
+| Director | Lens |
+|----------|------|
+| **Mira Murati** | Product, rapid iteration, collaborative AI |
+| **Ilya Sutskever** | First principles, generalization, long-term |
+| **Boris Cherny** | DX, verification loops, institutional memory |
+| **Andrej Karpathy** | 1.0/2.0/3.0 stack, verifiability, agent-friendly |
+| **Jony Ive** | Care, emotional resonance, simplicity |
 
-**Orchestrate** picks 2-4 agents from a library of 12 and runs them in parallel. Researcher + Triangulator for fact-finding. Developer + Tester for implementation. Debugger + Developer for fixing things.
+Produces a synthesis with consensus, disagreements, top 3 critical questions, and action items.
 
-[See packs/thinking/README.md for full docs](packs/thinking/README.md)
+</details>
+
+<details>
+<summary><strong>Frameworks</strong> -- 50 frameworks, activated by project stage</summary>
+
+Determines your project stage (ideation, architecture, MVP, growth, polish, safety), activates the relevant subset of 50 frameworks, applies each one specifically, and surfaces conflicts with resolution rules.
+
+Not all 50 at once. That would be insane.
+
+</details>
+
+<details>
+<summary><strong>Orchestrate</strong> -- 2-4 agents in parallel</summary>
+
+Picks from a library of 12 specialized agents based on task keywords. Researcher + Triangulator for fact-finding. Developer + Tester for implementation. Debugger + Developer for fixing things.
+
+Runs them in parallel, synthesizes results into a single report.
+
+</details>
+
+[Full documentation &#8594;](packs/thinking/README.md)
+
+---
 
 ### Research
 
 Your agent checks its homework.
 
-3 skills: `researching-web`, `triangulate`, `learned-lessons`
+**Skills:** `researching-web` `triangulate` `learned-lessons`
 
 **Research** does web search with source scoring, contradiction detection, and confidence breakdown.
 
@@ -107,47 +168,80 @@ Your agent checks its homework.
 
 **Learned Lessons** keeps a knowledge base of solved problems. After you debug something with web search, it offers to record the solution. Next time a similar problem shows up, it checks the knowledge base first.
 
-[See packs/research/README.md for full docs](packs/research/README.md)
+[Full documentation &#8594;](packs/research/README.md)
+
+---
 
 ### Business
 
 From "we had a call" to "here is the proposal, architecture, and clickable prototype."
 
-1 skill: `transcript-to-proposal`
+**Skill:** `transcript-to-proposal`
 
 Give it a product description and a call transcript. It extracts pains, maps them to features, generates a proposal using the client's own words, builds system architecture, and creates an interactive HTML prototype. With checkpoints so you review before it continues.
 
-[See packs/business/README.md for full docs](packs/business/README.md)
+[Full documentation &#8594;](packs/business/README.md)
+
+---
 
 ### Content
 
 Nobody reads meeting transcripts twice. This skill reads them once and extracts everything actionable.
 
-1 skill: `action-items`
+**Skill:** `action-items`
 
 Handles .txt transcripts, chat exports (JSON/HTML), PDFs, raw text. Produces a prioritized checklist with assignees, deadlines, and source quotes.
+
+[Full documentation &#8594;](packs/content/README.md)
+
+---
 
 ### Productivity
 
 A weekly review that looks at more than your commit count.
 
-1 skill: `aqal-review`
+**Skill:** `aqal-review`
 
 Uses the AQAL integral model to evaluate progress across 4 quadrants (interior/exterior, individual/collective) and 5 development lines. Tracks trends over weeks.
+
+[Full documentation &#8594;](packs/productivity/README.md)
+
+---
 
 ### Meta
 
 Your skills library has a doctor.
 
-1 skill: `skill-checkup`
+**Skill:** `skill-checkup`
 
 Validates file references, frontmatter, trigger uniqueness, and dependency drift. Reports problems. Does not auto-fix. A calm doctor, not a helicopter parent.
 
+[Full documentation &#8594;](packs/meta/README.md)
+
+---
+
+## How It Compares
+
+| Feature | Miracle Infrastructure | memory-bank | claudemem |
+|---------|:---------------------:|:-----------:|:---------:|
+| Zero dependencies | :white_check_mark: | :x: MCP | :x: MCP |
+| Setup under 2 min | :white_check_mark: | :x: | :white_check_mark: |
+| Token efficient | :white_check_mark: Progressive disclosure | :x: | :x: |
+| Typed observations | :white_check_mark: 5 types + custom | :x: | :x: |
+| Self-validating | :white_check_mark: Integrity tests | :x: | :x: |
+| Decision making | :white_check_mark: Directors + Frameworks | :x: | :x: |
+| Research tools | :white_check_mark: 3 skills | :x: | :x: |
+| Works offline | :white_check_mark: | :x: | :x: |
+
+> [!IMPORTANT]
+> This comparison reflects our understanding of these tools as of February 2026. Features may have changed. If you maintain one of these projects and something is inaccurate, please open an issue.
+
+---
+
 ## For the Curious
 
-[See ARCHITECTURE.md for full system diagrams](ARCHITECTURE.md)
-
-### How progressive disclosure saves tokens
+<details>
+<summary><strong>How progressive disclosure saves tokens</strong></summary>
 
 | What loads | When | Cost |
 |-----------|------|------|
@@ -158,28 +252,33 @@ Validates file references, frontmatter, trigger uniqueness, and dependency drift
 
 100 observations, searching by type: ~4,000 tokens loaded. Without progressive disclosure: ~15,000 tokens. The difference compounds across sessions.
 
-### Extension points
+</details>
+
+<details>
+<summary><strong>Extension points</strong></summary>
 
 - **Add observation types**: edit `memory-config.json`
-- **Add directors**: follow the system prompt pattern
+- **Add directors**: follow the system prompt pattern in `directors/SKILL.md`
 - **Add frameworks**: add to any category, assign to stages
 - **Add agents**: edit `agents-library.json`
 - **Custom dossier sections**: add any `## Section` to a dossier file
 
-[See docs/customization.md for full extension guide](docs/customization.md)
+[Full extension guide &#8594;](docs/customization.md)
 
-## How it compares
+</details>
 
-| Feature | Miracle Infrastructure | Durafen/Qdrant | memory-bank | claudemem |
-|---------|----------------------|----------------|-------------|-----------|
-| Dependencies | Zero | MCP + Qdrant + Docker | MCP | MCP |
-| Setup time | 2 minutes | 30+ minutes | 10 minutes | 5 minutes |
-| Token efficient | Yes (progressive disclosure) | No | No | No |
-| Typed observations | Yes (5 types + custom) | No | No | No |
-| Self-validating | Yes (integrity tests) | No | No | No |
-| Decision making | Yes (directors, frameworks) | No | No | No |
-| Research tools | Yes (3 skills) | No | No | No |
-| Works offline | Yes | No (needs Qdrant) | No (needs MCP) | No |
+<details>
+<summary><strong>System architecture</strong></summary>
+
+[See ARCHITECTURE.md for full system diagrams](ARCHITECTURE.md), including:
+- Session lifecycle diagram
+- Memory hierarchy with token costs
+- Data flow between components
+- File structure reference
+
+</details>
+
+---
 
 ## Background
 
@@ -190,3 +289,9 @@ The name "Miracle Infrastructure" comes from the original project name. The mira
 ## License
 
 MIT. Do whatever you want with it.
+
+<p align="center">
+  <a href="https://github.com/vasilievyakov/miracle-infrastructure">
+    <img src="https://img.shields.io/badge/Get_Started-bash_install.sh-4F46E5?style=for-the-badge" alt="Get Started" />
+  </a>
+</p>

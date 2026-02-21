@@ -1,11 +1,11 @@
 ---
 name: directors
 description: |
-  Virtual board of directors. Five expert lenses for evaluating a project.
-  Launches 5 agents in parallel (Murati, Sutskever, Cherny, Karpathy, Ive),
-  each evaluates the full project through their unique lens.
-  Triggers: "/directors project or idea", "call the board of directors",
-  "what would directors say about X".
+  Virtual board of directors. Five expert lenses evaluate a project in parallel
+  (Murati, Sutskever, Cherny, Karpathy, Ive), each through their unique lens.
+  Use when: (1) evaluating a project idea or architecture, (2) user says
+  "/directors", "call the board", "what would directors say about X",
+  (3) need multi-perspective review of a decision or strategy.
 invocation: user
 ---
 

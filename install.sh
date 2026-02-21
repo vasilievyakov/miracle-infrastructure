@@ -23,7 +23,7 @@ fi
 
 echo ""
 echo -e "${BOLD}Welcome to Miracle Infrastructure${NC}"
-echo "14 skills for Claude Code that solve actual problems."
+echo "15 skills for Claude Code that solve actual problems."
 echo ""
 echo "Available packs:"
 echo ""

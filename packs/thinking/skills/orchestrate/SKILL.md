@@ -1,6 +1,12 @@
 ---
 name: orchestrate
-description: "Agent orchestrator. Analyzes tasks and launches 2-4 specialized agents in parallel, then synthesizes results. Invoke via '/orchestrate task' or 'run orchestrator: task'. 12 agents built from analysis of real usage patterns."
+description: |
+  Agent orchestrator. Analyzes tasks and launches 2-4 specialized agents in parallel,
+  then synthesizes results. 12 agents built from analysis of real usage patterns.
+  Use when: (1) user says "/orchestrate", "run orchestrator", (2) task benefits from
+  parallel analysis by multiple specialists, (3) complex task needs research + implementation
+  or analysis + verification simultaneously.
+invocation: user
 ---
 
 # Orchestrate

@@ -30,7 +30,7 @@ After successfully using web search or MCP tools to solve a technical problem:
    Record this lesson to the knowledge base? (yes/no)
    ```
 
-2. If yes, add an entry to `references/knowledge-base.md`:
+2. If yes, add an entry to the knowledge base file (default: `~/.claude/knowledge-base.md`):
    ```markdown
    ## [YYYY-MM-DD] Brief title
 
@@ -49,7 +49,7 @@ After successfully using web search or MCP tools to solve a technical problem:
 
 When systematic-debugging activates or during explicit debugging:
 
-1. Read `references/knowledge-base.md` first
+1. Read `~/.claude/knowledge-base.md` first
 2. Search for similar problems by keywords and tags
 3. If relevant match found, show the user
 4. If nothing found, continue normal debugging
@@ -98,5 +98,6 @@ Claude: Recorded with tags #python #asyncio #requests
 
 ## Knowledge Base
 
-The file `references/knowledge-base.md` contains all accumulated lessons.
+The file `~/.claude/knowledge-base.md` contains all accumulated lessons.
 Read this file during debugging to check for known solutions.
+Create it on first use if it does not exist.

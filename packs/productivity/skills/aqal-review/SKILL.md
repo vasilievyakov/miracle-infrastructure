@@ -1,6 +1,10 @@
 ---
 name: aqal-review
-description: "Weekly development review through the AQAL integral model. Evaluates progress across 4 quadrants (I/WE/IT/ITS) and 5 development lines. Run on Fridays via '/aqal-review'."
+description: |
+  Weekly development review through the AQAL integral model. Evaluates progress
+  across 4 quadrants (I/WE/IT/ITS) and 5 development lines.
+  Use when: (1) it is Friday and user wants a weekly review, (2) user says "/aqal-review",
+  (3) user wants to assess progress holistically across personal and professional dimensions.
 invocation: user
 ---
 

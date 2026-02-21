@@ -1,6 +1,11 @@
 ---
 name: frameworks
-description: "Library of 50 engineering, product, design, and thinking frameworks organized by project stage. Determines stage, activates the right set of frameworks, delivers specific recommendations with conflict resolution. Invoke via '/frameworks project' or 'run through frameworks', 'which principles apply here'."
+description: |
+  Library of 50 engineering, product, design, and thinking frameworks organized by project stage.
+  Determines stage, activates the right set, delivers specific recommendations with conflict resolution.
+  Use when: (1) user says "/frameworks", "run through frameworks", "which principles apply here",
+  (2) evaluating a project against engineering best practices, (3) need structured analysis by project stage.
+invocation: user
 ---
 
 # Frameworks: Project Stage Framework Library
