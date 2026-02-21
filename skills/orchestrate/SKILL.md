@@ -6,7 +6,6 @@ description: |
   Use when: (1) user says "/orchestrate", "run orchestrator", (2) task benefits from
   parallel analysis by multiple specialists, (3) complex task needs research + implementation
   or analysis + verification simultaneously.
-invocation: user
 ---
 
 # Orchestrate
