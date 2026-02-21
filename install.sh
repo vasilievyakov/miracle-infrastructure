@@ -23,7 +23,7 @@ fi
 
 echo ""
 echo -e "${BOLD}Welcome to Miracle Infrastructure${NC}"
-echo "16 skills for Claude Code that solve actual problems."
+echo "17 skills for Claude Code that solve actual problems."
 echo ""
 echo "Available packs:"
 echo ""
@@ -33,7 +33,7 @@ echo -e "  ${BLUE}[3]${NC} research     - Research and verification (3 skills)"
 echo -e "  ${BLUE}[4]${NC} business     - Business workflows (1 skill)"
 echo -e "  ${BLUE}[5]${NC} content      - Content processing (1 skill)"
 echo -e "  ${BLUE}[6]${NC} productivity - Personal productivity (1 skill)"
-echo -e "  ${BLUE}[7]${NC} meta         - Tooling (1 skill)"
+echo -e "  ${BLUE}[7]${NC} meta         - Tooling & security (2 skills)"
 echo -e "  ${BLUE}[A]${NC} All packs"
 echo ""
 read -rp "Select packs to install (e.g., 1 3 7 or A for all): " SELECTION
@@ -104,6 +104,15 @@ install_skill() {
         fname="$(basename "$f")"
         [ "$fname" = "SKILL.md" ] && continue
         cp "$f" "$dst/$fname"
+    done
+
+    # Copy subdirectories (like references/) if they exist
+    for d in "$src"/*/; do
+        [ -d "$d" ] || continue
+        local dname
+        dname="$(basename "$d")"
+        mkdir -p "$dst/$dname"
+        cp "$d"* "$dst/$dname/" 2>/dev/null || true
     done
 
     echo -e "  ${GREEN}[ok]${NC} $skill"
@@ -262,6 +271,7 @@ fi
 if [ "$INSTALL_META" = true ]; then
     echo -e "${BLUE}Meta pack:${NC}"
     install_skill "meta" "skill-checkup"
+    install_skill "meta" "miracle-security"
     echo ""
 fi
 
