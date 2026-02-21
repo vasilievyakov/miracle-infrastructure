@@ -85,11 +85,11 @@ How it works:
 
 ```mermaid
 graph LR
-    A[Session Start] --> B[Work]
-    B --> C[Session End]
-    A --> D[Load dossier\nfrom memory]
-    B --> E[Capture events\ntyped observations]
-    C --> F[Prompt\n/session-save]
+    A[Session Start] --> B[Load dossier\nfrom memory]
+    B --> C[Work]
+    C --> D[Session End]
+    C -.-> E[Capture events\ntyped observations]
+    D --> F[Prompt\n/session-save]
 ```
 
 The memory hierarchy uses progressive disclosure to stay token-efficient:
