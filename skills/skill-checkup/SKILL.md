@@ -2,7 +2,6 @@
 name: skill-checkup
 description: "Use when you need to validate the health of your Claude Code skills library. Checks for broken file references, missing dependencies, frontmatter issues, duplicate triggers, and dependency drift. Runs structural and semantic audits across all installed skills. Invoke via '/checkup', '/review-skills', or 'check my skills'."
 argument-hint: "[--quick | --full | skill-name]"
-invocation: user
 ---
 
 # /checkup: Skills Library Health Check
