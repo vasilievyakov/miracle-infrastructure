@@ -4,7 +4,6 @@ description: |
   Saves session context to project memory. Run at end of work or when switching projects.
   Use when: (1) Ending a work session, (2) Switching projects, (3) Before a long break.
   Triggers: "/session-save", "save session", "remember context".
-invocation: user
 ---
 
 # Session Save
