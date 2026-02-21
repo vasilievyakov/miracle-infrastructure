@@ -4,7 +4,6 @@ description: |
   First-run setup wizard for the memory system. Creates directory structure, config, and starter files.
   Use when: (1) First time using Miracle Infrastructure, (2) "Initialize memory", (3) Setting up on new machine.
   Triggers: "/memory-init", "initialize memory", "setup memory".
-invocation: user
 ---
 
 # Memory Init - Setup Wizard
