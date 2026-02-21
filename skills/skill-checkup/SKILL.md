@@ -74,7 +74,16 @@ Verify the main file is named exactly `SKILL.md`. If wrong: `[!]`.
 #### Level 1: Structural Checks
 
 **5. Frontmatter is valid.**
-Verify: YAML frontmatter block, `name` field, `description` field, at least one `##` heading. If anything missing: `[!]`.
+Verify required elements:
+- YAML frontmatter block (between `---` markers)
+- `name` field present and non-empty
+- `description` field present and non-empty
+- At least one `##` section heading in the body
+If anything is missing — `[!]`.
+
+Verify no invalid fields. The only valid frontmatter fields are:
+`name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `context`, `agent`, `hooks`.
+Any other field (e.g. `invocation`, `license`, `version`) — `[!]` with message: "unknown frontmatter field '{field}' — will be ignored by Claude Code".
 
 **6. Trigger uniqueness.**
 Collect all triggers from all skills. If two skills share the same trigger: `[!]` for both.
