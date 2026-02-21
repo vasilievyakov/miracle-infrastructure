@@ -27,7 +27,7 @@
 Your AI agent is powerful. Also:
 
 - It **forgets** everything between sessions
-- It **decides alone**, missing what 4 other perspectives would catch
+- It **decides alone**, missing what other perspectives would catch
 - It **believes** its own confident-sounding hallucinations
 - It can't turn a **client call** into a proposal and prototype
 - It **drops** action items and unanswered questions from meetings
@@ -147,7 +147,7 @@ graph TD
 
 `/search-memory` gets used 2 to 3 times per week. The typical query is something like "what did we decide about auth?" The memory system prevented the same JWT-vs-sessions debate from happening 4 times. Four times the agent would have proposed a solution that had already been evaluated and rejected. External declarative memory prevents re-derivation of previously settled conclusions. That alone justified building all of this.
 
-`/directors` gets called for any project above $5k or any architectural decision. Five virtual experts arguing is cheaper than one real regret.
+`/directors` gets called for any project above $5k or any architectural decision. A board of experts arguing is cheaper than one real regret.
 
 `/frameworks` when starting a new project phase. It picks the relevant subset of 50 frameworks based on your stage. Not all 50 at once. That would be insane.
 
@@ -166,7 +166,7 @@ graph TD
 
 **Adding all possible skills without deliberation produces noise.** More tools does not mean more capability. It means more context consumed, more busywork, more tokens burned on irrelevant processing. "Agents are precision instruments for jeweler's tasks. When you unleash all agents at once, you get work for work's sake and tokens burned inefficiently."
 
-**Mass agent launches are wasteful.** Five directors evaluating your grocery list is a waste. The car metaphor applies here: you do not floor the accelerator in a parking lot.
+**Mass agent launches are wasteful.** A full board evaluating your grocery list is a waste. The car metaphor applies here: you do not floor the accelerator in a parking lot.
 
 </details>
 
@@ -210,7 +210,7 @@ The non-dogmatic take: "One does not interfere with the other. There are no righ
 | | Pack | Skills | What it does |
 |:---:|------|--------|-------------|
 | :brain: | **[Memory](#memory)** | 5 skills + 3 rules | Your agent remembers yesterday, last week, and that bug from three months ago |
-| :bulb: | **[Thinking](#thinking)** | 3 skills | Five virtual experts argue about your project so you don't have to |
+| :bulb: | **[Thinking](#thinking)** | 3 skills | Virtual experts argue about your project so you don't have to |
 | :mag: | **[Research](#research)** | 3 skills | Web research with confidence scores, fact verification, knowledge base |
 | :briefcase: | **[Business](#business)** | 1 skill | Call transcript to proposal + architecture + clickable prototype |
 | :clipboard: | **[Content](#content)** | 1 skill | Extract tasks from transcripts, chats, documents |
@@ -266,7 +266,7 @@ With 100 observations across 10 projects, a search costs ~4,000 tokens instead o
 
 ### Thinking
 
-Five virtual experts argue about your project. Each one sees everything through their unique lens: product, engineering, UX, business, safety.
+Virtual experts argue about your project. Each one sees everything through their unique lens: product, engineering, architecture, design, safety.
 
 > They frequently disagree. No single "best" director. The one who catches what others miss changes every time. The value is in the ensemble, not any single expert.
 
@@ -277,7 +277,7 @@ Five virtual experts argue about your project. Each one sees everything through 
 </p>
 
 <details>
-<summary><strong>Directors</strong> -- 5 agents evaluate your project in parallel</summary>
+<summary><strong>Directors</strong> -- agents evaluate your project in parallel</summary>
 
 | Director | Lens |
 |----------|------|
@@ -303,7 +303,7 @@ Not all 50 at once. That would be insane.
 <details>
 <summary><strong>Orchestrate</strong> -- 2-4 agents in parallel</summary>
 
-Picks from a library of 12 specialized agents based on task keywords. Researcher + Triangulator for fact-finding. Developer + Tester for implementation. Debugger + Developer for fixing things.
+Picks from a library of specialized agents based on task keywords. Researcher + Triangulator for fact-finding. Developer + Tester for implementation. Debugger + Developer for fixing things.
 
 Runs them in parallel, synthesizes results into a single report.
 
