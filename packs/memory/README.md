@@ -8,9 +8,21 @@ Claude Code forgets everything between sessions. This pack makes it remember.
 
 ## The Idea
 
-You explain your project architecture on Monday. On Tuesday, Claude asks what framework you use. Again. On Wednesday, you have the same JWT-vs-sessions debate for the fourth time.
+You explain your project architecture on Monday. On Tuesday, Claude asks what framework you use. Again. On Wednesday, you have the same JWT-vs-sessions debate for the fourth time. This is not a minor annoyance. It is a fundamental problem.
+
+Memory changes the agent. Not incrementally. Fundamentally. An agent without memory proposes solutions you already rejected, asks questions you already answered, and rediscovers problems you already solved. An agent with memory loads the dossier, reads that you chose JWT in week two and why, and moves on to something useful.
 
 The memory pack is a file-based memory system that loads context automatically, captures events as they happen, and saves everything when you're done. No databases. No external services. Just markdown files and a few rules that know when to read them.
+
+### Field Notes (1169 sessions, 10 projects, 6 months)
+
+> "The system doesn't creak. The operator does."
+
+The human is the bottleneck, not the tooling. You have limited context. You forget what you decided three weeks ago and why. The memory system exists because humans are unreliable narrators of their own project history.
+
+The most valuable observation types turned out to be **decision** and **discovery**. These record knowledge that is impossible to reconstruct from code alone. Code shows you *what* was built. It never shows you *why option A won over option B*. That reasoning evaporates unless someone writes it down in the moment.
+
+The rules layer is what makes the agent proactive instead of passive. `auto-observe` captures events without any command. `session-start` loads context the second you mention a project name. `session-end` reminds you to save before walking away. You stop being the person who has to remember everything, because the system handles it.
 
 ## What's Inside
 
@@ -91,6 +103,8 @@ Events get captured as they happen. Five types cover everything worth rememberin
 | `discovery` | Unexpected fact learned | "API limits 100 req/min" |
 | `problem` | Issue found, not yet resolved | "Memory leaks above 1k records" |
 
+In practice, `decision` and `discovery` carry the most long-term value. Bugfixes and features are recoverable from git history. The reasoning behind a technology choice is not recoverable from anywhere once it leaves your head.
+
 Custom types can be added in `memory-config.json`. Most people never need to.
 
 ### Config-driven project detection
@@ -133,7 +147,9 @@ The `session-start` rule reads this config to match user input to the right doss
 
 `/session-save` runs at the end of roughly 70% of sessions. The other 30% are quick question-and-answer exchanges that don't produce anything worth remembering.
 
-The most valuable outcome so far: preventing the same JWT-vs-sessions debate from happening four separate times across two weeks. The dossier had the decision, the reasoning, and the tradeoffs. Session loaded it. Debate prevented. Everyone moved on.
+The single most valuable outcome after 6 months: preventing the same JWT-vs-sessions debate from happening four separate times across two weeks. The dossier had the decision, the reasoning, and the tradeoffs. Session loaded it. Debate prevented. Everyone moved on. Multiply that by every architectural decision across 10 projects, and the time savings stop being theoretical.
+
+The "why we chose A over B" pattern is surprisingly common. It shows up in framework selection, API design, database choices, deployment strategies. Every one of these decisions has a shelf life of about two weeks in human memory before the reasoning gets fuzzy. The dossier keeps it sharp.
 
 Search gets used less often, maybe once or twice a week. Typical query: "what was that rate limiting issue we hit in March?" The progressive disclosure system means you get the answer in ~4,000 tokens, not a dump of every observation ever recorded.
 

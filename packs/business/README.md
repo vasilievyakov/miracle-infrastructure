@@ -10,6 +10,14 @@ From "we had a call" to "here's the proposal, architecture, and clickable protot
 
 You have a 47-minute recording of a client call. Somewhere in those 47 minutes are pain points, priorities, feature requests, and half-promises. You could re-listen, take notes, and spend a few hours assembling deliverables. Or you could feed the transcript to `/proposal` and get a commercial proposal, system architecture, and interactive HTML prototype in about 20 minutes. The prototype uses the client's own data. Their names, their metrics, their regions.
 
+A clickable prototype with the client's actual data leaves an unforgettable impression. Clients expect a document. They get a working thing with their numbers in it. That changes the conversation from "what would this look like" to "when can we start."
+
+### Field Notes (dozens of real client engagements)
+
+The key insight from extended use: we often look through our own focus and miss what the client is really trying to say. LLMs understand language patterns well enough to catch what you missed. A client says "it would be nice if..." three separate times about the same feature while you're busy thinking about the architecture. The skill catches that repetition and surfaces it as a trigger pain. You might have filed it under "nice to have."
+
+If you understand your client, you know what to sell. This creates mutual value, not just a closed deal. The skill is built around that principle: listen first, classify accurately, propose honestly.
+
 ## What's Inside
 
 ### Skills (1)
@@ -53,7 +61,7 @@ OUTPUT GENERATION
   proposal.md + architecture.md + prototype.html
 ```
 
-The checkpoints exist because pain classification is subjective. What sounds like a trigger pain to the AI might be a latent concern the client mentioned once in passing. You know the client. The skill doesn't.
+The checkpoints exist because pain classification is subjective. What sounds like a trigger pain to the AI might be a latent concern the client mentioned once in passing. You know the client. The skill doesn't. This is a deliberate design choice, not a limitation.
 
 ### Output Files
 
@@ -86,11 +94,15 @@ The prototype focuses on the trigger pain. Whatever hurts most gets the best-loo
 
 ## Real Usage
 
+Used dozens of times on real clients over 6 months.
+
 The typical flow: 47-minute client call recorded on Monday. Transcript uploaded Tuesday morning. `/proposal` run at 10am. By 10:20, three deliverables ready for review. Some light editing of the proposal language (the AI tends to be more formal than necessary). Prototype sent to client by noon.
 
-The prototype consistently gets the strongest reaction. Clients expect a document. They get a clickable thing with their own data in it. That changes the conversation from "what would this look like" to "when can we start."
+The prototype consistently gets the strongest reaction. Not the proposal document, not the architecture diagram. The clickable thing with their data in it. Every time.
 
-Pain classification accuracy sits around 85%. The remaining 15% is caught at Checkpoint 1. This is why the checkpoints exist.
+Pain classification accuracy sits around 85%. The remaining 15% is caught at Checkpoint 1. This is exactly why the checkpoints exist. Pain classification is subjective, and "subjective" means the person who was on the call should have final say, not the algorithm.
+
+The language pattern detection has become the quiet superpower of this skill. Clients repeat themselves when something matters. They circle back to the same topic from different angles. The skill picks up on these patterns better than a human taking notes in real-time, because the human is busy formulating responses while the client is still talking.
 
 ## Extension Points
 

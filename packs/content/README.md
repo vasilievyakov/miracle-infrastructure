@@ -12,6 +12,12 @@ You have a wall of text. A meeting transcript, a Telegram chat export, a PDF fro
 
 The transcript-to-checklist pipeline saves about 2 hours per meeting. More for the ones with 12 participants who all talk over each other.
 
+### Field Notes (4-5 uses per week, 6 months)
+
+This skill runs after every meeting that produces a transcript. That is 4-5 times per week, every week, for six months straight. It is the most frequently used skill in the entire system by a wide margin.
+
+The "Unanswered Questions" section turned out to be unexpectedly valuable. It was originally a minor feature, an afterthought. In practice, it catches the things that fall through the cracks during every meeting: questions that were asked, acknowledged, and never actually answered. In a 12-person call, this happens more often than anyone wants to admit. Someone asks about the budget. The lead says "good question." The conversation moves to the next topic. Nobody notices. The skill notices.
+
 ## What's Inside
 
 ### Skills (1)
@@ -91,11 +97,11 @@ Every task includes a quote from the source. So when someone says "I never said 
 
 ## Real Usage
 
-Gets used after every meeting that produces a transcript. That's roughly 4-5 times per week. The P0/P1 items go into the task tracker immediately. The P3 items sit in the output file and occasionally turn out to have been important after all.
+Gets used after every meeting that produces a transcript. That's roughly 4-5 times per week, making it the workhorse of the entire skills library. The P0/P1 items go into the task tracker immediately. The P3 items sit in the output file and occasionally turn out to have been important after all.
 
-The "Unanswered Questions" section is unexpectedly valuable. It catches the things that fell through the cracks during the meeting. Questions that were asked, acknowledged, and never actually answered. In a 12-person call, this happens more often than anyone wants to admit.
+The "Unanswered Questions" section has earned its place as a first-class feature. Six months of use proved it catches a consistent pattern: someone raises a real concern, the group verbally acknowledges it, the conversation moves on, and the concern never gets addressed. This is not an edge case. It is the default behavior of meetings with more than 6 people. The skill makes the pattern visible, which is the first step to fixing it.
 
-Accuracy on explicit commitments is close to 100%. Implicit task detection is around 80%. The 20% it misses tends to be very subtle implications that arguably weren't tasks at all.
+Accuracy on explicit commitments is close to 100%. Implicit task detection is around 80%. The 20% it misses tends to be very subtle implications that arguably weren't tasks at all. The false positive rate matters more here. A missed task is bad. A hallucinated task that wastes someone's afternoon is worse. The skill errs on the side of under-extraction for implicit items.
 
 ## Extension Points
 

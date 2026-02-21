@@ -10,6 +10,8 @@ Your agent checks its homework. Three tools for finding, verifying, and never se
 
 Claude Code can search the web. That's the easy part. The hard part is knowing whether the answer is any good. These skills add structure: confidence scores, source hierarchies, contradiction detection, claim classification, and a persistent knowledge base so solved problems stay solved.
 
+The operating principle is simple: trust, then verify. Or just verify.
+
 ## What's Inside
 
 ### Skills (3)
@@ -66,6 +68,12 @@ Not all sources are equal. The skill ranks them:
 
 When two sources contradict each other, tier matters. The higher-tier source gets the benefit of the doubt, with the contradiction flagged in the output.
 
+### Field Notes: Contradiction Detection
+
+Contradiction detection turned out to be surprisingly valuable in practice. Official benchmarks vs. independent benchmarks often disagree. A library claims "1M requests per second on a single core." Three independent tests say 200K. The skill catches this and flags it instead of quietly picking the more impressive number.
+
+This is the core insight: the internet is full of confident, well-written claims that happen to be wrong. The skill does not assume any source is telling the truth. It cross-references and reports the disagreements.
+
 <p align="center">
   <img src="../../docs/gifs/triangulate.svg" alt="triangulate demo" width="640" />
 </p>
@@ -99,7 +107,7 @@ The "never search twice" system. A knowledge base that grows from solved problem
 2. During future debugging, it checks the knowledge base first
 3. Each lesson stores: problem description, symptoms, solution, tags
 
-The knowledge base lives in your memory directory. It persists across sessions. Six months from now, when you hit the same CORS issue, the answer is already there. No web search needed.
+The knowledge base lives in your memory directory. It persists across sessions. Six months from now, when you hit the same CORS issue, the answer is already there. No web search needed. The agent stops googling the same error twice. That sounds trivial until you realize how much time gets burned on re-discovering solutions to problems you already solved.
 
 ## Quick Start
 
@@ -111,11 +119,11 @@ The knowledge base lives in your memory directory. It persists across sessions. 
 
 ## Real Usage
 
-`/triangulate` gets invoked anytime something sounds too good. "This library handles 1M requests per second on a single core." Really? Three independent sources or it didn't happen. The bias and echo flags have caught circular evidence chains that would have wasted days.
+`/triangulate` gets invoked anytime something sounds too good. "This library handles 1M requests per second on a single core." Really? Three independent sources or it didn't happen. The bias and echo flags have caught circular evidence chains that would have wasted days. The pattern is consistent: vendor benchmarks are optimistic, community benchmarks are closer to reality, and the skill makes that gap visible.
 
 `/research` replaced most manual Googling for technical questions. The confidence breakdown is the key feature. A 40% confidence answer with good source diversity is often more useful than a 90% confidence answer from a single blog post, because at least you know what you don't know.
 
-`/til` has about 30 entries after four months. That sounds small. It has prevented roughly 30 identical web searches. The CORS lesson alone has been retrieved five times.
+`/til` has about 30 entries after four months. That sounds small. It has prevented roughly 30 identical web searches. The CORS lesson alone has been retrieved five times. The value compounds: every recorded lesson is a future search that never happens.
 
 ## Extension Points
 

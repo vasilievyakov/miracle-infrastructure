@@ -12,6 +12,8 @@ As your skills library grows past a handful of files, things drift. A skill refe
 
 This pack runs structural audits. It reads every skill, rule, and supporting file, validates their relationships, and reports what needs attention. Healthy skills produce no output. Only problems appear.
 
+The philosophy: apply, reflect, and when you have a good understanding of your infrastructure, start trusting it. The meta pack is the "reflect" step.
+
 ## What's Inside
 
 ### Skills (1)
@@ -77,6 +79,14 @@ Checking 48 skills, 4 rules, 12 supporting files...
 4 issues: 2 broken, 1 attention, 1 suggestion
 ```
 
+### Field Notes (4 months of regular audits)
+
+Trigger collision detection caught **5 conflicts in 4 months**. Two skills responding to the same command produces unpredictable behavior because the one that fires depends on loading order. Not the kind of debugging you want to do at 2am. Not the kind of debugging you want to do at any hour, really.
+
+The Level 2 duplicate detection found **2 functionally identical skills with different names**. One was an early version that never got deleted. Cleanup was trivial once the overlap was visible. Without the semantic scan, these duplicates would have lived forever, silently consuming tokens and causing confusion about which version was "real."
+
+The most common issue caught across all runs: broken file references. You rename a config file, forget to update the three skills that reference it, and nothing breaks immediately. The skill that needed that config just silently produces worse output. `/checkup` finds it before you notice the degradation.
+
 ## Quick Start
 
 1. Install the pack
@@ -89,11 +99,9 @@ Checking 48 skills, 4 rules, 12 supporting files...
 
 The typical cadence: run `/checkup` after installing any new skill or pack. Run `/checkup --full` once a month. The skill also reminds you if more than 14 days have passed since the last run.
 
-The most common issue caught: broken file references. You rename a config file, forget to update the three skills that reference it, and nothing breaks immediately. The skill that needed that config just silently produces worse output. `/checkup` finds it before you do.
+The value proposition is maintenance you would never do manually. Nobody sits down on a Sunday morning and thinks "I should cross-reference all my skill triggers for collisions." Nobody opens 48 skill files and compares their descriptions for semantic overlap. Nobody traces every file path reference to verify it still resolves. The checkup does all of this in seconds.
 
-The trigger collision detection has caught five conflicts in four months. Two skills responding to the same command produces unpredictable behavior because the one that fires depends on loading order. Not the kind of debugging you want to do at 2am.
-
-The Level 2 duplicate detection found two skills that were functionally identical with different names. One was an early version that never got deleted. Cleanup was trivial once the overlap was visible.
+As the skills library grew from 10 to 48 skills over 6 months, the checkup went from "nice to have" to "necessary." At 10 skills, you can keep the whole system in your head. At 48 skills across 7 packs with shared dependencies, you cannot. The checkup is what lets you trust your infrastructure instead of worrying about it.
 
 ## Extension Points
 

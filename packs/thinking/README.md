@@ -12,6 +12,12 @@ You have a decision to make. You could think about it yourself. Or you could lau
 
 The thinking pack gives Claude Code structured decision-making tools that go beyond "think harder." Three skills, each attacking the problem from a different angle: expert panels, analytical frameworks, and multi-agent orchestration.
 
+### Field Notes (1169 sessions, 6 months)
+
+The directors disagree frequently. That is the point. There is no single "best" director. The one who catches the blind spot changes every time. One week Karpathy spots the architecture flaw. Next week Ive notices the UX incoherence that everyone else walked past. The value is in the ensemble, not in any individual voice.
+
+This is a PhD-level insight hiding in plain sight: one LLM, channeled through different system prompts, produces genuine diversity of thought. It is mixture-of-experts through prompting. Same model, different lenses, different conclusions.
+
 ## What's Inside
 
 ### Skills (3)
@@ -106,6 +112,8 @@ The best part: frameworks disagree with each other. YAGNI says "don't build it y
 
 Keyword mapping handles auto-selection. Say "deploy" and DevOps gets called. Say "why is this slow" and Debugger + Developer show up. You can also specify agents manually if the auto-selection picks wrong.
 
+**A critical lesson from real use:** when you unleash all agents at once, you get work for work's sake and tokens burned inefficiently. Agents are precision instruments for a jeweler's task, not a bulldozer for every problem. Think of it like driving: sometimes automatic, sometimes manual. Sometimes handbrake, sometimes brake pedal. The skill that matters is knowing which mode fits the moment.
+
 ## Quick Start
 
 1. Install the pack (skills + `agents-library.json`)
@@ -116,11 +124,11 @@ Keyword mapping handles auto-selection. Say "deploy" and DevOps gets called. Say
 
 ## Real Usage
 
-`/directors` gets used for any decision above roughly $5,000 in impact. Architecture choices, technology bets, hiring decisions. The disagreement section is consistently the most valuable part, because it shows where you need more information before committing.
+`/directors` gets used for any decision above roughly $5,000 in impact. Architecture choices, technology bets, hiring decisions. The disagreement section is consistently the most valuable part, because it shows where you need more information before committing. No single director is reliably "right." The one who catches the blind spot rotates unpredictably. That is exactly why you run all five.
 
-`/frameworks` runs at every new project phase. The stage detection is surprisingly accurate. When it picks wrong, override it manually. The conflict resolution table has prevented more premature optimization than any code review.
+`/frameworks` runs at every new project phase. The stage detection is surprisingly accurate. When it picks wrong, override it manually. The conflict resolution table has prevented more premature optimization than any code review. The key is stage-appropriate activation. Running all 50 frameworks on every question would produce noise, not insight.
 
-`/orchestrate` handles the messy tasks. "Research this company, draft an email, and check if our API supports their format." Three agents, parallel execution, one synthesized answer. Faster than doing them sequentially. Notably better than asking Claude to "just figure it out" in a single pass.
+`/orchestrate` handles the messy tasks. "Research this company, draft an email, and check if our API supports their format." Three agents, parallel execution, one synthesized answer. Faster than doing them sequentially. Notably better than asking Claude to "just figure it out" in a single pass. The restraint is in knowing when NOT to orchestrate. A simple question deserves a simple answer, not a committee.
 
 ## Extension Points
 

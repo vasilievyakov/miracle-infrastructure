@@ -26,9 +26,9 @@
 
 Claude Code forgets everything between sessions.
 
-You explain your project architecture on Monday. By Tuesday it asks what framework you use. You make a decision about JWT vs sessions on Wednesday. On Thursday, it proposes sessions. You fix a race condition in token refresh. Next week, the same pattern shows up and nobody remembers the fix.
+You explain your project architecture on Monday. By Tuesday it asks what framework you use. You make a decision about JWT vs sessions on Wednesday. On Thursday, it proposes sessions again. You fix a race condition in token refresh. Next week, the same pattern shows up and nobody remembers the fix.
 
-This is not a minor annoyance. This is your most expensive tool operating at a fraction of its capacity because it has no memory, no judgment, and no way to learn from yesterday.
+Without external memory, your agent re-derives conclusions you already settled. It proposes solutions you already rejected. It debates options you already chose between. Every session starts at zero.
 
 Miracle Infrastructure fixes that. Fifteen skills, seven packs, zero dependencies. Your agent remembers decisions, argues with itself before committing to architecture, verifies claims through multiple sources, and builds proposals from call transcripts.
 
@@ -54,7 +54,12 @@ cd miracle-infrastructure && bash install.sh
 
 ## Contents
 
-- [How We Actually Use This](#how-we-actually-use-this)
+- [What 1,169 Sessions Actually Taught Us](#what-1169-sessions-actually-taught-us)
+  - [The Philosophy](#the-philosophy)
+  - [Hard-Won Lessons](#hard-won-lessons)
+  - [What Actually Gets Used](#what-actually-gets-used)
+  - [The Dead Ends](#the-dead-ends)
+  - [Why Markdown and Not a Database](#why-markdown-and-not-a-database)
 - [Packs](#packs)
   - [Memory](#memory) -- session persistence, typed observations
   - [Thinking](#thinking) -- directors, frameworks, agent orchestrator
@@ -64,31 +69,46 @@ cd miracle-infrastructure && bash install.sh
   - [Productivity](#productivity) -- weekly integral review
   - [Meta](#meta) -- skills library health audit
 - [How It Compares](#how-it-compares)
+- [For AI Researchers](#for-ai-researchers)
 - [Architecture](#for-the-curious)
 - [Background](#background)
 - [License](#license)
 
 ---
 
-## How We Actually Use This
+## What 1,169 Sessions Actually Taught Us
 
-This section exists because every tool's README promises the moon. Here is what actually happens across 1,169 sessions and 10 projects over 6 months.
+This section exists because every tool's README promises the moon. Here is what we learned across 1,169 sessions and 10 projects over 6 months of daily use. Including the parts where we were wrong.
 
-### What skills are
+### The Philosophy
 
-Skills are Markdown files. Not code. Not plugins. Not compiled binaries.
+**Workshop + Nervous System.** Not Iron Man's suit. We explicitly rejected the "AI superpower" metaphor after months of actual use.
 
-They modify Claude's behavior through context injection. When you type `/directors`, Claude doesn't execute a program. It loads a Markdown file that restructures how it thinks about your question. The skill defines personas, evaluation criteria, output format. Claude does the rest.
+A workshop: tools in their places, each one purpose-built, and you know which one to grab without thinking. A nervous system: agents as extensions of your thinking, capturing observations, loading context, prompting you to save what matters.
 
-This means skills have zero runtime dependencies. They work offline. They version-control with git. You can read every skill in a text editor and understand exactly what it does. Try that with an MCP server.
+The system is proactive. Rules make the agent act without being asked. Skills give it tools when asked. `auto-observe` captures decisions as they happen. `session-start` loads context before you request it. `session-end` reminds you to save. You stop managing the agent and start working *with* it.
 
-### What actually gets used
+**Agents are precision instruments.** Not general-purpose cannons. Sometimes you need automatic transmission, sometimes manual. Sometimes the handbrake, sometimes the brake pedal. Sometimes cruise control, sometimes you need to stop and think. Stack should be a function of the task you are solving, not what you already have.
 
-`/session-save` runs at the end of roughly 70% of sessions. The other 30% are quick questions that don't produce anything worth remembering.
+### Hard-Won Lessons
 
-`auto-observe` captures 1 to 3 observations per session automatically. You don't invoke it. It watches for decisions, bugfixes, discoveries, and problems, then appends them to the project's observation log.
+**Structure beats freedom.** This was counterintuitive. We expected that giving the agent more freedom would produce more creative output. The opposite happened. Constraints produce better results. Typed observations, mandatory Before/After fields, resolution tracking for problems. The structure is what makes data useful six months later. Without it, you get a pile of notes that nobody (human or AI) can navigate.
 
-`/search-memory` gets used 2 to 3 times per week. The typical query is something like "what did we decide about auth?" or "when did we fix the token refresh bug?" The memory system prevented the same JWT-vs-sessions debate from happening 4 times. That alone justified building all of this.
+**Shorter prompts beat longer prompts.** We tried writing exhaustive system prompts that covered every edge case. They performed worse than concise, precise instructions. The model handles ambiguity well. It handles walls of text less well.
+
+**Agent proactivity is the underrated superpower.** The combination of rules and skills creates an agent that acts before you ask. `session-start` loads your project context automatically. `auto-observe` captures decisions in the moment. `session-end` prompts you to save. This saves more time than any individual skill, because it eliminates the overhead of remembering to manage your own tooling.
+
+**The operator is the bottleneck.** The system does not creak. The operator does. The human with limited context, limited attention, limited working memory. That is the constraint. The system's job is to compensate for *your* limitations, not the model's.
+
+**When to make a skill vs. when to just prompt.** Principles come first: repetition, workflow complexity. Then intuition through practice. When you start, you try to over-control everything. When you get good at it, you develop a feel for what will be useful and what will not. Apply, reflect, and when you have a good understanding of your infrastructure, start trusting it.
+
+### What Actually Gets Used
+
+`/session-save` runs at the end of roughly 70% of sessions. The other 30% are quick questions that do not produce anything worth remembering.
+
+`auto-observe` captures 1 to 3 observations per session automatically. You do not invoke it. It watches for decisions, bugfixes, discoveries, and problems, then appends them to the project's observation log. The most valuable observation types turned out to be **decisions** and **discoveries**. These are knowledge types impossible to reconstruct from code alone. "Why we chose A over B" and "API actually limits 100 req/min." Things that evaporate unless written down in the moment.
+
+`/search-memory` gets used 2 to 3 times per week. The typical query is something like "what did we decide about auth?" The memory system prevented the same JWT-vs-sessions debate from happening 4 times. Four times the agent would have proposed a solution that had already been evaluated and rejected. External declarative memory prevents re-derivation of previously settled conclusions. That alone justified building all of this.
 
 `/directors` gets called for any project above $5k or any architectural decision. Five virtual experts arguing is cheaper than one real regret.
 
@@ -98,19 +118,33 @@ This means skills have zero runtime dependencies. They work offline. They versio
 
 `/research` and `/triangulate` for any claim that sounds too good. Trust, then verify. Or just verify.
 
-### Why Markdown and not a database
+### The Dead Ends
+
+Honesty about failures. These cost real time and real tokens to discover.
+
+**Long prompts worked worse than short ones.** Mentioned above, worth repeating. We invested serious effort into comprehensive system prompts that anticipated every scenario. The result was worse output. The model gets confused by instruction overload the same way a person does.
+
+**Universal "do everything" skills do not work.** We tried building a single skill that handled research, analysis, and recommendations. Specialization wins. Every time. A `/research` skill and a `/triangulate` skill outperform a single `/research-and-verify` skill.
+
+**Adding all possible skills without deliberation produces noise.** More tools does not mean more capability. It means more context consumed, more busywork, more tokens burned on irrelevant processing. "Agents are precision instruments for jeweler's tasks. When you unleash all agents at once, you get work for work's sake and tokens burned inefficiently."
+
+**Mass agent launches are wasteful.** Five directors evaluating your grocery list is a waste. The car metaphor applies here: you do not floor the accelerator in a parking lot.
+
+### Why Markdown and Not a Database
 
 Zero dependencies. Works offline. Version-controllable. Readable by humans.
 
 A SQLite database would be faster to query. A vector store would have better semantic search. Both would require installation steps, maintenance, and debugging when they break. Markdown files in a git repo require nothing. They survive OS upgrades, editor changes, and the inevitable migration to the next AI tool.
 
-### Design principles
+The non-dogmatic take: "One does not interfere with the other. There are no right tools and wrong tools. Only timely usage and excessive usage." If your project genuinely needs a vector store, use one. A big mistake is trying to use nothing and thinking you are smarter than everyone. Stack should match the task.
 
-**Progressive disclosure.** Only load what's needed. MEMORY.md costs ~200 tokens every session. A project dossier costs ~800 tokens when you mention that project. Observation details load only when they match a search. With 100 observations across 10 projects, a search costs ~4,000 tokens instead of ~15,000.
+### Design Principles
+
+**Progressive disclosure.** Only load what is needed. MEMORY.md costs ~200 tokens every session. A project dossier costs ~800 tokens when you mention that project. Observation details load only when they match a search. With 100 observations across 10 projects, a search costs ~4,000 tokens instead of ~15,000.
 
 **The system is opinionated.** Observations have types (decision, bugfix, feature, discovery, problem). History is append-only. Problems track resolution status. You can extend the types, you cannot remove the structure. Constraints make the data useful six months later.
 
-**Design for the model 6 months from now.** The interfaces are stable. The capabilities will improve. A skill that produces good results with today's model will produce better results with tomorrow's model, because the structure is right. Don't optimize for current limitations. Optimize for the contract.
+**Design for the model 6 months from now.** The interfaces are stable. The capabilities will improve. A skill that produces good results with today's model will produce better results with tomorrow's model, because the structure is right. Do not optimize for current limitations. Optimize for the contract.
 
 ---
 
@@ -131,6 +165,8 @@ A SQLite database would be faster to query. A vector store would have better sem
 ### Memory
 
 Your agent remembers what happened yesterday. And last week. And that bug you fixed three months ago that is about to happen again.
+
+> Prevented the same JWT-vs-sessions debate from happening 4 times. The agent kept proposing a solution that had already been evaluated and rejected. With memory, settled conclusions stay settled.
 
 **Skills:** `session-save` `search-memory` `memory-health` `memory-init` `project-status`
 **Rules:** `session-start` `session-end` `auto-observe`
@@ -174,6 +210,8 @@ With 100 observations across 10 projects, a search costs ~4,000 tokens instead o
 ### Thinking
 
 Five virtual experts argue about your project. Each one sees everything through their unique lens: product, engineering, UX, business, safety.
+
+> They frequently disagree. No single "best" director. The one who catches what others miss changes every time. The value is in the ensemble, not any single expert.
 
 **Skills:** `directors` `frameworks` `orchestrate`
 
@@ -242,6 +280,8 @@ Your agent checks its homework.
 
 From "we had a call" to "here is the proposal, architecture, and clickable prototype."
 
+> "We often look through our own focus and miss what the client is really trying to say. LLMs understand language patterns well enough to catch what you missed." The clickable prototype built with the client's own data and own words leaves an unforgettable impression. Used dozens of times. If you understand your client, you know what to sell to solve their specific problem.
+
 **Skill:** `transcript-to-proposal`
 
 <p align="center">
@@ -280,7 +320,7 @@ A weekly review that looks at more than your commit count.
   <img src="docs/gifs/aqal-review.svg" alt="AQAL Review" width="640" />
 </p>
 
-Uses the AQAL integral model to evaluate progress across 4 quadrants (interior/exterior, individual/collective) and 5 development lines. Tracks trends over weeks. Tells you when you're shipping features at the cost of team health, or growing personally while the codebase rots.
+Uses the AQAL integral model to evaluate progress across 4 quadrants (interior/exterior, individual/collective) and 5 development lines. Tracks trends over weeks. Tells you when you are shipping features at the cost of team health, or growing personally while the codebase rots.
 
 [Full documentation &#8594;](packs/productivity/README.md)
 
@@ -304,6 +344,8 @@ Validates file references, frontmatter, trigger uniqueness, and dependency drift
 
 ## How It Compares
 
+Different approaches, not competitors. "There are no right tools and wrong tools. Only timely usage and excessive usage."
+
 | Feature | Miracle Infrastructure | memory-bank | claudemem |
 |---------|:---------------------:|:-----------:|:---------:|
 | Zero dependencies | :white_check_mark: | :x: MCP | :x: MCP |
@@ -315,8 +357,28 @@ Validates file references, frontmatter, trigger uniqueness, and dependency drift
 | Research tools | :white_check_mark: 3 skills | :x: | :x: |
 | Works offline | :white_check_mark: | :x: | :x: |
 
+Each of these tools made a deliberate set of tradeoffs. MCP-based systems get tighter integration with external services. Database-backed systems get faster queries at scale. We chose zero dependencies and Markdown because we value portability, readability, and not debugging infrastructure when we should be debugging code. Your situation might call for something different.
+
 > [!IMPORTANT]
 > This comparison reflects our understanding of these tools as of February 2026. Features may have changed. If you maintain one of these projects and something is inaccurate, please open an issue.
+
+---
+
+## For AI Researchers
+
+If you work on agentic systems, memory architectures, or human-AI interaction, several findings from 1,169 sessions may be worth your attention.
+
+**Progressive disclosure as manual RAG without a vector store.** The memory hierarchy (MEMORY.md > project dossiers > observation indices > observation details) implements retrieval-augmented generation through file structure alone. Token cost scales with query specificity, not corpus size. No embeddings, no similarity search, no infrastructure. The tradeoff is obvious: it requires human-designed structure. The benefit is equally obvious: zero failure modes from retrieval errors.
+
+**auto-observe as episodic memory.** The observation system captures typed episodic memories (decision, bugfix, feature, discovery, problem) with mandatory context fields (Before/After, Why). This creates a structured episodic memory that an LLM can query through pattern matching on the index. The most valuable observation types were decisions and discoveries, both of which are impossible to reconstruct from code artifacts alone.
+
+**Mixture-of-experts through prompting.** The Directors system runs one LLM through 5 different system prompts (product, engineering, UX, business, safety lenses). They frequently disagree. Genuinely. No single director consistently outperforms the others. The one who catches what others miss changes every time. This suggests that system prompt variation creates meaningful diversity in reasoning, analogous to mixture-of-experts architectures, without requiring separate models or fine-tuning.
+
+**Constraints improve output quality.** Across 1,169 sessions, structured and constrained prompts consistently outperformed open-ended ones. Shorter prompts outperformed longer prompts. This parallels findings in instruction tuning: specificity and structure in the prompt matter more than exhaustive coverage.
+
+**External declarative memory prevents re-derivation.** Without persistent memory, the agent re-derives conclusions from first principles each session. It proposes solutions already rejected, re-evaluates tradeoffs already settled. External declarative memory (project dossiers with recorded decisions) eliminates this re-derivation, functioning as a persistent belief store that survives context window boundaries.
+
+**The human is the bottleneck.** After 6 months of daily use, the consistent finding is that system performance is limited by the human operator, not the model. The human's context window is smaller, attention is less reliable, and working memory is more fragile. The system's most impactful features are the ones that compensate for human limitations: auto-loading context, auto-capturing decisions, prompting to save state.
 
 ---
 
@@ -364,7 +426,13 @@ Validates file references, frontmatter, trigger uniqueness, and dependency drift
 
 ## Background
 
-Built and battle-tested across 1,169+ sessions and 10 projects over 6 months. Started as personal productivity tools for a solo developer who got tired of re-explaining his own codebase to his own AI agent. Grew into a system that handles memory, decision-making, research, and business workflows.
+It started simply: a solo developer got tired of re-explaining his own codebase to his own AI agent. Every Monday morning, same questions. Every architectural decision, re-debated. Every bugfix, forgotten by the next session.
+
+Over 6 months and 1,169 sessions across 10 projects, that frustration became a philosophy about human-AI symbiosis. Not the "AI does everything" version. Not the "AI is just autocomplete" version. The version where a human with a workshop full of the right tools and an agent that extends their thinking can produce work that neither could alone.
+
+The tools grew one at a time, each one solving a specific friction. Memory came first (stop re-explaining). Directors came next (stop making architectural decisions alone at 2am). Research followed (stop trusting the agent's confident-sounding hallucinations). Business skills last (stop losing client insights between the call and the proposal).
+
+Every skill that survived earned its place through repeated use. The ones that did not make the cut, the universal "do everything" skill, the exhaustive system prompts, the mass agent launches, taught us something equally valuable: agents are precision instruments for jeweler's tasks, not sledgehammers.
 
 The name "Miracle Infrastructure" comes from the original project name. The miracle is that it works with zero dependencies.
 
