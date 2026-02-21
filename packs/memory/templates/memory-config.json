@@ -1,0 +1,13 @@
+{
+  "memory_path": "~/.claude/memory",
+  "projects": {
+    "example-project": {
+      "keywords": ["example", "my-project"],
+      "github": "username/example-project",
+      "path": "~/projects/example-project"
+    }
+  },
+  "fallback_project": "general",
+  "max_dossier_lines": 200,
+  "observation_types": ["decision", "bugfix", "feature", "discovery", "problem"]
+}
