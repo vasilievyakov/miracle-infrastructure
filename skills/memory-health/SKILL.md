@@ -4,7 +4,6 @@ description: |
   Validates memory system integrity: file consistency, observation counts, format correctness.
   Use when: (1) Suspecting data desync, (2) After bulk edits, (3) Periodic health check.
   Triggers: "/memory-health", "check memory", "memory health check".
-invocation: user
 ---
 
 # Memory Health Check
