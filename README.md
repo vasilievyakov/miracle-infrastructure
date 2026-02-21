@@ -1,7 +1,7 @@
 <h1 align="center">Miracle Infrastructure</h1>
 
 <p align="center">
-  <em>15 skills for Claude Code that actually solve problems.<br>Zero dependencies. Just Markdown.</em>
+  <em>15 skills that give Claude Code a memory, opinions, and a research department.<br>Zero dependencies. Just Markdown.</em>
 </p>
 
 <p align="center">
@@ -24,11 +24,15 @@
 
 ## The Problem
 
-Claude Code forgets everything between sessions. You explain your project architecture on Monday, and by Tuesday it asks what framework you use. Again.
+Claude Code forgets everything between sessions.
 
-You make a decision about JWT vs sessions on Wednesday. On Thursday, it proposes sessions.
+You explain your project architecture on Monday. By Tuesday it asks what framework you use. You make a decision about JWT vs sessions on Wednesday. On Thursday, it proposes sessions. You fix a race condition in token refresh. Next week, the same pattern shows up and nobody remembers the fix.
 
-You fix a bug. Next week, the same bug pattern shows up and nobody remembers the fix.
+This is not a minor annoyance. This is your most expensive tool operating at a fraction of its capacity because it has no memory, no judgment, and no way to learn from yesterday.
+
+Miracle Infrastructure fixes that. Fifteen skills, seven packs, zero dependencies. Your agent remembers decisions, argues with itself before committing to architecture, verifies claims through multiple sources, and builds proposals from call transcripts.
+
+All of it is Markdown files. No servers. No databases. No Docker containers pretending to be simple.
 
 ## Install
 
@@ -36,6 +40,10 @@ You fix a bug. Next week, the same bug pattern shows up and nobody remembers the
 git clone https://github.com/vasilievyakov/miracle-infrastructure.git
 cd miracle-infrastructure && bash install.sh
 ```
+
+<p align="center">
+  <img src="docs/gifs/install.svg" alt="Installation" width="640" />
+</p>
 
 > [!TIP]
 > The installer shows an interactive menu. Pick individual packs or install everything. Existing files are backed up before overwriting. Safe to re-run.
@@ -46,6 +54,7 @@ cd miracle-infrastructure && bash install.sh
 
 ## Contents
 
+- [How We Actually Use This](#how-we-actually-use-this)
 - [Packs](#packs)
   - [Memory](#memory) -- session persistence, typed observations
   - [Thinking](#thinking) -- directors, frameworks, agent orchestrator
@@ -56,7 +65,52 @@ cd miracle-infrastructure && bash install.sh
   - [Meta](#meta) -- skills library health audit
 - [How It Compares](#how-it-compares)
 - [Architecture](#for-the-curious)
+- [Background](#background)
 - [License](#license)
+
+---
+
+## How We Actually Use This
+
+This section exists because every tool's README promises the moon. Here is what actually happens across 1,169 sessions and 10 projects over 6 months.
+
+### What skills are
+
+Skills are Markdown files. Not code. Not plugins. Not compiled binaries.
+
+They modify Claude's behavior through context injection. When you type `/directors`, Claude doesn't execute a program. It loads a Markdown file that restructures how it thinks about your question. The skill defines personas, evaluation criteria, output format. Claude does the rest.
+
+This means skills have zero runtime dependencies. They work offline. They version-control with git. You can read every skill in a text editor and understand exactly what it does. Try that with an MCP server.
+
+### What actually gets used
+
+`/session-save` runs at the end of roughly 70% of sessions. The other 30% are quick questions that don't produce anything worth remembering.
+
+`auto-observe` captures 1 to 3 observations per session automatically. You don't invoke it. It watches for decisions, bugfixes, discoveries, and problems, then appends them to the project's observation log.
+
+`/search-memory` gets used 2 to 3 times per week. The typical query is something like "what did we decide about auth?" or "when did we fix the token refresh bug?" The memory system prevented the same JWT-vs-sessions debate from happening 4 times. That alone justified building all of this.
+
+`/directors` gets called for any project above $5k or any architectural decision. Five virtual experts arguing is cheaper than one real regret.
+
+`/frameworks` when starting a new project phase. It picks the relevant subset of 50 frameworks based on your stage. Not all 50 at once. That would be insane.
+
+`/orchestrate` for tasks that need parallel research and implementation. Researcher finds the information, Developer writes the code, Tester validates it. Simultaneously.
+
+`/research` and `/triangulate` for any claim that sounds too good. Trust, then verify. Or just verify.
+
+### Why Markdown and not a database
+
+Zero dependencies. Works offline. Version-controllable. Readable by humans.
+
+A SQLite database would be faster to query. A vector store would have better semantic search. Both would require installation steps, maintenance, and debugging when they break. Markdown files in a git repo require nothing. They survive OS upgrades, editor changes, and the inevitable migration to the next AI tool.
+
+### Design principles
+
+**Progressive disclosure.** Only load what's needed. MEMORY.md costs ~200 tokens every session. A project dossier costs ~800 tokens when you mention that project. Observation details load only when they match a search. With 100 observations across 10 projects, a search costs ~4,000 tokens instead of ~15,000.
+
+**The system is opinionated.** Observations have types (decision, bugfix, feature, discovery, problem). History is append-only. Problems track resolution status. You can extend the types, you cannot remove the structure. Constraints make the data useful six months later.
+
+**Design for the model 6 months from now.** The interfaces are stable. The capabilities will improve. A skill that produces good results with today's model will produce better results with tomorrow's model, because the structure is right. Don't optimize for current limitations. Optimize for the contract.
 
 ---
 
@@ -76,10 +130,14 @@ cd miracle-infrastructure && bash install.sh
 
 ### Memory
 
-Your agent remembers what happened yesterday. And last week. And that bug you fixed three months ago.
+Your agent remembers what happened yesterday. And last week. And that bug you fixed three months ago that is about to happen again.
 
 **Skills:** `session-save` `search-memory` `memory-health` `memory-init` `project-status`
 **Rules:** `session-start` `session-end` `auto-observe`
+
+<p align="center">
+  <img src="docs/gifs/session-save.svg" alt="Session Save" width="640" />
+</p>
 
 How it works:
 
@@ -115,9 +173,13 @@ With 100 observations across 10 projects, a search costs ~4,000 tokens instead o
 
 ### Thinking
 
-Five virtual experts argue about your project. Each one sees everything (product, engineering, UX, business, safety) through their unique lens.
+Five virtual experts argue about your project. Each one sees everything through their unique lens: product, engineering, UX, business, safety.
 
 **Skills:** `directors` `frameworks` `orchestrate`
+
+<p align="center">
+  <img src="docs/gifs/directors.svg" alt="Directors Board" width="640" />
+</p>
 
 <details>
 <summary><strong>Directors</strong> -- 5 agents evaluate your project in parallel</summary>
@@ -162,11 +224,15 @@ Your agent checks its homework.
 
 **Skills:** `researching-web` `triangulate` `learned-lessons`
 
+<p align="center">
+  <img src="docs/gifs/research.svg" alt="Research" width="640" />
+</p>
+
 **Research** does web search with source scoring, contradiction detection, and confidence breakdown.
 
 **Triangulate** verifies claims through 3+ independent sources. Classifies each claim as fact, opinion, or prediction. Shows exactly where the confidence comes from.
 
-**Learned Lessons** keeps a knowledge base of solved problems. After you debug something with web search, it offers to record the solution. Next time a similar problem shows up, it checks the knowledge base first.
+**Learned Lessons** keeps a knowledge base of solved problems. After you debug something with web search, it offers to record the solution. Next time a similar problem shows up, it checks the knowledge base first. Your agent stops googling the same error twice.
 
 [Full documentation &#8594;](packs/research/README.md)
 
@@ -177,6 +243,10 @@ Your agent checks its homework.
 From "we had a call" to "here is the proposal, architecture, and clickable prototype."
 
 **Skill:** `transcript-to-proposal`
+
+<p align="center">
+  <img src="docs/gifs/proposal.svg" alt="Transcript to Proposal" width="640" />
+</p>
 
 Give it a product description and a call transcript. It extracts pains, maps them to features, generates a proposal using the client's own words, builds system architecture, and creates an interactive HTML prototype. With checkpoints so you review before it continues.
 
@@ -190,6 +260,10 @@ Nobody reads meeting transcripts twice. This skill reads them once and extracts 
 
 **Skill:** `action-items`
 
+<p align="center">
+  <img src="docs/gifs/action-items.svg" alt="Action Items" width="640" />
+</p>
+
 Handles .txt transcripts, chat exports (JSON/HTML), PDFs, raw text. Produces a prioritized checklist with assignees, deadlines, and source quotes.
 
 [Full documentation &#8594;](packs/content/README.md)
@@ -202,7 +276,11 @@ A weekly review that looks at more than your commit count.
 
 **Skill:** `aqal-review`
 
-Uses the AQAL integral model to evaluate progress across 4 quadrants (interior/exterior, individual/collective) and 5 development lines. Tracks trends over weeks.
+<p align="center">
+  <img src="docs/gifs/aqal-review.svg" alt="AQAL Review" width="640" />
+</p>
+
+Uses the AQAL integral model to evaluate progress across 4 quadrants (interior/exterior, individual/collective) and 5 development lines. Tracks trends over weeks. Tells you when you're shipping features at the cost of team health, or growing personally while the codebase rots.
 
 [Full documentation &#8594;](packs/productivity/README.md)
 
@@ -213,6 +291,10 @@ Uses the AQAL integral model to evaluate progress across 4 quadrants (interior/e
 Your skills library has a doctor.
 
 **Skill:** `skill-checkup`
+
+<p align="center">
+  <img src="docs/gifs/checkup.svg" alt="Skill Checkup" width="640" />
+</p>
 
 Validates file references, frontmatter, trigger uniqueness, and dependency drift. Reports problems. Does not auto-fix. A calm doctor, not a helicopter parent.
 
@@ -282,7 +364,7 @@ Validates file references, frontmatter, trigger uniqueness, and dependency drift
 
 ## Background
 
-Built and battle-tested across 1,169+ sessions and 10 projects over 6 months. Started as personal productivity tools for a solo developer, grew into a system that handles memory, decision-making, research, and business workflows.
+Built and battle-tested across 1,169+ sessions and 10 projects over 6 months. Started as personal productivity tools for a solo developer who got tired of re-explaining his own codebase to his own AI agent. Grew into a system that handles memory, decision-making, research, and business workflows.
 
 The name "Miracle Infrastructure" comes from the original project name. The miracle is that it works with zero dependencies.
 

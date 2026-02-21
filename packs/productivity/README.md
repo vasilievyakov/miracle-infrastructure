@@ -2,39 +2,112 @@
 
 A weekly review that looks at more than just your commit count.
 
-## What it does
+<p align="center">
+  <img src="../../docs/gifs/aqal-review.svg" alt="aqal-review demo" width="640" />
+</p>
 
-The AQAL (All Quadrants, All Levels) model from integral theory applied to weekly development reviews. Instead of tracking only "what I shipped," it evaluates progress across four dimensions:
+## The Idea
 
-| Quadrant | What it measures |
-|----------|-----------------|
-| **I** (Interior Individual) | Mindfulness, frustration management, self-awareness |
-| **WE** (Interior Collective) | Team communication, client interactions, collaboration quality |
-| **IT** (Exterior Individual) | Technical skills, new tools mastered, code quality |
-| **ITS** (Exterior Collective) | System stability, automation, cost optimization |
+Most developer productivity reviews track one thing: output. Commits, PRs merged, tickets closed. That's one quadrant out of four. You could be shipping code every day while your team communication deteriorates, your technical debt compounds, and your stress levels quietly climb toward burnout.
 
-Plus 5 development lines scored 0-100%: cognitive, technical, product, emotional, interpersonal.
+The AQAL (All Quadrants, All Levels) model from integral theory measures development across four dimensions simultaneously. It takes 5 minutes every Friday. The history file tracks trends over months.
 
-## What is included
+## What's Inside
 
 ### Skills (1)
 
 | Skill | Command | What it does |
-|-------|---------|-------------|
-| **aqal-review** | `/aqal-review` | Weekly integral review across 4 quadrants and 5 lines |
+|-------|---------|--------------|
+| **aqal-review** | `/aqal-review` | Weekly integral review across 4 quadrants and 5 development lines |
 
-## How it works
+## How It Works
 
-1. Gathers data: git activity, project progress, session history
-2. Evaluates each quadrant: trending up, stable, or declining
-3. Scores development lines
-4. Records in `~/.claude/aqal-history.json` for tracking over time
-5. Produces a summary with highlights, challenges, and next week's focus
+### The Four Quadrants
 
-Run it every Friday. The history file tracks trends across weeks.
+| Quadrant | Dimension | What it measures |
+|----------|-----------|-----------------|
+| **I** | Interior Individual | Mindfulness, frustration management, focus quality, self-awareness |
+| **WE** | Interior Collective | Team communication, client interactions, collaboration quality, feedback given |
+| **IT** | Exterior Individual | Technical skills, new tools mastered, code quality, learning velocity |
+| **ITS** | Exterior Collective | System stability, automation coverage, cost optimization, infrastructure health |
 
-## Assessment criteria
+The "I" quadrant is the one most reviews ignore. Shipping code while running on fumes is not sustainable. The review notices when that pattern starts forming.
 
-- **Excellent week**: 3+ quadrants trending up, no critical problems
-- **Normal week**: Stability, 1-2 quadrants trending up
-- **Attention needed**: 2+ quadrants declining, critical problems present
+### The Five Development Lines
+
+Each line gets scored 0-100%. These track long-term growth, not weekly output.
+
+| Line | What it tracks |
+|------|---------------|
+| **Cognitive** | Problem-solving complexity, systems thinking, abstraction ability |
+| **Technical** | Language mastery, tool proficiency, architecture skills |
+| **Product** | User empathy, business sense, prioritization quality |
+| **Emotional** | Stress management, resilience, self-regulation |
+| **Interpersonal** | Communication clarity, conflict resolution, mentoring |
+
+### Assessment Criteria
+
+The review evaluates each quadrant's trend direction, then synthesizes an overall assessment:
+
+| Assessment | Criteria |
+|------------|----------|
+| **Excellent week** | 3+ quadrants trending up, no critical problems |
+| **Normal week** | Stability, 1-2 quadrants trending up |
+| **Attention needed** | 2+ quadrants declining, critical problems present |
+
+"Attention needed" is not a failure. It's a signal. Two declining quadrants usually means one root cause, and finding it early beats finding it in a month when the damage is real.
+
+### Data Collection
+
+The review gathers data from:
+
+```
+Git activity (commits, branches, repos)
+    +
+Project progress (dossiers, open issues)
+    +
+Session history (topics discussed, problems solved)
+    +
+Your answers to 4-5 reflective questions
+    ↓
+Quadrant assessment + Development line scores
+    ↓
+Stored in ~/.claude/aqal-history.json
+```
+
+The reflective questions change based on what the data suggests. If git activity spiked this week, you might get asked about code review quality. If session history shows debugging-heavy work, you might get asked about frustration levels. The skill adapts.
+
+### History Tracking
+
+Results accumulate in `~/.claude/aqal-history.json`. Each entry records:
+
+- Date and week number
+- Quadrant trends (up, stable, down)
+- Development line scores
+- Highlights and challenges
+- Next week's focus areas
+
+After 4+ weeks, the skill starts identifying patterns. "IT quadrant has been trending up for 3 weeks, WE quadrant has been flat for 5 weeks" tells a clear story about where to invest attention next.
+
+## Quick Start
+
+1. Install the pack
+2. Run `/aqal-review` on a Friday
+3. Answer the reflective questions honestly (nobody sees this file except you)
+4. Review the output. Note the "next week's focus" section
+5. Repeat next Friday. Trends emerge after about a month
+
+## Real Usage
+
+Every Friday, 5 minutes, no exceptions. The most common pattern in the first month: IT quadrant climbing steadily, WE quadrant flat or declining. Classic solo developer trajectory. The review caught it. Adjustments were made.
+
+The history file has become its own kind of journal. Not a diary. A structured record of growth patterns that's actually useful to re-read. The development line scores over 12 weeks paint a picture that no commit graph could show.
+
+The "attention needed" assessment has fired three times in four months. Each time, it identified the root cause correctly. Once it was overwork (I quadrant declining + IT declining). Once it was isolation (WE declining + emotional line dropping). Once it was technical debt catching up (ITS declining across two consecutive weeks).
+
+## Extension Points
+
+- **Custom quadrant questions**: Add domain-specific reflective questions for your work context
+- **Integration with project data**: The skill already reads git and session history. Additional data sources (time tracking, calendar) can be added
+- **Team mode**: The AQAL model works for teams too. Adapt the WE and ITS quadrants for group assessment
+- **Export format**: The JSON history can be visualized with any charting library. The structure is intentionally simple
