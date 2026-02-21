@@ -14,51 +14,66 @@ def make_svg(
     pad_top=48,
     pad_bottom=16,
     pad_x=16,
+    read_pause=4.0,
+    fade_dur=0.5,
 ):
-    """Create an SVG terminal window with typed command and response lines.
+    """Create a looping SVG terminal animation.
 
     Each line is a tuple: (text, color, [delay_ms])
-    Colors: prompt=#89b4fa, cmd=#cdd6f4, dim=#6c7086, green=#a6e3a1,
-            yellow=#f9e2af, red=#f38ba8, accent=#cba6f7, white=#cdd6f4
+    The animation cycles: lines appear sequentially, pause for reading,
+    all fade out, then restart.
     """
     height = pad_top + len(lines) * line_height + pad_bottom
+
+    # Calculate total cycle: max delay + appear time + read pause + fade out
+    max_delay = max((l[2] if len(l) > 2 else 0) for l in lines) / 1000
+    appear_end = max_delay + 0.3  # last line finishes appearing
+    total = appear_end + read_pause + fade_dur  # full cycle duration
 
     text_elements = []
     for i, line in enumerate(lines):
         text = line[0]
         color = line[1] if len(line) > 1 else "#a6adc8"
-        delay = line[2] if len(line) > 2 else 0
+        delay_ms = line[2] if len(line) > 2 else 0
+        delay = delay_ms / 1000
         y = pad_top + i * line_height
 
-        # Handle mixed-color lines (prompt + command)
+        # Build keyTimes and values for looping opacity animation
+        # 0..delay: invisible, delay..delay+0.3: fade in, stay visible, total-fade..total: fade out
+        if delay > 0:
+            t_appear = delay / total
+            t_visible = min((delay + 0.3) / total, (total - fade_dur) / total)
+            t_fade_start = (total - fade_dur) / total
+            kt = f"0;{t_appear:.4f};{t_visible:.4f};{t_fade_start:.4f};1"
+            vals = "0;0;1;1;0"
+        else:
+            # Immediately visible lines: visible from start, fade at end
+            t_fade_start = (total - fade_dur) / total
+            kt = f"0;{t_fade_start:.4f};1"
+            vals = "1;1;0"
+
+        anim = (
+            f'<animate attributeName="opacity" values="{vals}" '
+            f'keyTimes="{kt}" dur="{total:.1f}s" repeatCount="indefinite"/>'
+        )
+
         if isinstance(text, list):
             spans = []
             for seg in text:
                 spans.append(f'<tspan fill="{seg[1]}">{esc(seg[0])}</tspan>')
+            init_opacity = "0" if delay > 0 else "1"
             text_elements.append(
                 f"  <text x=\"{pad_x}\" y=\"{y}\" font-family=\"'SF Mono','Fira Code','Cascadia Code',monospace\" "
-                f'font-size="13" fill="{color}">'
+                f'font-size="13" fill="{color}" opacity="{init_opacity}">'
                 + "".join(spans)
-                + (
-                    f'<animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="{delay / 1000}s" fill="freeze"/>'
-                    if delay
-                    else ""
-                )
+                + anim
                 + "</text>"
             )
         else:
-            opacity = ' opacity="0"' if delay else ""
-            anim = (
-                (
-                    f'<animate attributeName="opacity" from="0" to="1" dur="0.3s" '
-                    f'begin="{delay / 1000}s" fill="freeze"/>'
-                )
-                if delay
-                else ""
-            )
+            init_opacity = "0" if delay > 0 else "1"
             text_elements.append(
                 f"  <text x=\"{pad_x}\" y=\"{y}\" font-family=\"'SF Mono','Fira Code','Cascadia Code',monospace\" "
-                f'font-size="13" fill="{color}"{opacity}>{esc(text)}{anim}</text>'
+                f'font-size="13" fill="{color}" opacity="{init_opacity}">{esc(text)}{anim}</text>'
             )
 
     return f'''<svg viewBox="0 0 {width} {height}" xmlns="http://www.w3.org/2000/svg">
