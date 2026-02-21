@@ -5,7 +5,6 @@ description: |
   Use when: (1) User has a transcript from a client call/meeting, (2) User wants to create a proposal or quote,
   (3) User needs to map client pains to product features, (4) User asks for a prototype based on a conversation.
   Triggers: "/proposal", "transcript", "proposal", "client call", "commercial offer", "prototype from conversation".
-invocation: user
 ---
 
 # Transcript to Proposal
