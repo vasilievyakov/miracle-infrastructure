@@ -5,7 +5,6 @@ description: |
   Use when: (1) Audio transcript + "what needs to be done", (2) Chat export + "tasks for the meeting",
   (3) Multiple files for batch processing, (4) Any text that needs action items extracted.
   Triggers: "/action-items", "what needs to be done", "action items", "extract tasks".
-invocation: user
 ---
 
 # Action Items: Extract Tasks from Any Text
