@@ -5,7 +5,6 @@ description: |
   Classifies claim type (fact/opinion/prediction), shows where confidence comes from, flags bias.
   Use when: (1) "Verify this", (2) "Triangulate", (3) "Confirm from different sources".
   Triggers: "/triangulate", "verify this", "triangulate", "confirm from multiple sources".
-invocation: user
 ---
 
 # Triangulate
