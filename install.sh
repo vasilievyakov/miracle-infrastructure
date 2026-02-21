@@ -81,7 +81,7 @@ installed_rules=0
 install_skill() {
     local pack="$1"
     local skill="$2"
-    local src="$SCRIPT_DIR/packs/$pack/skills/$skill"
+    local src="$SCRIPT_DIR/skills/$skill"
     local dst="$SKILLS_DIR/$skill"
 
     if [ ! -d "$src" ]; then

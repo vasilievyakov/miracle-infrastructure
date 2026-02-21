@@ -18,9 +18,9 @@ The operating principle is simple: trust, then verify. Or just verify.
 
 | Skill | Command | What it does |
 |-------|---------|--------------|
-| **researching-web** | `/research` | Web research with parallel search, source scoring, confidence breakdown |
-| **triangulate** | `/triangulate` | Claim verification through 3+ independent sources |
-| **learned-lessons** | `/til` | Knowledge base that accumulates solutions to solved problems |
+| [**researching-web**](../../skills/researching-web/) | `/research` | Web research with parallel search, source scoring, confidence breakdown |
+| [**triangulate**](../../skills/triangulate/) | `/triangulate` | Claim verification through 3+ independent sources |
+| [**learned-lessons**](../../skills/learned-lessons/) | `/til` | Knowledge base that accumulates solutions to solved problems |
 
 ## How It Works
 

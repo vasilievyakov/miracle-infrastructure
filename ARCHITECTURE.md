@@ -229,3 +229,35 @@ graph TD
     tests/
       test_memory_integrity.py
 ```
+
+## Repository Layout
+
+```
+miracle-infrastructure/
+  skills/                          # flat directory, each skill standalone
+    session-save/
+      SKILL.md                     # installable skill file
+      README.md                    # self-contained documentation page
+    directors/
+      SKILL.md
+      README.md
+    ...16 skills total
+  packs/                           # thematic groupings, link to skills/
+    memory/
+      README.md                    # pack overview
+      rules/                       # rules stay in packs
+      templates/
+      tests/
+    thinking/
+      README.md
+    research/
+      README.md
+    ...7 packs total
+  docs/
+    gifs/                          # SVG terminal animations
+    token-budget.md
+    customization.md
+    migration.md
+```
+
+Skills live in a flat `skills/` directory so each can be shared, linked, and installed independently. Packs group skills thematically and hold pack-specific assets (rules, templates, tests).

@@ -24,7 +24,7 @@ The "Unanswered Questions" section turned out to be unexpectedly valuable. It wa
 
 | Skill | Command | What it does |
 |-------|---------|--------------|
-| **action-items** | `/action-items` | Extract tasks, commitments, and deadlines from any text format |
+| [**action-items**](../../skills/action-items/) | `/action-items` | Extract tasks, commitments, and deadlines from any text format |
 
 ## How It Works
 

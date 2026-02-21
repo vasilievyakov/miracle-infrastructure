@@ -18,7 +18,7 @@ The AQAL (All Quadrants, All Levels) model from integral theory measures develop
 
 | Skill | Command | What it does |
 |-------|---------|--------------|
-| **aqal-review** | `/aqal-review` | Weekly integral review across 4 quadrants and 5 development lines |
+| [**aqal-review**](../../skills/aqal-review/) | `/aqal-review` | Weekly integral review across 4 quadrants and 5 development lines |
 
 ## How It Works
 

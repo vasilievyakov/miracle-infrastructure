@@ -24,7 +24,7 @@ If you understand your client, you know what to sell. This creates mutual value,
 
 | Skill | Command | What it does |
 |-------|---------|--------------|
-| **transcript-to-proposal** | `/proposal` | Call transcript to proposal + architecture + interactive HTML prototype |
+| [**transcript-to-proposal**](../../skills/transcript-to-proposal/) | `/proposal` | Call transcript to proposal + architecture + interactive HTML prototype |
 
 ## How It Works
 

@@ -24,10 +24,10 @@ This is a PhD-level insight hiding in plain sight: one LLM, channeled through di
 
 | Skill | Command | What it does |
 |-------|---------|--------------|
-| **directors** | `/directors` | 5-director virtual advisory board, each evaluating through a unique lens |
-| **frameworks** | `/frameworks` | 50 frameworks organized by project stage, with conflict resolution |
-| **orchestrate** | `/orchestrate` | 2-4 specialized agents working in parallel on complex tasks |
-| **miracle-unstuck** | `/unstuck` | Adaptive deep interview that extracts what you need when you can't articulate it |
+| [**directors**](../../skills/directors/) | `/directors` | 5-director virtual advisory board, each evaluating through a unique lens |
+| [**frameworks**](../../skills/frameworks/) | `/frameworks` | 50 frameworks organized by project stage, with conflict resolution |
+| [**orchestrate**](../../skills/orchestrate/) | `/orchestrate` | 2-4 specialized agents working in parallel on complex tasks |
+| [**miracle-unstuck**](../../skills/miracle-unstuck/) | `/unstuck` | Adaptive deep interview that extracts what you need when you can't articulate it |
 
 ### Supporting Files
 

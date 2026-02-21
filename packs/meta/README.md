@@ -20,7 +20,7 @@ The philosophy: apply, reflect, and when you have a good understanding of your i
 
 | Skill | Command | What it does |
 |-------|---------|--------------|
-| **skill-checkup** | `/checkup` | Skills library health audit with 3 validation levels |
+| [**skill-checkup**](../../skills/skill-checkup/) | `/checkup` | Skills library health audit with 3 validation levels |
 
 ## How It Works
 

@@ -30,11 +30,11 @@ The rules layer is what makes the agent proactive instead of passive. `auto-obse
 
 | Skill | Command | What it does |
 |-------|---------|--------------|
-| **session-save** | `/session-save` | Saves session context to project memory |
-| **search-memory** | `/search-memory` | Queries observations with progressive disclosure |
-| **memory-health** | `/memory-health` | Validates memory system integrity |
-| **memory-init** | `/memory-init` | First-run setup wizard |
-| **project-status** | `/project-status` | Quick status from dossier + git |
+| [**session-save**](../../skills/session-save/) | `/session-save` | Saves session context to project memory |
+| [**search-memory**](../../skills/search-memory/) | `/search-memory` | Queries observations with progressive disclosure |
+| [**memory-health**](../../skills/memory-health/) | `/memory-health` | Validates memory system integrity |
+| [**memory-init**](../../skills/memory-init/) | `/memory-init` | First-run setup wizard |
+| [**project-status**](../../skills/project-status/) | `/project-status` | Quick status from dossier + git |
 
 ### Rules (3)
 
