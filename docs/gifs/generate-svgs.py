@@ -780,7 +780,7 @@ checkup = make_svg(
     [
         ([("$ ", "#89b4fa"), ("/checkup --full", "#cdd6f4")], "#cdd6f4"),
         ("", "#1e1e2e"),
-        ("Scanning ~/.claude/skills/... 15 skills found", "#6c7086", 400),
+        ("Scanning ~/.claude/skills/... 16 skills found", "#6c7086", 400),
         ("", "#1e1e2e"),
         ("Phase 0 (binary):", "#a6adc8", 800),
         ("  All file references valid", "#a6e3a1", 1000),
@@ -792,7 +792,7 @@ checkup = make_svg(
         ("", "#1e1e2e"),
         ("Phase 2 (semantic):", "#a6adc8", 2200),
         ("  [~] research + triangulate: similar descriptions", "#cba6f7", 2400),
-        ("  14/15 skills healthy", "#a6e3a1", 2600),
+        ("  15/16 skills healthy", "#a6e3a1", 2600),
         ("", "#1e1e2e"),
         ("1 broken, 1 warning, 1 suggestion", "#f9e2af", 3000),
     ],
@@ -896,11 +896,11 @@ install = make_svg(
         ([("$ ", "#89b4fa"), ("bash install.sh", "#cdd6f4")], "#cdd6f4"),
         ("", "#1e1e2e"),
         ("Welcome to Miracle Infrastructure", "#cdd6f4", 300),
-        ("15 skills for Claude Code that solve actual problems.", "#6c7086", 300),
+        ("16 skills for Claude Code that solve actual problems.", "#6c7086", 300),
         ("", "#1e1e2e"),
         ("Available packs:", "#a6adc8", 600),
         ("  [1] memory       5 skills + 3 rules", "#89b4fa", 700),
-        ("  [2] thinking     3 skills", "#89b4fa", 800),
+        ("  [2] thinking     4 skills", "#89b4fa", 800),
         ("  [3] research     3 skills", "#89b4fa", 900),
         ("  [4] business     1 skill", "#89b4fa", 1000),
         ("  [5] content      1 skill", "#89b4fa", 1100),
@@ -913,7 +913,7 @@ install = make_svg(
             "#cdd6f4",
         ),
         ("", "#1e1e2e"),
-        ("Installing... 15 skills, 3 rules, templates, tests", "#6c7086", 1800),
+        ("Installing... 16 skills, 3 rules, templates, tests", "#6c7086", 1800),
         ("Done. Open Claude Code and try: /session-save", "#a6e3a1", 2400),
     ],
     title="install.sh",
@@ -1148,6 +1148,64 @@ insight_research = make_figure_svg(
 )
 
 
+# -- Unstuck --
+unstuck = make_chat_svg(
+    [
+        {
+            "user": "You",
+            "lines": ["I don't know how to organize the API for the new project"],
+            "bar": "#f38ba8",
+            "color": "#f38ba8",
+            "delay": 0,
+        },
+        {
+            "user": "Agent",
+            "time": "/unstuck",
+            "lines": ["Diagnosed: fog. Starting deep interview."],
+            "bar": "#89b4fa",
+            "delay": 600,
+        },
+        {
+            "user": "Agent",
+            "time": "Q1 of ~7",
+            "lines": [
+                "Who will consume this API?",
+                "  Your frontend only / External devs / Both",
+            ],
+            "bar": "#89b4fa",
+            "delay": 1200,
+        },
+        {
+            "user": "You",
+            "lines": ["Just my frontend"],
+            "bar": "#a6e3a1",
+            "delay": 2000,
+        },
+        {
+            "user": "Agent",
+            "time": "Q2 of ~7",
+            "lines": ["Speed now or clean architecture?"],
+            "bar": "#89b4fa",
+            "delay": 2600,
+        },
+        {"divider": "5 questions later", "delay": 3400},
+        {
+            "user": "Agent",
+            "time": "synthesis",
+            "lines": [
+                "Pattern in your answers: simplicity > correctness.",
+                "You want REST, no abstractions, auto-generated types.",
+                "You already knew. You just needed permission.",
+            ],
+            "bar": "#a6e3a1",
+            "delay": 4000,
+        },
+    ],
+    channel="unstuck / api-design",
+    width=640,
+    read_pause=5.0,
+)
+
 # Generate all SVGs
 svgs = {
     "session-save.svg": session_save,
@@ -1168,6 +1226,7 @@ svgs = {
     "insight-precision.svg": insight_precision,
     "insight-memory.svg": insight_memory,
     "insight-research.svg": insight_research,
+    "unstuck.svg": unstuck,
 }
 
 for name, svg in svgs.items():

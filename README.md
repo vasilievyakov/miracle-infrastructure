@@ -1,14 +1,14 @@
 <h1 align="center">Miracle Infrastructure</h1>
 
 <p align="center">
-  <em>15 skills that give Claude Code a memory, opinions, and a research department.<br>Zero dependencies. Just Markdown.</em>
+  <em>16 skills that give Claude Code a memory, opinions, and a research department.<br>Zero dependencies. Just Markdown.</em>
 </p>
 
 <p align="center">
   <a href="https://github.com/vasilievyakov/miracle-infrastructure/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT" />
   </a>
-  <img src="https://img.shields.io/badge/Skills-15-8A2BE2?style=flat-square" alt="15 Skills" />
+  <img src="https://img.shields.io/badge/Skills-16-8A2BE2?style=flat-square" alt="16 Skills" />
   <img src="https://img.shields.io/badge/Packs-7-orange?style=flat-square" alt="7 Packs" />
   <img src="https://img.shields.io/badge/Dependencies-0-brightgreen?style=flat-square" alt="Zero Dependencies" />
   <img src="https://img.shields.io/badge/Sessions_Tested-1169+-informational?style=flat-square" alt="1169+ Sessions" />
@@ -34,7 +34,7 @@ Your AI agent is powerful. Also:
 - It ships code while you **burn out**, and nobody notices
 - Its own **tools break silently**, and nobody checks
 
-15 skills that fix all seven. Zero dependencies. Just Markdown.
+16 skills that fix all seven. Zero dependencies. Just Markdown.
 
 ## Install
 
@@ -57,7 +57,7 @@ cd miracle-infrastructure && bash install.sh
 ## Contents
 
 - [What 1,169 Sessions Taught Us](#what-1169-sessions-actually-taught-us)
-- [Packs](#packs) -- 7 packs, 15 skills
+- [Packs](#packs) -- 7 packs, 16 skills
   - [Memory](#memory) | [Thinking](#thinking) | [Research](#research) | [Business](#business) | [Content](#content) | [Productivity](#productivity) | [Meta](#meta)
 - [How It Compares](#how-it-compares)
 - [For AI Researchers](#for-ai-researchers)
@@ -115,6 +115,7 @@ graph LR
     Q -->|Verify| R["/research\n/triangulate"]
     Q -->|Execute| O["/orchestrate\n2-4 agents"]
     Q -->|Extract| A["/action-items\n/proposal"]
+    Q -->|"I'm stuck"| U["/unstuck\ndeep interview"]
 
     style T fill:#1e1e2e,stroke:#cba6f7,color:#cdd6f4
     style Q fill:#1e1e2e,stroke:#89b4fa,color:#cdd6f4
@@ -123,6 +124,7 @@ graph LR
     style R fill:#1e1e2e,stroke:#89b4fa,color:#89b4fa
     style O fill:#1e1e2e,stroke:#cba6f7,color:#cba6f7
     style A fill:#1e1e2e,stroke:#f38ba8,color:#f38ba8
+    style U fill:#1e1e2e,stroke:#fab387,color:#fab387
 ```
 
 **Progressive disclosure.** Only load what is needed. 100 observations across 10 projects: a search costs ~4,000 tokens. Without progressive disclosure: ~15,000 tokens.
@@ -155,6 +157,8 @@ graph TD
 `/orchestrate` for tasks that need parallel research and implementation. Researcher finds the information, Developer writes the code, Tester validates it. Simultaneously.
 
 `/research` and `/triangulate` for any claim that sounds too good. Trust, then verify. Or just verify.
+
+`/unstuck` when you know something is wrong and you cannot put your finger on it. The adaptive interview finds the real question hiding behind the one you asked. Turns out, the hardest part of solving a problem is knowing what the problem actually is.
 
 </details>
 
@@ -211,7 +215,7 @@ The non-dogmatic take: "One does not interfere with the other. There are no righ
 | | Pack | Skills | What it does |
 |:---:|------|--------|-------------|
 | :brain: | **[Memory](#memory)** | 5 skills + 3 rules | Your agent remembers yesterday, last week, and that bug from three months ago |
-| :bulb: | **[Thinking](#thinking)** | 3 skills | Virtual experts argue about your project so you don't have to |
+| :bulb: | **[Thinking](#thinking)** | 4 skills | Virtual experts argue, frameworks analyze, and when you're stuck, a deep interview extracts what you actually need |
 | :mag: | **[Research](#research)** | 3 skills | Web research with confidence scores, fact verification, knowledge base |
 | :briefcase: | **[Business](#business)** | 1 skill | Call transcript to proposal + architecture + clickable prototype |
 | :clipboard: | **[Content](#content)** | 1 skill | Extract tasks from transcripts, chats, documents |
@@ -271,7 +275,7 @@ Virtual experts argue about your project. Each one sees everything through their
 
 > They frequently disagree. No single "best" director. The one who catches what others miss changes every time. The value is in the ensemble, not any single expert.
 
-**Skills:** `directors` `frameworks` `orchestrate`
+**Skills:** `directors` `frameworks` `orchestrate` `unstuck`
 
 <p align="center">
   <img src="docs/gifs/directors.svg" alt="Directors Board" width="640" />
@@ -307,6 +311,15 @@ Not all 50 at once. That would be insane.
 Picks from a library of specialized agents based on task keywords. Researcher + Triangulator for fact-finding. Developer + Tester for implementation. Debugger + Developer for fixing things.
 
 Runs them in parallel, synthesizes results into a single report.
+
+</details>
+
+<details>
+<summary><strong>Unstuck</strong> -- deep interview when you can't articulate what you need</summary>
+
+Diagnoses the type of stuck (fog, choice paralysis, false dilemma, blind spot, information hunger), runs an adaptive interview of 5-10 questions, then exits via synthesis ("you already knew"), targeted research, or reframing the problem entirely.
+
+Builds a preference profile over time. The more you use it, the faster it gets to the point.
 
 </details>
 

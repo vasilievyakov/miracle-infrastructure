@@ -2,7 +2,7 @@
 
 ## 1.0.0 (2026-02-21)
 
-Initial release. 15 skills across 7 packs, battle-tested across 1169+ sessions.
+Initial release. 16 skills across 7 packs, battle-tested across 1169+ sessions.
 
 ### Memory Pack
 - `session-save` - Save session context to project memory
@@ -16,6 +16,7 @@ Initial release. 15 skills across 7 packs, battle-tested across 1169+ sessions.
 - `directors` - 5-director virtual advisory board
 - `frameworks` - 50 frameworks organized by project stage
 - `orchestrate` - 2-4 parallel specialized agents
+- `miracle-unstuck` - Adaptive deep interview for getting unstuck
 
 ### Research Pack
 - `researching-web` - Web research with confidence scores

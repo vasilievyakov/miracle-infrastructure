@@ -23,12 +23,12 @@ fi
 
 echo ""
 echo -e "${BOLD}Welcome to Miracle Infrastructure${NC}"
-echo "15 skills for Claude Code that solve actual problems."
+echo "16 skills for Claude Code that solve actual problems."
 echo ""
 echo "Available packs:"
 echo ""
 echo -e "  ${BLUE}[1]${NC} memory       - Session memory system (5 skills + 3 rules + templates)"
-echo -e "  ${BLUE}[2]${NC} thinking     - Decision-making tools (3 skills)"
+echo -e "  ${BLUE}[2]${NC} thinking     - Decision-making tools (4 skills)"
 echo -e "  ${BLUE}[3]${NC} research     - Research and verification (3 skills)"
 echo -e "  ${BLUE}[4]${NC} business     - Business workflows (1 skill)"
 echo -e "  ${BLUE}[5]${NC} content      - Content processing (1 skill)"
@@ -224,6 +224,7 @@ if [ "$INSTALL_THINKING" = true ]; then
     install_skill "thinking" "directors"
     install_skill "thinking" "frameworks"
     install_skill "thinking" "orchestrate"
+    install_skill "thinking" "miracle-unstuck"
     echo ""
 fi
 

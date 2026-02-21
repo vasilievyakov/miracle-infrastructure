@@ -62,6 +62,16 @@ Edit `~/.claude/skills/orchestrate/agents-library.json`:
 
 Then add keyword mappings in the `orchestration_rules.task_to_agents_mapping` section.
 
+## Add stuck types to Unstuck
+
+In `~/.claude/skills/miracle-unstuck/SKILL.md`, add a new row to the diagnostic table in Phase 1:
+
+| Type | Signals | Interview Strategy |
+|------|---------|-------------------|
+| **Your Type** | What it looks like | How to approach it |
+
+Then add a matching interview strategy section in Phase 2 with question templates.
+
 ## Change the memory path
 
 Edit `memory-config.json`:

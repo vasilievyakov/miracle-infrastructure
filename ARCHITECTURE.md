@@ -208,6 +208,7 @@ graph TD
     frameworks/SKILL.md
     orchestrate/SKILL.md
     orchestrate/agents-library.json
+    miracle-unstuck/SKILL.md
     researching-web/SKILL.md
     triangulate/SKILL.md
     learned-lessons/SKILL.md
