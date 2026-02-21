@@ -6,7 +6,6 @@ description: |
   (3) User gives contradictory requirements, (4) User keeps changing direction, (5) Brainstorm feels unfocused.
   Triggers: "/unstuck", "I'm stuck", "I don't know what to do", "I can't decide", "help me figure this out",
   "I can't formulate what I need".
-invocation: user
 ---
 
 # Miracle Unstuck
