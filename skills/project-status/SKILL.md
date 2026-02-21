@@ -5,7 +5,6 @@ description: |
   Use when: (1) "Give me project status", (2) GitHub URL + "status/commits/what's left",
   (3) "When was the last deploy", (4) "What broke", (5) "What's left to do".
   Triggers: "/project-status", "project status", "what's left", "latest commits".
-invocation: user
 ---
 
 # Project Status
