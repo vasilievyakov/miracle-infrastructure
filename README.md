@@ -90,13 +90,39 @@ The system is proactive. Rules make the agent act without being asked. Skills gi
 
 **Agents are precision instruments.** Not general-purpose cannons. Sometimes you need automatic transmission, sometimes manual. Sometimes the handbrake, sometimes the brake pedal. Sometimes cruise control, sometimes you need to stop and think. Stack should be a function of the task you are solving, not what you already have.
 
+```mermaid
+graph LR
+    T[Your task] --> Q{What do you need?}
+    Q -->|Remember| M["/session-save\n/search-memory"]
+    Q -->|Decide| D["/directors\n/frameworks"]
+    Q -->|Verify| R["/research\n/triangulate"]
+    Q -->|Execute| O["/orchestrate\n2-4 agents"]
+    Q -->|Extract| A["/action-items\n/proposal"]
+
+    style T fill:#1e1e2e,stroke:#cba6f7,color:#cdd6f4
+    style Q fill:#1e1e2e,stroke:#89b4fa,color:#cdd6f4
+    style M fill:#1e1e2e,stroke:#a6e3a1,color:#a6e3a1
+    style D fill:#1e1e2e,stroke:#f9e2af,color:#f9e2af
+    style R fill:#1e1e2e,stroke:#89b4fa,color:#89b4fa
+    style O fill:#1e1e2e,stroke:#cba6f7,color:#cba6f7
+    style A fill:#1e1e2e,stroke:#f38ba8,color:#f38ba8
+```
+
 ### Hard-Won Lessons
+
+<p align="center">
+  <img src="docs/gifs/insight-structure.svg" alt="Lesson 1: Structure beats Freedom" width="640" />
+</p>
 
 **Structure beats freedom.** This was counterintuitive. We expected that giving the agent more freedom would produce more creative output. The opposite happened. Constraints produce better results. Typed observations, mandatory Before/After fields, resolution tracking for problems. The structure is what makes data useful six months later. Without it, you get a pile of notes that nobody (human or AI) can navigate.
 
 **Shorter prompts beat longer prompts.** We tried writing exhaustive system prompts that covered every edge case. They performed worse than concise, precise instructions. The model handles ambiguity well. It handles walls of text less well.
 
 **Agent proactivity is the underrated superpower.** The combination of rules and skills creates an agent that acts before you ask. `session-start` loads your project context automatically. `auto-observe` captures decisions in the moment. `session-end` prompts you to save. This saves more time than any individual skill, because it eliminates the overhead of remembering to manage your own tooling.
+
+<p align="center">
+  <img src="docs/gifs/insight-bottleneck.svg" alt="Lesson 2: The Operator is the Bottleneck" width="640" />
+</p>
 
 **The operator is the bottleneck.** The system does not creak. The operator does. The human with limited context, limited attention, limited working memory. That is the constraint. The system's job is to compensate for *your* limitations, not the model's.
 
@@ -121,6 +147,10 @@ The system is proactive. Rules make the agent act without being asked. Skills gi
 ### The Dead Ends
 
 Honesty about failures. These cost real time and real tokens to discover.
+
+<p align="center">
+  <img src="docs/gifs/insight-precision.svg" alt="Lesson 3: Precision, Not Power" width="640" />
+</p>
 
 **Long prompts worked worse than short ones.** Mentioned above, worth repeating. We invested serious effort into comprehensive system prompts that anticipated every scenario. The result was worse output. The model gets confused by instruction overload the same way a person does.
 

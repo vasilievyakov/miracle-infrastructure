@@ -515,6 +515,82 @@ frameworks = make_svg(
 )
 
 
+# -- Insight: Structure > Freedom --
+insight_structure = make_svg(
+    [
+        ([("$ ", "#89b4fa"), ("lesson --topic structure", "#cdd6f4")], "#cdd6f4"),
+        ("", "#1e1e2e"),
+        ("Finding: constraints produce better results than freedom.", "#f9e2af", 400),
+        ("", "#1e1e2e"),
+        ("Evidence (1,169 sessions):", "#a6adc8", 800),
+        ("", "#1e1e2e"),
+        ("  typed observations          => useful 6 months later", "#a6e3a1", 1000),
+        ("  free-form notes             => unnavigable garbage", "#f38ba8", 1200),
+        ("  mandatory Before/After      => gold for debugging", "#a6e3a1", 1400),
+        ("  optional context fields     => always left empty", "#f38ba8", 1600),
+        ("  5 observation types         => searchable by pattern", "#a6e3a1", 1800),
+        ("  unlimited tags              => nobody tags anything", "#f38ba8", 2000),
+        ("", "#1e1e2e"),
+        ("Verdict: less freedom, better data.", "#cba6f7", 2600),
+        ("The structure IS the value.", "#cba6f7", 2800),
+    ],
+    title="lesson #1",
+    width=640,
+    read_pause=5.0,
+)
+
+# -- Insight: Operator = Bottleneck --
+insight_bottleneck = make_svg(
+    [
+        ([("$ ", "#89b4fa"), ("diagnose --system bottleneck", "#cdd6f4")], "#cdd6f4"),
+        ("", "#1e1e2e"),
+        ("Running system diagnostics...", "#6c7086", 400),
+        ("", "#1e1e2e"),
+        ("AI subsystem:", "#a6adc8", 800),
+        ("  context window    200k tokens    OK", "#a6e3a1", 1000),
+        ("  reasoning         multi-step     OK", "#a6e3a1", 1100),
+        ("  memory recall     from dossier   OK", "#a6e3a1", 1200),
+        ("  parallel agents   up to 5        OK", "#a6e3a1", 1300),
+        ("", "#1e1e2e"),
+        ("Human subsystem:", "#a6adc8", 1700),
+        ("  context window    ~7 items       WARNING", "#f9e2af", 1900),
+        ("  attention span    variable       WARNING", "#f9e2af", 2100),
+        ("  working memory    fragile        WARNING", "#f9e2af", 2300),
+        ("  parallel tasks    1 (optimistic) CRITICAL", "#f38ba8", 2500),
+        ("", "#1e1e2e"),
+        ("Bottleneck identified: you.", "#cba6f7", 3100),
+        ("System compensates: auto-load, auto-capture, auto-remind.", "#a6e3a1", 3400),
+    ],
+    title="lesson #2",
+    width=640,
+    read_pause=5.0,
+)
+
+# -- Insight: Precision, Not Power --
+insight_precision = make_svg(
+    [
+        ([("$ ", "#89b4fa"), ("agent-mode --evaluate", "#cdd6f4")], "#cdd6f4"),
+        ("", "#1e1e2e"),
+        ("Approach A: launch all agents", "#a6adc8", 400),
+        ("  5 directors + 4 researchers + 3 developers", "#6c7086", 600),
+        ("  Result: 12 reports, 90% overlap, $4.20 burned", "#f38ba8", 1000),
+        ("  Diagnosis: work for work's sake", "#f38ba8", 1200),
+        ("", "#1e1e2e"),
+        ("Approach B: precision selection", "#a6adc8", 1800),
+        ("  Task: verify a technical claim", "#6c7086", 2000),
+        ("  Selected: researcher + triangulator (2 agents)", "#a6e3a1", 2200),
+        ("  Result: verified, 3 sources, $0.35", "#a6e3a1", 2400),
+        ("", "#1e1e2e"),
+        ("Sometimes automatic, sometimes manual.", "#cba6f7", 3000),
+        ("Sometimes handbrake, sometimes brake pedal.", "#cba6f7", 3200),
+        ("The skill is knowing which gear fits the moment.", "#cba6f7", 3400),
+    ],
+    title="lesson #3",
+    width=640,
+    read_pause=5.0,
+)
+
+
 # Generate all SVGs
 svgs = {
     "session-save.svg": session_save,
@@ -530,6 +606,9 @@ svgs = {
     "memory-init.svg": memory_init,
     "install.svg": install,
     "frameworks.svg": frameworks,
+    "insight-structure.svg": insight_structure,
+    "insight-bottleneck.svg": insight_bottleneck,
+    "insight-precision.svg": insight_precision,
 }
 
 for name, svg in svgs.items():
