@@ -58,7 +58,7 @@ The output uses three labels. No color coding, no severity scores. Three symbols
 ```
 $ /checkup
 
-Checking 48 skills, 4 rules, 12 supporting files...
+Checking 17 skills, 3 rules, 8 supporting files...
 
 All clear. 0 issues found.
 ```
@@ -70,7 +70,7 @@ That's the goal. The best checkup output is no output. If you see results, somet
 ```
 $ /checkup --full
 
-Checking 48 skills, 4 rules, 12 supporting files...
+Checking 17 skills, 3 rules, 8 supporting files...
 
 [x] skill/old-research.md → references ./data/sources.json (file not found)
 [x] skill/deploy.md → trigger "/deploy" conflicts with skill/devops.md
@@ -102,13 +102,13 @@ The most common issue caught across all runs: broken file references. You rename
 
 The typical cadence: run `/checkup` after installing any new skill or pack. Run `/checkup --full` once a month. The skill also reminds you if more than 14 days have passed since the last run.
 
-The value proposition is maintenance you would never do manually. Nobody sits down on a Sunday morning and thinks "I should cross-reference all my skill triggers for collisions." Nobody opens 48 skill files and compares their descriptions for semantic overlap. Nobody traces every file path reference to verify it still resolves. The checkup does all of this in seconds.
+The value proposition is maintenance you would never do manually. Nobody sits down on a Sunday morning and thinks "I should cross-reference all my skill triggers for collisions." Nobody opens dozens of skill files and compares their descriptions for semantic overlap. Nobody traces every file path reference to verify it still resolves. The checkup does all of this in seconds.
 
-As the skills library grew from 10 to 48 skills over 6 months, the checkup went from "nice to have" to "necessary." At 10 skills, you can keep the whole system in your head. At 48 skills across 7 packs with shared dependencies, you cannot. The checkup is what lets you trust your infrastructure instead of worrying about it.
+As the skills library grew from 10 to 48 skills (author's personal library including custom skills) over 6 months, the checkup went from "nice to have" to "necessary." At 10 skills, you can keep the whole system in your head. At 48 skills across 7 packs with shared dependencies, you cannot. The checkup is what lets you trust your infrastructure instead of worrying about it.
 
 ## Extension Points
 
 - **Custom validation rules**: Add Level 1 checks specific to your skill naming conventions or dependency patterns
-- **CI integration**: Run the checkup in a pre-commit hook or CI pipeline. The exit code is non-zero when `[x]` results exist
-- **Ignore file**: Create a `.checkupignore` to suppress known issues that don't need repeated reporting
-- **Report format**: The output is human-readable by default. JSON output is available for programmatic consumption
+- **CI integration**: Use exit codes in CI: non-zero when `[x]` results exist
+- **Ignore file**: Plan: `.checkupignore` to suppress known issues that don't need repeated reporting
+- **Report format**: Plan: JSON output for programmatic consumption

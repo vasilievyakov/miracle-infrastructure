@@ -241,7 +241,7 @@ miracle-infrastructure/
     directors/
       SKILL.md
       README.md
-    ...16 skills total
+    ...17 skills total
   packs/                           # thematic groupings, link to skills/
     memory/
       README.md                    # pack overview

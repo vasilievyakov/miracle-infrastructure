@@ -2,7 +2,7 @@
 
 ## 1.0.0 (2026-02-21)
 
-Initial release. 16 skills across 7 packs, battle-tested across 1169+ sessions.
+Initial release. 17 skills across 7 packs, battle-tested across 1169+ sessions.
 
 ### Memory Pack
 - `session-save` - Save session context to project memory
@@ -34,3 +34,4 @@ Initial release. 16 skills across 7 packs, battle-tested across 1169+ sessions.
 
 ### Meta Pack
 - `skill-checkup` - Skills library health audit
+- `miracle-security` - Security review and enterprise assessment

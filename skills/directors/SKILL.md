@@ -10,6 +10,8 @@ description: |
 
 # Directors - Virtual Board of Directors
 
+> **Note:** The directors are fictional personas inspired by the public work and philosophy of real individuals. They do not represent the actual views or endorsements of these people.
+
 Five expert lenses simultaneously evaluate a project, idea, or decision. Each director looks at EVERYTHING (product, architecture, engineering, UX, safety, scale, business, communication) through their unique lens.
 
 ## Triggers

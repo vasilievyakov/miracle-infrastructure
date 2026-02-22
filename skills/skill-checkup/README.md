@@ -56,7 +56,7 @@ curl -sL https://raw.githubusercontent.com/vasilievyakov/miracle-infrastructure/
 ```
 You: /checkup
 
-48 skills. Library is healthy.
+17 skills. Library is healthy.
 
 Checked in 4 seconds. No issues found.
 ```
@@ -66,7 +66,7 @@ And when things go wrong:
 ```
 You: /checkup --full
 
-48 skills. 4 issues found.
+17 skills. 4 issues found.
 46 healthy. 2 need attention. 1 broken.
 
 [x] /old-research: references ./data/sources.json (file not found)

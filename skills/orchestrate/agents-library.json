@@ -1,7 +1,8 @@
 {
   "metadata": {
     "version": "1.0",
-    "description": "Agent library for the orchestrator skill. 12 specialized agents covering research, development, analysis, and content creation."
+    "description": "Agent library for the orchestrator skill. 12 specialized agents covering research, development, analysis, and content creation.",
+    "note": "Tool names (mcp__exa__*) are specific to the author's MCP configuration. Customize the 'tools' arrays for your own MCP servers or remove them to use Claude's built-in web search."
   },
   "agents": [
     {

@@ -112,7 +112,7 @@ install_skill() {
         local dname
         dname="$(basename "$d")"
         mkdir -p "$dst/$dname"
-        cp "$d"* "$dst/$dname/" 2>/dev/null || true
+        cp -r "$d"* "$dst/$dname/" 2>/dev/null || true
     done
 
     echo -e "  ${GREEN}[ok]${NC} $skill"
