@@ -22,6 +22,18 @@ Validates the structural health of your Claude Code skills. Reports problems, do
 - Investigating runtime behavior: this is structural, not functional
 - Fewer than 5 skills installed: overhead exceeds value
 
+## Staleness Reminder
+
+Before running any checks, read `~/.claude/checkup-history.json`. If the file exists and the most recent entry's `date` is more than 14 days ago, print a reminder **before** the main output:
+
+```
+Note: last checkup was {N} days ago ({date}). Consider running /checkup regularly.
+```
+
+If the file does not exist or is empty, skip the reminder (first run).
+
+---
+
 ## Workflow
 
 ### Phase 0: Canary + Discovery

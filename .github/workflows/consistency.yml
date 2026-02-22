@@ -1,0 +1,103 @@
+name: Consistency Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Count skills and verify docs
+        run: |
+          ACTUAL=$(find skills -maxdepth 2 -name "SKILL.md" | wc -l | tr -d ' ')
+          echo "Actual skill count: $ACTUAL"
+
+          ERRORS=0
+
+          # Check CHANGELOG.md
+          if ! grep -q "$ACTUAL skills" CHANGELOG.md; then
+            echo "::error file=CHANGELOG.md::Skill count mismatch — expected $ACTUAL"
+            ERRORS=$((ERRORS + 1))
+          fi
+
+          # Check README.md header
+          if ! grep -q "$ACTUAL skills" README.md; then
+            echo "::error file=README.md::Skill count mismatch — expected $ACTUAL"
+            ERRORS=$((ERRORS + 1))
+          fi
+
+          # Check ARCHITECTURE.md
+          if ! grep -q "$ACTUAL skills total" ARCHITECTURE.md; then
+            echo "::error file=ARCHITECTURE.md::Skill count mismatch — expected $ACTUAL"
+            ERRORS=$((ERRORS + 1))
+          fi
+
+          if [ $ERRORS -gt 0 ]; then
+            echo "::error::$ERRORS file(s) have stale skill counts"
+            exit 1
+          fi
+          echo "Skill count ($ACTUAL) is consistent across docs"
+
+      - name: Check install.sh syntax
+        run: bash -n install.sh
+
+      - name: Verify skill directories referenced in install.sh exist
+        run: |
+          ERRORS=0
+          for skill in $(grep -oP 'install_skill\s+"\w+"\s+"\K[^"]+' install.sh); do
+            if [ ! -f "skills/$skill/SKILL.md" ]; then
+              echo "::error file=install.sh::install_skill references '$skill' but skills/$skill/SKILL.md not found"
+              ERRORS=$((ERRORS + 1))
+            fi
+          done
+          if [ $ERRORS -gt 0 ]; then
+            exit 1
+          fi
+          echo "All skills referenced in install.sh exist"
+
+      - name: Check for hardcoded personal paths in skills
+        run: |
+          if grep -r "Users-vasiliev\|/Users/vasiliev" skills/; then
+            echo "::error::Hardcoded personal paths found in skills/"
+            exit 1
+          fi
+          echo "No hardcoded personal paths found"
+
+      - name: Verify no Russian text in SKILL.md files (except frontmatter)
+        run: |
+          ERRORS=0
+          for f in skills/*/SKILL.md; do
+            # Check for common Russian patterns outside of code blocks
+            if grep -Pn '[а-яА-ЯёЁ]{3,}' "$f" | grep -v '^[0-9]*:---' | grep -v '^[0-9]*:description:' | head -5; then
+              SKILL=$(basename $(dirname "$f"))
+              # Allow specific known exceptions (none currently)
+              echo "::warning file=$f::Russian text detected in $SKILL — public skills should be in English"
+              ERRORS=$((ERRORS + 1))
+            fi
+          done
+          if [ $ERRORS -gt 0 ]; then
+            echo "::warning::$ERRORS skill(s) contain Russian text"
+          fi
+          echo "Language check complete"
+
+      - name: Verify pack READMEs reference existing skills
+        run: |
+          ERRORS=0
+          for readme in packs/*/README.md; do
+            PACK=$(basename $(dirname "$readme"))
+            for skill in $(grep -oP '\[.*?\]\(../../skills/\K[^/)]+' "$readme"); do
+              if [ ! -f "skills/$skill/SKILL.md" ]; then
+                echo "::error file=$readme::References skills/$skill/ but SKILL.md not found"
+                ERRORS=$((ERRORS + 1))
+              fi
+            done
+          done
+          if [ $ERRORS -gt 0 ]; then
+            exit 1
+          fi
+          echo "All pack README skill references are valid"
