@@ -8,7 +8,7 @@
   <a href="https://github.com/vasilievyakov/miracle-infrastructure/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT" />
   </a>
-  <img src="https://img.shields.io/badge/Skills-17-8A2BE2?style=flat-square" alt="16 Skills" />
+  <img src="https://img.shields.io/badge/Skills-17-8A2BE2?style=flat-square" alt="17 Skills" />
   <img src="https://img.shields.io/badge/Packs-7-orange?style=flat-square" alt="7 Packs" />
   <img src="https://img.shields.io/badge/Dependencies-0-brightgreen?style=flat-square" alt="Zero Dependencies" />
   <img src="https://img.shields.io/badge/Sessions_Tested-1169+-informational?style=flat-square" alt="1169+ Sessions" />
@@ -220,7 +220,7 @@ The non-dogmatic take: "One does not interfere with the other. There are no righ
 | :briefcase: | **[Business](#business)** | 1 skill | Call transcript to proposal + architecture + clickable prototype |
 | :clipboard: | **[Content](#content)** | 1 skill | Extract tasks from transcripts, chats, documents |
 | :bar_chart: | **[Productivity](#productivity)** | 1 skill | Weekly integral review across 4 dimensions |
-| :wrench: | **[Meta](#meta)** | 1 skill | Skills library health audit |
+| :wrench: | **[Meta](#meta)** | 2 skills | Skills health audit + code security review |
 
 ---
 

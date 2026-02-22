@@ -1,6 +1,13 @@
 ---
 name: miracle-security
-description: "Security review скилл с двумя режимами: (1) code review — 5 параллельных агентов сканируют код на уязвимости OWASP Top 10, утечки секретов, insecure patterns; (2) enterprise assessment — 4 агента оценивают продукт глазами CISO. Вызов: '/security review', '/security assess', 'проверь безопасность', 'security check'."
+description: |
+  Security review with two modes: (1) code review — 5 parallel agents scan for OWASP Top 10,
+  secrets leaks, auth issues, dependency risks, logic flaws; (2) enterprise assessment — 4 agents
+  evaluate product through CISO lens (data handling, access control, compliance, resilience).
+  Threat model calibration adjusts severity to deployment context.
+  Use when: (1) Before deploy — security audit, (2) Enterprise sales — readiness assessment,
+  (3) New project — baseline security posture, (4) After major changes — regression check.
+  Triggers: "/security review", "/security assess", "/security", "security check".
 ---
 
 # Miracle Security — Security Review & Enterprise Assessment

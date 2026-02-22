@@ -2,6 +2,10 @@
 
 Two security audits in one skill. Code review scans for vulnerabilities with five parallel agents. Enterprise assessment evaluates your product through the eyes of a CISO.
 
+<p align="center">
+  <img src="../../docs/gifs/miracle-security.svg" alt="miracle-security demo" width="640" />
+</p>
+
 ## Why
 
 You ask Claude to "look at this from a security perspective" and get a different answer every time. Sometimes it catches the SQL injection. Sometimes it misses the hardcoded API key staring at it from line 42. The problem is not capability. The problem is that a single pass through an entire codebase with no structure produces inconsistent results.
