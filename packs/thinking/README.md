@@ -20,11 +20,12 @@ This is a PhD-level insight hiding in plain sight: one LLM, channeled through di
 
 ## What's Inside
 
-### Skills (4)
+### Skills (5)
 
 | Skill | Command | What it does |
 |-------|---------|--------------|
 | [**directors**](../../skills/directors/) | `/directors` | 5-director virtual advisory board, each evaluating through a unique lens |
+| [**dream-team**](../../skills/dream-team/) | `/dream-team` | Dynamic 3-5 expert assembly for planning, with debate round and explicit tradeoffs |
 | [**frameworks**](../../skills/frameworks/) | `/frameworks` | 50 frameworks organized by project stage, with conflict resolution |
 | [**orchestrate**](../../skills/orchestrate/) | `/orchestrate` | 2-4 specialized agents working in parallel on complex tasks |
 | [**miracle-unstuck**](../../skills/miracle-unstuck/) | `/unstuck` | Adaptive deep interview that extracts what you need when you can't articulate it |
@@ -62,6 +63,24 @@ Disagreement points (divergence → needs attention)
     ↓
 Synthesized recommendation (weighted by relevance)
 ```
+
+### Dream Team
+
+Directors evaluates. Dream Team plans. Different moment, different tool.
+
+Dream Team reads your task, identifies the key uncertainties, and selects 3-5 real-world experts whose thinking styles create maximum productive friction. The user approves the lineup before launch (and can swap people in or out).
+
+The four-phase flow:
+
+```
+Analyze + Select → Independent perspectives (parallel)
+    → Debate round on contradictions (parallel)
+    → Synthesis with explicit decision points
+```
+
+The debate round is what makes it distinct. After independent analysis, experts see each other's positions and push back on the 2-3 sharpest contradictions. The unresolved disagreements become explicit decision points in the plan: "if speed matters more, follow Expert A; if reliability matters more, follow Expert B."
+
+Rules that keep it honest: mandatory skeptic in every team, explicit bias stated for each expert, 200-word limit per perspective, 100-word limit per debate reaction. Discipline creates clarity.
 
 <p align="center">
   <img src="../../docs/gifs/frameworks.svg" alt="frameworks demo" width="640" />
@@ -145,6 +164,8 @@ Builds a preference profile over sessions. The more you use it, the faster it re
 ## Real Usage
 
 `/directors` gets used for any decision above roughly $5,000 in impact. Architecture choices, technology bets, hiring decisions. The disagreement section is consistently the most valuable part, because it shows where you need more information before committing. No single director is reliably "right." The one who catches the blind spot rotates unpredictably. That is exactly why you run all five.
+
+`/dream-team` is the planning counterpart to Directors. When you need to figure out **how** to build something (not evaluate what exists), Dream Team assembles a task-specific panel. The debate round consistently surfaces assumptions that independent analysis misses. The mandatory skeptic rule is the highest-value constraint: at least one expert must push back on the premise itself.
 
 `/frameworks` runs at every new project phase. The stage detection is surprisingly accurate. When it picks wrong, override it manually. The conflict resolution table has prevented more premature optimization than any code review. The key is stage-appropriate activation. Running all 50 frameworks on every question would produce noise, not insight.
 

@@ -1,14 +1,14 @@
 <h1 align="center">Miracle Infrastructure</h1>
 
 <p align="center">
-  <em>17 skills that give Claude Code a memory, opinions, and a research department.<br>Zero dependencies. Just Markdown.</em>
+  <em>18 skills that give Claude Code a memory, opinions, and a research department.<br>Zero dependencies. Just Markdown.</em>
 </p>
 
 <p align="center">
   <a href="https://github.com/vasilievyakov/miracle-infrastructure/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT" />
   </a>
-  <img src="https://img.shields.io/badge/Skills-17-8A2BE2?style=flat-square" alt="17 Skills" />
+  <img src="https://img.shields.io/badge/Skills-18-8A2BE2?style=flat-square" alt="18 Skills" />
   <img src="https://img.shields.io/badge/Packs-7-orange?style=flat-square" alt="7 Packs" />
   <img src="https://img.shields.io/badge/Dependencies-0-brightgreen?style=flat-square" alt="Zero Dependencies" />
   <img src="https://img.shields.io/badge/Sessions_Tested-1169+-informational?style=flat-square" alt="1169+ Sessions" />
@@ -34,7 +34,7 @@ Your AI agent is powerful. Also:
 - It ships code while you **burn out**, and nobody notices
 - Its own **tools break silently**, and nobody checks
 
-17 skills that fix all seven. Zero dependencies. Just Markdown.
+18 skills that fix all seven. Zero dependencies. Just Markdown.
 
 ## Install
 
@@ -215,7 +215,7 @@ The non-dogmatic take: "One does not interfere with the other. There are no righ
 | | Pack | Skills | What it does |
 |:---:|------|--------|-------------|
 | :brain: | **[Memory](#memory)** | 5 skills + 3 rules | Your agent remembers yesterday, last week, and that bug from three months ago |
-| :bulb: | **[Thinking](#thinking)** | 4 skills | Virtual experts argue, frameworks analyze, and when you're stuck, a deep interview extracts what you actually need |
+| :bulb: | **[Thinking](#thinking)** | 5 skills | Virtual experts argue, frameworks analyze, and when you're stuck, a deep interview extracts what you actually need |
 | :mag: | **[Research](#research)** | 3 skills | Web research with confidence scores, fact verification, knowledge base |
 | :briefcase: | **[Business](#business)** | 1 skill | Call transcript to proposal + architecture + clickable prototype |
 | :clipboard: | **[Content](#content)** | 1 skill | Extract tasks from transcripts, chats, documents |
@@ -275,7 +275,7 @@ Virtual experts argue about your project. Each one sees everything through their
 
 > They frequently disagree. No single "best" director. The one who catches what others miss changes every time. The value is in the ensemble, not any single expert.
 
-**Skills:** `directors` `frameworks` `orchestrate` `unstuck`
+**Skills:** `directors` `dream-team` `frameworks` `orchestrate` `unstuck`
 
 <p align="center">
   <img src="docs/gifs/directors.svg" alt="Directors Board" width="640" />
@@ -293,6 +293,15 @@ Virtual experts argue about your project. Each one sees everything through their
 | **Jony Ive** | Care, emotional resonance, simplicity, material integrity |
 
 Produces a synthesis with consensus, disagreements, top 3 critical questions, and action items.
+
+</details>
+
+<details>
+<summary><strong>Dream Team</strong> -- dynamic expert assembly for planning</summary>
+
+Unlike Directors (fixed board, evaluates what exists), Dream Team dynamically selects 3-5 experts tailored to the task for **planning** what to build. Experts speak in first person, then debate each other's contradictions. The synthesis surfaces unresolved disagreements as explicit decision points.
+
+The user approves the team before launch. Can swap or add experts. The mandatory skeptic rule ensures at least one voice pushes back on the premise.
 
 </details>
 
